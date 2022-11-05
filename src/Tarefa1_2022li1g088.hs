@@ -12,3 +12,17 @@ import LI12223
 
 mapaValido :: Mapa -> Bool
 mapaValido = undefined
+
+
+{-mapaValido Mapa larg ((Relva), (x:xy))
+  | x == Carro || x== Tronco = False
+  | othewise = mapaValido xs
+   larg == length (x:xy) -}
+vervazios :: [Obstaculo] -> Bool
+vervazios [] = False
+vervazios (x:xs) 
+  | x== Nenhum = True
+  |otherwise = vervazios xs
+
+vernrobstaculos :: Mapa -> Bool
+vernrobstaculos (Mapa l [(_ , k)]) = l == length k
