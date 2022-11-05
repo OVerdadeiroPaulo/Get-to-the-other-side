@@ -35,3 +35,34 @@ tipodeobs (Mapa larg ([(Rio vel, (x:xs))]))
 tipodeobs (Mapa larg ([(Estrada vel, (x:xs))]))
   | x == Arvore || x== Tronco = False
   | otherwise = tipodeobs (Mapa larg ([(Estrada vel, (xs))]))
+
+{-|funcao que valida que rios contiguos tem velocidade oposta-}
+
+riospostos :: Mapa -> Bool
+riospostos (Mapa larg ([])) = True
+riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
+  | vel1 * vel2 >= 0 = False
+  | otherwise = riospostos (Mapa larg ((xs)))
+
+{-|funcao que valida o comprimento dos obstaculos(troncos) -}
+troncoline :: Int -> Mapa -> Bool
+troncoline 5 (Mapa larg ([(terr, (x:xs))])) = False
+troncoline k (Mapa larg ([(terr, (x:xs))])) 
+  | x== Tronco = troncoline (k + 1) (Mapa larg ([(terr, (xs))])) 
+  | otherwise = troncoline (0) (Mapa larg ([(terr, (xs))])) 
+     where k = 0
+{-|funcao que valida o comprimento dos obstaculos(carros) -}
+carroline :: Int -> Mapa -> Bool
+carroline 3 (Mapa larg ([(terr, (x:xs))])) = False
+carroline k (Mapa larg ([(terr, (x:xs))])) 
+  | x== Carro = carroline (k + 1) (Mapa larg ([(terr, (xs))])) 
+  | otherwise = carroline (0) (Mapa larg ([(terr, (xs))])) 
+     where k = 0
+
+{-|tentativ FALHADA de funcao que valida se nao ha demasiados do mesmo tipo de terreno seguidos-}
+terrenoseguidos :: Mapa -> Bool 
+terrenoseguidos (Mapa larg (((Rio vel, obs1):(Rio vel2, obs2):(Rio vel3, obs3):(Rio vel4, obs4):xs))) = False
+terrenoseguidos (Mapa larg (((Relva, obs1):(Relva, obs2):(Relva, obs3):(Relva, obs4):(Relva, obs5) :xs))) = False
+terrenoseguidos (Mapa larg (((Estrada vel, obs1):(Estrada vel2, obs2):(Estrada vel3, obs3):(Estrada vel4, obs4):(Estrada vel5, obs5) :xs))) = False
+terrenoseguidos (Mapa larg (((terr, obs):xs))) = True
+
