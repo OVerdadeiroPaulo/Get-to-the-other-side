@@ -42,6 +42,7 @@ tipodeobs (Mapa larg ([(Estrada vel, (x:xs))]))
 
 riospostos :: Mapa -> Bool
 riospostos (Mapa larg ([])) = True
+{-por exepcoes para outros tipos de terreno-}
 riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | vel1 * vel2 >= 0 = False
   | otherwise = riospostos (Mapa larg ((xs)))
@@ -69,7 +70,7 @@ terrenoseguidosfail (Mapa larg (((Rio vel, obs1):(Rio vel2, obs2):(Rio vel3, obs
 terrenoseguidosfail (Mapa larg (((Relva, obs1):(Relva, obs2):(Relva, obs3):(Relva, obs4):(Relva, obs5) :xs))) = False
 terrenoseguidosfail (Mapa larg (((Estrada vel, obs1):(Estrada vel2, obs2):(Estrada vel3, obs3):(Estrada vel4, obs4):(Estrada vel5, obs5) :xs))) = False
 terrenoseguidosfail (Mapa larg (((terr, obs):xs))) = True
-
+{-|funcao sucedida que valida se na ha demasiados terrenos do mesmo tipo-}
 terrenosseguidos :: Int -> Mapa -> Bool
 terrenosseguidos _ (Mapa _ ([])) = True
 terrenosseguidos 4 (Mapa l (((Rio _, _):xs))) = False
