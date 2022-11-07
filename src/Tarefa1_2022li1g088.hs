@@ -60,9 +60,9 @@ carroline k (Mapa larg ([(terr, (x:xs))]))
      where k = 0
 
 {-|tentativ FALHADA de funcao que valida se nao ha demasiados do mesmo tipo de terreno seguidos-}
-terrenoseguidos :: Mapa -> Bool 
-terrenoseguidos (Mapa larg (((Rio vel, obs1):(Rio vel2, obs2):(Rio vel3, obs3):(Rio vel4, obs4):xs))) = False
-terrenoseguidos (Mapa larg (((Relva, obs1):(Relva, obs2):(Relva, obs3):(Relva, obs4):(Relva, obs5) :xs))) = False
-terrenoseguidos (Mapa larg (((Estrada vel, obs1):(Estrada vel2, obs2):(Estrada vel3, obs3):(Estrada vel4, obs4):(Estrada vel5, obs5) :xs))) = False
-terrenoseguidos (Mapa larg (((terr, obs):xs))) = True
+terrenoseguidosfail :: Mapa -> Bool 
+terrenoseguidosfail (Mapa larg (((Rio vel, obs1):(Rio vel2, obs2):(Rio vel3, obs3):(Rio vel4, obs4):xs))) = False
+terrenoseguidosfail (Mapa larg (((Relva, obs1):(Relva, obs2):(Relva, obs3):(Relva, obs4):(Relva, obs5) :xs))) = False
+terrenoseguidosfail (Mapa larg (((Estrada vel, obs1):(Estrada vel2, obs2):(Estrada vel3, obs3):(Estrada vel4, obs4):(Estrada vel5, obs5) :xs))) = False
+terrenoseguidosfail (Mapa larg (((terr, obs):xs))) = True
 

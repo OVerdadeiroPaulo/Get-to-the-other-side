@@ -10,6 +10,8 @@ module Tarefa2_2022li1g088 where
 
 import LI12223
 
+
+
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa = undefined
 
@@ -18,3 +20,4 @@ proximosTerrenosValidos = undefined
 
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos = undefined
+
