@@ -10,6 +10,8 @@ module Tarefa2_2022li1g088 where
 
 import LI12223
 
+
+
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa = undefined
 
@@ -68,3 +70,6 @@ proximosObstaculosValidos n (te, (x:xs)) | tiposdeobs (Mapa n (te, (x:xs))) && n
 
 
         
+
+randomIntsL :: Int -> Int -> [Int]
+randomIntsL seed len = take len (randoms (mKStdGen seed))
