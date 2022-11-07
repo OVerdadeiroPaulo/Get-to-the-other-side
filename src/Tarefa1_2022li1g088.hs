@@ -23,14 +23,22 @@ vervazios (x:xs)
   | x== Nenhum = True
   |otherwise = vervazios xs
 {-|funcao que valida que a largura é do tamanho da lista de obstaculos-}
+vernrobstaculosfailed :: Mapa -> Bool
+vernrobstaculosfailed (Mapa l ((_ , k):xs)) = l == length k
+
+
 vernrobstaculos :: Mapa -> Bool
-vernrobstaculos (Mapa l [(_ , k)]) = l == length k
+vernrobstaculos (Mapa l []) = True
+vernrobstaculos (Mapa l ((_ , k):xs)) 
+  | l == length k = vernrobstaculos (Mapa l (xs))
+  | otherwise = False
 {-|funcao que verifica se o Terreno tem algum Obstaculo nao permitido-}
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([(terr, [])])) = True
-tipodeobs (Mapa larg ([(Relva, (x:xs))]))
-  | x == Carro || x== Tronco = False
-  | otherwise = tipodeobs (Mapa larg ([(Relva, (xs))]))
+tipodeobs (Mapa larg ([])) = True
+tipodeobs (Mapa larg (((Relva, (x:xs)):ys)))
+  | x == Arvore || x== Nenhum = tipodeobs (Mapa larg ((ys)))
+  | otherwise = False
 tipodeobs (Mapa larg ([(Rio vel, (x:xs))]))
   | x == Carro || x== Arvore = False
   | otherwise = tipodeobs (Mapa larg ([(Rio vel, (xs))]))
@@ -43,12 +51,14 @@ tipodeobs (Mapa larg ([(Estrada vel, (x:xs))]))
 riospostos :: Mapa -> Bool
 riospostos (Mapa larg ([])) = True
 {-por exepcoes para outros tipos de terreno-}
+
 riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | vel1 * vel2 >= 0 = False
   | otherwise = riospostos (Mapa larg ((xs)))
-
+riospostos _ = True
 {-|funcao que valida o comprimento dos obstaculos(troncos) -}
 troncoline :: Int -> Mapa -> Bool
+troncoline _ (Mapa larg ([])) = True
 troncoline _ (Mapa larg ([(terr, [])])) = True
 troncoline 5 (Mapa larg ([(terr, (x:xs))])) = False
 troncoline k (Mapa larg ([(terr, (x:xs))])) 
