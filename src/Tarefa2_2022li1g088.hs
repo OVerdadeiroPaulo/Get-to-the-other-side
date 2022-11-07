@@ -21,15 +21,14 @@ proximosTerrenosValidos (Mapa la te)
         | terrenosSeguidos (Mapa _ te) && te == [(Estrada _, _),(Estrada _, _),(Estrada _, _),(Estrada _, _),(Estrada _, _)] = [ Relva, Rio 0]
         | terrenosSeguidos (Mapa _ te) && te == [(Relva, _),(Relva, _),(Relva, _),(Relva, _)] = [Estrada 0, Rio 0]
         | otherwise = [Rio 0, Estrada 0, Relva]
-
+{-eeded-}
 
 
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
-proximosObstaculosValidos 
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | n > length (x:xs) &&  (Rio _, (x:xs)) = [Nenhum,Tronco]
+proximosObstaculosValidos n (te, (x:xs)) | tiposdepbs _ ()n > length (x:xs) &&  (Rio _, (x:xs)) = [Nenhum,Tronco]
                                          | n > length (x:xs) &&  (Relva , (x:xs)) = [Nenhum, Arvore]
                                          | n > length (x:xs) &&  (Estrada _, (x:xs)) = [Nenhum, Carro]
                                          | otherwise = []
