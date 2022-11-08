@@ -8,7 +8,8 @@ Módulo para a realização da Tarefa 2 do projeto de LI1 em 2022/23.
 -}
 module Tarefa2_2022li1g088 where
 
-import LI12223
+import LI12223 
+import Tarefa1_2022li1g088
 import System.Random
 
 
@@ -18,7 +19,7 @@ estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obst
                                     | terreno == Estrada 0 = (Mapa la ((Estrada ve, obstaculos):xs))
                                     | terreno == Relva = (Mapa la ((relva, obstaculos):xs))
             where obstaculos = proximosObstaculosValidos la  x 
-                  terrenos = proximosTerrenosValidos (Mapa la linhas@(x:xs))
+                  terreno = proximosTerrenosValidos (Mapa la linhas @(x:xs))
                   ve = (head randomIntsL)
 
 randomIntsL :: Int -> Int -> [Int]
@@ -27,7 +28,7 @@ randomIntsL seed len = take len (randoms (mKStdGen seed))
 {-Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva]
-proximosTerrenosValidos (Mapa _ ((te,obs):xs) | isRio (Mapa _ ((te,obs):xs)) = [Estrada 0, Relva]
+proximosTerrenosValidos (Mapa _ ((te,obs):xs))| isRio (Mapa _ ((te,obs):xs)) = [Estrada 0, Relva]
                                               | isEstrada (Mapa _ ((te,obs):xs)) = [Rio 0, Relva]
                                               | isRelva (Mapa _ ((te,obs):xs)) = [Estrada 0, Rio 0]
                                               | otherwise = [Rio 0, Estrada 0, Relva]
@@ -74,7 +75,7 @@ proximosObstaculosValidos n (te, (x:xs)) | obsemlinha (Mapa n (te, (x:xs))) && n
 isRio' :: (Terreno,[Obstaculo]) -> Bool
 isRio' (te, _) = case te of 
                         (Rio _) -> True
-                         _ -> False
+                        _ -> False
 
 {-Funcao que verifica se o terreno e Estrada-}
 isEstrada' :: (Terreno,[Obstaculo]) -> Bool
