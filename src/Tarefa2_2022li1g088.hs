@@ -45,14 +45,14 @@ terrenoscontiguos2 mapa@(Mapa l (((x):xs)))
       where (a:b) = agrupaterrenos mapa
 
 
-isrio3 :: Mapa -> Bool
-isrio3 mapa = isRio2 0 mapa
+isrioFIM :: Mapa -> Bool
+isrioFIM mapa = isRio2 0 mapa
 isRio2 :: Int -> Mapa -> Bool
 isRio2 _ (Mapa _ []) = False
 isRio2 4 (Mapa _ ((te,obs):xs)) = True 
 isRio2 k (Mapa l ((te,obs):xs)) 
   | inicio te == "Rio" = isRio2 (k+1)  (Mapa l ((xs)))
-{-
+
 
 {-Funcao que verifica se temos 4 rios para a main proximosTerrenosValidos-}
 isRio :: Int -> Mapa -> Bool
@@ -77,7 +77,7 @@ isRelva _ (Mapa _ []) = False
 isRelva 5 (Mapa _ ((te,obs):xs)) = case te of 
                                            (Relva ) -> isRelva (n-1) xs
                                            _ -> False
--}
+
 {-Funcao que verifica os possiveis proximos obstaculos validos-}
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
