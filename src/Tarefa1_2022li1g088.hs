@@ -9,6 +9,7 @@ Módulo para a realização da Tarefa 1 do projeto de LI1 em 2022/23.
 module Tarefa1_2022li1g088 where
 
 import LI12223
+import Data.List (groupBy)
 
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
@@ -50,8 +51,6 @@ tipodeobs (Mapa larg ([(Estrada vel, (x:xs))]))
 
 riospostos :: Mapa -> Bool
 riospostos (Mapa larg ([])) = True
-{-por exepcoes para outros tipos de terreno-}
-
 riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | vel1 * vel2 >= 0 = False
   | otherwise = riospostos (Mapa larg ((xs)))
@@ -67,6 +66,7 @@ troncoline k (Mapa larg ([(terr, (x:xs))]))
 
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
 carroline :: Int -> Mapa -> Bool
+carroline _ (Mapa larg ([])) = True
 carroline _ (Mapa larg ([(terr, [])])) = True
 carroline 3 (Mapa larg ([(terr, (x:xs))])) = False
 carroline k (Mapa larg ([(terr, (x:xs))])) 
@@ -74,17 +74,12 @@ carroline k (Mapa larg ([(terr, (x:xs))]))
   | otherwise = carroline (0) (Mapa larg ([(terr, (xs))])) 
 
 
-{-|tentativ FALHADA de funcao que valida se nao ha demasiados do mesmo tipo de terreno seguidos-}
-terrenoseguidosfail :: Mapa -> Bool 
-terrenoseguidosfail (Mapa larg (((Rio vel, obs1):(Rio vel2, obs2):(Rio vel3, obs3):(Rio vel4, obs4):xs))) = False
-terrenoseguidosfail (Mapa larg (((Relva, obs1):(Relva, obs2):(Relva, obs3):(Relva, obs4):(Relva, obs5) :xs))) = False
-terrenoseguidosfail (Mapa larg (((Estrada vel, obs1):(Estrada vel2, obs2):(Estrada vel3, obs3):(Estrada vel4, obs4):(Estrada vel5, obs5) :xs))) = False
-terrenoseguidosfail (Mapa larg (((terr, obs):xs))) = True
+
 {-|funcao sucedida que valida se na ha demasiados terrenos do mesmo tipo-}
 terrenosseguidos :: Int -> Mapa -> Bool
 terrenosseguidos _ (Mapa _ ([])) = True
 terrenosseguidos 4 (Mapa l (((Rio _, _):xs))) = False
-terrenosseguidos k (Mapa l (((Rio _, _):xa:xs))) =
+terrenosseguidos k (Mapa l (((Rio _, _):(xa:xs)))) =
      case xa of 
       (Rio _, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
       _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
@@ -99,3 +94,15 @@ terrenosseguidos k (Mapa l (((Relva, _):xa:xs))) =
       (Relva, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
       _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
 
+veseRio :: Mapa-> Bool
+veseRio (Mapa l (((terr):xs)))
+  |take 3(show (terr)) == take 3 (show  (head xs)) = True
+  | otherwise = False
+
+
+inicio :: Show a => a -> [Char]
+inicio x = take 3 (show x)
+agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
+agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
+
+mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
