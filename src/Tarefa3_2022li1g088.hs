@@ -27,16 +27,28 @@ animacoords :: Coordenadas -> Coordenadas
 animacoords coords = (fst coords, (snd coords+1))
 {-|funao que ve o tipo de obstaculo numa dita coordenada-}
 veobstaculonacoordenada :: Mapa -> Coordenadas -> Obstaculo
+veobstaculonacoordenada (Mapa l (((terr, []):ys))) (a,b) = Nenhum
+veobstaculonacoordenada (Mapa l ([])) (a,b) = Nenhum
 veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b) 
   | a == 0 && b == 0 = x
   | b== 0 && a /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1,b)
   | a == 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a, b-1)
-  | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1, b-1)
+  | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l ((ys))) (a-1, b-1)
 {-|funcao que determina o comportamento de um jogador em cima de um tronco -}
 casotronco :: Jogador -> Mapa -> Coordenadas
 casotronco (Jogador cords) mapa@(Mapa l (((Rio vel, obs):xs)))
   | veobstaculonacoordenada mapa cords == Tronco = (fst cords  + vel, snd cords )
   | otherwise = cords
 --cirobs :: Mapa -> Coordenadas -> Coordenadas
+{-nao sei se esta bem-}
 
-omapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+deslocaobs :: Mapa -> Coordenadas -> Obstaculo
+deslocaobs mapa@(Mapa l (((Rio vel, (h:t)):xs))) (a,b)
+  |a == 0 = veobstaculonacoordenada (mapa) (l,b)
+  | a == l = veobstaculonacoordenada mapa (0,b)
+  |otherwise = veobstaculonacoordenada mapa (a+vel,b)
+deslocaobs mapa@(Mapa l (((Estrada vel, (h:t)):xs))) (a,b)
+  |a == 0 = veobstaculonacoordenada (mapa) (l,b)
+  | a == l = veobstaculonacoordenada mapa (0,b)
+  |otherwise = veobstaculonacoordenada mapa (a+vel,b)
+omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Tronco,Tronco]),(Estrada 2, [Nenhum,Carro])])
