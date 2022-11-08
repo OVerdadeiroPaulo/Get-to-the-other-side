@@ -32,7 +32,11 @@ veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b)
   | b== 0 && a /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1,b)
   | a == 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a, b-1)
   | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1, b-1)
-
-cirobs :: Mapa -> Coordenadas -> Coordenadas -> 
+{-|funcao que determina o comportamento de um jogador em cima de um tronco -}
+casotronco :: Jogador -> Mapa -> Coordenadas
+casotronco (Jogador cords) mapa@(Mapa l (((Rio vel, obs):xs)))
+  | veobstaculonacoordenada mapa cords == Tronco = (fst cords  + vel, snd cords )
+  | otherwise = cords
+--cirobs :: Mapa -> Coordenadas -> Coordenadas
 
 omapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
