@@ -33,6 +33,6 @@ veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b)
   | a == 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a, b-1)
   | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1, b-1)
 
-cirobs :: Mapa -> Coordenadas -> Coordenadas
+cirobs :: Mapa -> Coordenadas -> Coordenadas -> 
 
 omapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
