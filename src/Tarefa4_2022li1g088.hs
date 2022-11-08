@@ -12,3 +12,5 @@ import LI12223
 
 jogoTerminou :: Jogo -> Bool
 jogoTerminou = undefined
+
+

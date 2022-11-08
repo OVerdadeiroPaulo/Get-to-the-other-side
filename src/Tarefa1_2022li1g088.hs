@@ -35,18 +35,25 @@ vernrobstaculos (Mapa l ((_ , k):xs))
   | l == length k = vernrobstaculos (Mapa l (xs))
   | otherwise = False
 {-|funcao que verifica se o Terreno tem algum Obstaculo nao permitido-}
+tipodeobsaux :: Mapa -> Bool
+tipodeobsaux (Mapa larg (((_, []) :y))) = True
+tipodeobsaux (Mapa larg (((Relva, (x:xs)):ys)))
+  | x==Carro ||x==Tronco = False
+  | otherwise = tipodeobsaux (Mapa larg (((Relva, (xs)):ys)))
+tipodeobsaux (Mapa larg (((Rio vel, (x:xs)):ys)))
+  | x==Carro ||x==Arvore = False
+    |otherwise = tipodeobsaux (Mapa larg (((Rio vel, (xs)):ys)))
+tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
+  | x==Tronco || x==Arvore = False
+  |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
+
+
+
 tipodeobs :: Mapa -> Bool
-tipodeobs (Mapa larg ([(terr, [])])) = True
-tipodeobs (Mapa larg ([])) = True
-tipodeobs (Mapa larg (((Relva, (x:xs)):ys)))
-  | x == Arvore || x== Nenhum = tipodeobs (Mapa larg ((ys)))
-  | otherwise = False
-tipodeobs (Mapa larg (((Rio vel, (x:xs)):ys)))
-  | x == Tronco || x== Nenhum = tipodeobs (Mapa larg ((ys)))
-  | otherwise = False
-tipodeobs (Mapa larg (((Estrada vel, (x:xs)):ys)))
-  | x == Carro || x== Nenhum = tipodeobs (Mapa larg ((ys)))
-  | otherwise = tipodeobs (Mapa larg ([(Estrada vel, (xs))]))
+tipodeobs (Mapa larg ([]))= True
+tipodeobs (Mapa larg (((Rio vel, (xs)):ys))) 
+  | tipodeobsaux (Mapa larg (((Rio vel, (xs)):ys))) == False = False
+  | otherwise = tipodeobsaux (Mapa larg ((ys)))
 
 {-|funcao que valida que rios contiguos tem velocidade oposta-}
 
@@ -57,24 +64,19 @@ riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | otherwise = riospostos (Mapa larg ((xs)))
 riospostos _ = True
 {-|funcao que valida o comprimento dos obstaculos(troncos) -}
-{-troncoline :: Int -> (Terreno,[Obstaculo]) -> Bool
-troncoline _ (terr, []) = True
-troncoline 5 (terr, (x:xs)) = False
-troncoline k (terr, (x:xs))
-  | x== Tronco = troncoline (k + 1) (terr, (xs)) 
-  | otherwise = troncoline (0) (terr, (xs))
--}
+
 
 veostroncos :: (Terreno, [Obstaculo]) -> Bool
 veostroncos (a, []) = True
+veostroncos (a,[h,t]) = True
 veostroncos vari@(a,(h:t))
-  | head x == Tronco && length x == 5 = False
-  | head x == Tronco &&  last (last xs) == Tronco && (length x) + (length (last xs)) == 5 = False
+  | head x == Tronco && length x >= 3 = False
+  | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) >= 3 = False
   | otherwise = veostroncos (a,(t))
       where (x:xs) = agrupaobs (h:t)
 
 
-      
+{-|auxiliar para veroscarrose verostroncos-}
 agrupaobs :: Eq a => [a] -> [[a]]
 agrupaobs [] = []
 agrupaobs [x] = [[x]]
@@ -86,17 +88,13 @@ agrupaobs (x:xs)
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
 veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
+veoscarros (a,[h,t]) = True
 veoscarros vari@(a,(h:t))
-  | head x == Carro && length x == 5 = False
-  | head x == Carro &&  last (last xs) == Tronco && (length x) + (length (last xs)) == 5 = False
+  | head x == Carro && length x >= 5 = False
+  | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) >= 5 = False
   | otherwise = veoscarros (a,(t))
       where (x:xs) = agrupaobs (h:t)
-{-carroline :: Int -> (Terreno,[Obstaculo]) -> Bool
-carroline _ (terr, []) = True
-carroline 3 (terr, (x:xs)) = False
-carroline k (terr, (x:xs))
-  | x== Carro = carroline (k + 1) (terr, (xs)) 
-  | otherwise = carroline (0) (terr, (xs))-}
+
 
 
 {-|juncao da veoscarros e veostroncos-}
@@ -150,6 +148,14 @@ agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
 
 mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-mapatest2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatest2 = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
+mapatestfailtipodeobs = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Carro,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
+mapatestfaillargura = Mapa 8 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
+mapatestfailrio = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (3), [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
+mapamapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapafail = Mapa 9 ([(Rio 2, [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
 
-mapatest3 = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
+mapatestFAIL1 :: Mapa
+mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Carro,Tronco]),(Estrada 2, [Nenhum,Carro])])
+parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])

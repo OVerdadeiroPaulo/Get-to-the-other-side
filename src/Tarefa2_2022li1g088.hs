@@ -12,6 +12,8 @@ import LI12223
 import Tarefa1_2022li1g088
 import System.Random
 import LI12223 (Mapa)
+import Tarefa1_2022li1g088 (inicio)
+import Data.List (elemIndex)
 
 
 
@@ -23,8 +25,13 @@ estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obst
 --                  terreno = proximosTerrenosValidos (Mapa la linhas @(x:xs))
                   ve = (head randomIntsL)
 
+unlist::[a] -> a
+unlist (x:xs) =  x
 randomIntsL :: Int -> Int -> [Int]
-randomIntsL seed len = take len (randoms (mKStdGen seed))
+randomIntsL seed len = take len (randoms (mkStdGen seed))
+aleatorio100 :: Int -> Int
+aleatorio100 k = abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
+
 
 {-Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
@@ -110,7 +117,3 @@ isRelva' (te, _) = case te of
                            (Relva) -> True
                            _ -> False
 
-{-
-randomIntsL :: Int -> Int -> [Int]
-randomIntsL seed len = take len (randoms (mKStdGen seed))
--}
