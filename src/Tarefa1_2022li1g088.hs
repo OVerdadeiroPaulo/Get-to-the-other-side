@@ -90,13 +90,6 @@ obstaculoscontiguos mapa@(Mapa l ((x:xs)))
 agrupaOBSTACULOS :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaOBSTACULOS mapa@(Mapa _ (((terr, (a:b)):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  (Mapa l (((terr, (a:b)):xs)))-}
 
-agrupa :: Eq a => [a] -> [[a]]
-agrupa [] = []
-agrupa [x] = [[x]]
-agrupa (x:xs) 
-  | elem x (head a) = (x: (head a)) : tail a
-  | otherwise = [x] : a
-    where a = agrupa xs
 
 {-|funcao  que valida se na ha demasiados terrenos do mesmo tipo-}
 terrenosseguidos :: Int -> Mapa -> Bool
@@ -117,7 +110,7 @@ terrenosseguidos k (Mapa l (((Relva, _):xa:xs))) =
       (Relva, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
       _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
 
-{-|Funcao que valida se ha 4 ou 5 terrenos xcontiguos dependendo do tipo de terreno-}
+{-|Funcao que valida se ha 4 ou 5 terrenos contiguos dependendo do tipo de terreno-}
 
 terrenoscontiguos :: Mapa -> Bool
 terrenoscontiguos (Mapa _ (([]))) = True
