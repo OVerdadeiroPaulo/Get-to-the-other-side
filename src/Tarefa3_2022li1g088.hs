@@ -27,8 +27,8 @@ animacoords :: Coordenadas -> Coordenadas
 animacoords coords = (fst coords, (snd coords+1))
 {-|funao que ve o tipo de obstaculo numa dita coordenada-}
 veobstaculonacoordenada :: Mapa -> Coordenadas -> Obstaculo
-veobstaculonacoordenada (Mapa l (((terr, []):ys))) (a,b) = Nenhum
-veobstaculonacoordenada (Mapa l ([])) (a,b) = Nenhum
+veobstaculonacoordenada (Mapa l (((terr, [x]):ys))) (a,b) = x
+veobstaculonacoordenada (Mapa l ([(x,y)])) (a,b) = last y
 veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b) 
   | a == 0 && b == 0 = x
   | b== 0 && a /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1,b)
@@ -51,4 +51,4 @@ deslocaobs mapa@(Mapa l (((Estrada vel, (h:t)):xs))) (a,b)
   |a == 0 = veobstaculonacoordenada (mapa) (l,b)
   | a == l = veobstaculonacoordenada mapa (0,b)
   |otherwise = veobstaculonacoordenada mapa (a+vel,b)
-omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Tronco,Tronco]),(Estrada 2, [Nenhum,Carro])])
+omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Nenhum,Carro,Tronco]),(Rio 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Carro]),(Estrada 2, [Nenhum,Carro])])
