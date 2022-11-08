@@ -23,9 +23,15 @@ deslocaria (Jogador coords) jogada
   | jogada == Move Direita = ((fst coords +1), (snd coords))
 {-|funcao que anima as coordenadas apos a inserçao de uma linha-}
 animacoords :: Coordenadas -> Coordenadas
-animacoords coords = (fst coords, (snd coords-1))
+animacoords coords = (fst coords, (snd coords+1))
 {-|funao que ve o tipo de obstaculo numa dita coordenada-}
 veobstaculonacoordenada :: Mapa -> Coordenadas -> Obstaculo
 veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b) 
   | a == 0 && b == 0 = x
-  | 
+  | b== 0 && a /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1,b)
+  | a == 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a, b-1)
+  | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1, b-1)
+
+
+
+omapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
