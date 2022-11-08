@@ -14,7 +14,7 @@ import Control.Arrow (Arrow(first))
 
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
-  | vervazios listadeobs && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && troncoline 0 mapa && carroline 0 mapa && terrenoscontiguos mapa = True
+  | vervazios listadeobs && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && obsemlinha mapa && terrenoscontiguos mapa = True
   | otherwise = False
 
 
@@ -57,24 +57,46 @@ riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | otherwise = riospostos (Mapa larg ((xs)))
 riospostos _ = True
 {-|funcao que valida o comprimento dos obstaculos(troncos) -}
-troncoline :: Int -> Mapa -> Bool
-troncoline _ (Mapa larg ([])) = True
-troncoline _ (Mapa larg ([(terr, [])])) = True
-troncoline 5 (Mapa larg ([(terr, (x:xs))])) = False
-troncoline k (Mapa larg ([(terr, (x:xs))])) 
-  | x== Tronco = troncoline (k + 1) (Mapa larg ([(terr, (xs))])) 
-  | otherwise = troncoline (0) (Mapa larg ([(terr, (xs))])) 
+troncoline :: Int -> (Terreno,[Obstaculo]) -> Bool
+troncoline _ (terr, []) = True
+troncoline 5 (terr, (x:xs)) = False
+troncoline k (terr, (x:xs))
+  | x== Tronco = troncoline (k + 1) (terr, (xs)) 
+  | otherwise = troncoline (0) (terr, (xs))
 
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
-carroline :: Int -> Mapa -> Bool
-carroline _ (Mapa larg ([])) = True
-carroline _ (Mapa larg ([(terr, [])])) = True
-carroline 3 (Mapa larg ([(terr, (x:xs))])) = False
-carroline k (Mapa larg ([(terr, (x:xs))])) 
-  | x== Carro = carroline (k + 1) (Mapa larg ([(terr, (xs))])) 
-  | otherwise = carroline (0) (Mapa larg ([(terr, (xs))])) 
+carroline :: Int -> (Terreno,[Obstaculo]) -> Bool
+carroline _ (terr, []) = True
+carroline 3 (terr, (x:xs)) = False
+carroline k (terr, (x:xs))
+  | x== Carro = carroline (k + 1) (terr, (xs)) 
+  | otherwise = carroline (0) (terr, (xs))
 
 
+{-|juncao da carroline e troncoline-}
+obsemlinha :: Mapa -> Bool
+obsemlinha (Mapa l ([])) = True
+obsemlinha (Mapa l (((terr, obs):xs))) 
+ | carroline 0 (terr, obs) == False || troncoline 0 (terr, obs) == False = False
+ | otherwise = obsemlinha (Mapa l ((xs))) 
+
+
+{-obstaculoscontiguos :: Mapa -> Bool
+obstaculoscontiguos (Mapa l ( [])) = True
+obstaculoscontiguos mapa@(Mapa l ((x:xs)))
+  | inicio (head(snd (head (head (agrupaOBSTACULOS mapatest))))) == "Tro" && length (snd (head(head (agrupaOBSTACULOS mapa)))) > 5 = False
+  |inicio (head(snd (head (head (agrupaOBSTACULOS mapatest))))) == "Car" && length (snd (head(head (agrupaOBSTACULOS mapa)))) > 3 = False
+  |otherwise = obstaculoscontiguos (Mapa l ((xs)))
+agrupaOBSTACULOS :: Mapa -> [[(Terreno, [Obstaculo])]]
+agrupaOBSTACULOS mapa@(Mapa _ (((terr, (a:b)):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  (Mapa l (((terr, (a:b)):xs)))-}
+
+agrupa :: Eq a => [a] -> [[a]]
+agrupa [] = []
+agrupa [x] = [[x]]
+agrupa (x:xs) 
+  | elem x (head a) = (x: (head a)) : tail a
+  | otherwise = [x] : a
+    where a = agrupa xs
 
 {-|funcao  que valida se na ha demasiados terrenos do mesmo tipo-}
 terrenosseguidos :: Int -> Mapa -> Bool
@@ -110,4 +132,4 @@ agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
 
 mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-mapatest2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatest2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
