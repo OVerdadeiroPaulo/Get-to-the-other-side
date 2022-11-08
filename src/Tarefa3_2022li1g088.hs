@@ -9,12 +9,11 @@ Módulo para a realização da Tarefa 3 do projeto de LI1 em 2022/23.
 module Tarefa3_2022li1g088 where
 
 import LI12223
-import Tarefa1_2022li1g088 
 
 animaJogo :: Jogo -> Jogada -> Jogo
 animaJogo = undefined
 
-
+{-|funcao que nos diz a posicao para a qual o jogador iria sem obstaculos-}
 deslocaria :: Jogador -> Jogada -> Coordenadas
 deslocaria (Jogador coords) jogada 
   | jogada == Parado = coords
@@ -23,19 +22,17 @@ deslocaria (Jogador coords) jogada
   | jogada == Move Baixo = (fst coords, (snd coords+1))
   | jogada == Move Esquerda = ((fst coords -1), (snd coords))
   | jogada == Move Direita = ((fst coords +1), (snd coords))
-  
-
+{-|funcao que anima as coordenadas apos a inserçao de uma linha-}
 animacoords :: Coordenadas -> Coordenadas
-animacoords coords = (fst coords, (snd coords-1))
-veobstaculonacoordenada :: Mapa -> Obstaculo
-veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys)))
+animacoords coords = (fst coords, (snd coords+1))
+{-|funao que ve o tipo de obstaculo numa dita coordenada-}
+veobstaculonacoordenada :: Mapa -> Coordenadas -> Obstaculo
+veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a,b) 
+  | a == 0 && b == 0 = x
+  | b== 0 && a /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1,b)
+  | a == 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (x:xs)):ys))) (a, b-1)
+  | a /= 0 && b /= 0 = veobstaculonacoordenada (Mapa l (((terr, (xs)):ys))) (a-1, b-1)
 
-positionobs :: Mapa -> Coordenadas
-positionobs (Mapa la ((te,(x:xs)):ys)) = (elemIndices (head ((te,(x:xs)):ys)) ((te,(x:xs)):ys), elemIndeces x (x:xs))
+cirobs :: Mapa -> Coordenadas -> Coordenadas
 
-
-{-
-limitemapa :: Jogador -> Jogada -> Coordenadas
-limitemapa (Jogador coords) jogada | coords == (0,_) && Jogada == Move Cima = (0,_)
-                                   | Jogador   
--}
+omapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
