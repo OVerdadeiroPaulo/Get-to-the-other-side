@@ -18,7 +18,7 @@ estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obst
                                     | terreno == Estrada 0 = (Mapa la ((Estrada ve, obstaculos):xs))
                                     | terreno == Relva = (Mapa la ((relva, obstaculos):xs))
             where obstaculos = proximosObstaculosValidos la  x 
-                  terrenos = proximosTerrenosValidos (Mapa la linhas@(x:xs))
+                  terreno = proximosTerrenosValidos (Mapa la linhas@(x:xs))
                   ve = (head randomIntsL)
 
 randomIntsL :: Int -> Int -> [Int]
