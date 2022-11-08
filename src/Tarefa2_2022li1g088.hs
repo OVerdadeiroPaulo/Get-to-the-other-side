@@ -62,22 +62,35 @@ isRelva2 5 (Mapa _ ((te,obs):xs)) = True
 isRelva2 n (Mapa l ((te,obs):xs)) | inicio te == "Rel" = isRelva2 (n+1) (Mapa l (xs))
                                   | otherwise = False
 
-
+{-
 {-|Funcao que verifica os possiveis proximos obstaculos validos-}
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada vel, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | obsemlinha (Mapa n (te, (x:xs))) && n > length (x:xs) && isRio (te, (x:xs)) = [Nenhum,Tronco] 
-                                         | obsemlinha (Mapa n (te, (x:xs))) && n > length (x:xs) &&  isRelva' = [Nenhum, Arvore]
-                                         | obsemlinha (Mapa n (te, (x:xs))) && 
+proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco] 
+                                         | tipobs (Mapa n (((te, (x:xs)):ys))) && n > length (x:xs) &&  isRelva' = [Nenhum, Arvore]
+                                         | tipobs (Mapa n (((te, (x:xs)):ys))) && 
                                          n > length (x:xs) &&  isEstrada' = [Nenhum, Carro]
                                          | otherwise = []
+-}
+
+tipobs :: (Terreno,[Obstaculo]) -> Bool
+tipobs (_, []) = True
+tipobs (te, (x:xs))
+  | inicio te == "Rel" && x == Arvore || x == Nenhum = tipobs (te, xs) 
+  | inicio te == "Rio" && x == Tronco || x == Nenhum = tipobs (te, xs)
+  | inicio te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
+  | otherwise = False
+
+
+
 {-(para os casos em que nao temos nenhuma opcao com o nenhum)  |tiposdeobs (Mapa n (te, (x:xs))) && (n-1) == length (x:xs) && isRio (te, (x:xs)) = [Nenhum] -}
 {-Funcao que verifica se o terreno e Rio-}
 {-(para os casos em que temos que verificar se o nenum faz parte) proximosObstaculosValidos n (te, (x:xs)) | tiposdeobs (Mapa n (te, (x:xs))) && n > length (x:xs) && isRio (te, (x:xs)) && elem Nenhum (x:xs) = [Nenhum,Tronco] -}
 
 
+{-
 isRio' :: (Terreno,[Obstaculo]) -> Bool
 isRio' (te, _) = case te of 
                         (Rio _) -> True
@@ -94,10 +107,11 @@ isRelva' :: (Terreno,[Obstaculo]) -> Bool
 isRelva' (te, _) = case te of 
                            (Relva) -> True
                            _ -> False
+-}
+
 
 {-
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mKStdGen seed))
 -}
 
--}
