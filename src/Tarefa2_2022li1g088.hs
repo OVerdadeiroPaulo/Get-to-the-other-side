@@ -9,11 +9,20 @@ Módulo para a realização da Tarefa 2 do projeto de LI1 em 2022/23.
 module Tarefa2_2022li1g088 where
 
 import LI12223
+import System.Random
 
 
 
 estendeMapa :: Mapa -> Int -> Mapa
-estendeMapa = 
+estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obstaculos):xs)) 
+                                    | terreno == Estrada 0 = (Mapa la ((Estrada ve, obstaculos):xs))
+                                    | terreno == Relva = (Mapa la ((relva, obstaculos):xs))
+            where obstaculos = proximosObstaculosValidos la  x 
+                  terrenos = proximosTerrenosValidos (Mapa la linhas@(x:xs))
+                  ve = (head randomIntsL)
+
+randomIntsL :: Int -> Int -> [Int]
+randomIntsL seed len = take len (randoms (mKStdGen seed))
 
 {-Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
@@ -52,9 +61,9 @@ proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | tiposdeobs (Mapa n (te, (x:xs))) && n > length (x:xs) && isRio (te, (x:xs)) = [Nenhum,Tronco] 
-                                         | tiposdeobs (Mapa n (te, (x:xs))) && n > length (x:xs) &&  isRelva' = [Nenhum, Arvore]
-                                         | tiposdeobs (Mapa n (te, (x:xs))) && 
+proximosObstaculosValidos n (te, (x:xs)) | obsemlinha (Mapa n (te, (x:xs))) && n > length (x:xs) && isRio (te, (x:xs)) = [Nenhum,Tronco] 
+                                         | obsemlinha (Mapa n (te, (x:xs))) && n > length (x:xs) &&  isRelva' = [Nenhum, Arvore]
+                                         | obsemlinha (Mapa n (te, (x:xs))) && 
                                          n > length (x:xs) &&  isEstrada' = [Nenhum, Carro]
                                          | otherwise = []
 {-(para os casos em que nao temos nenhuma opcao com o nenhum)  |tiposdeobs (Mapa n (te, (x:xs))) && (n-1) == length (x:xs) && isRio (te, (x:xs)) = [Nenhum] -}
