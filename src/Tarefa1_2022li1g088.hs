@@ -10,10 +10,11 @@ module Tarefa1_2022li1g088 where
 
 import LI12223
 import Data.List (groupBy)
+import Control.Arrow (Arrow(first))
 
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
-  | vervazios listadeobs && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && troncoline 0 mapa && carroline 0 mapa && terrenosseguidos 0 mapa = True
+  | vervazios listadeobs && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && troncoline 0 mapa && carroline 0 mapa && terrenoscontiguos mapa = True
   | otherwise = False
 
 
@@ -40,11 +41,11 @@ tipodeobs (Mapa larg ([])) = True
 tipodeobs (Mapa larg (((Relva, (x:xs)):ys)))
   | x == Arvore || x== Nenhum = tipodeobs (Mapa larg ((ys)))
   | otherwise = False
-tipodeobs (Mapa larg ([(Rio vel, (x:xs))]))
-  | x == Carro || x== Arvore = False
-  | otherwise = tipodeobs (Mapa larg ([(Rio vel, (xs))]))
-tipodeobs (Mapa larg ([(Estrada vel, (x:xs))]))
-  | x == Arvore || x== Tronco = False
+tipodeobs (Mapa larg (((Rio vel, (x:xs)):ys)))
+  | x == Tronco || x== Nenhum = tipodeobs (Mapa larg ((ys)))
+  | otherwise = False
+tipodeobs (Mapa larg (((Estrada vel, (x:xs)):ys)))
+  | x == Carro || x== Nenhum = tipodeobs (Mapa larg ((ys)))
   | otherwise = tipodeobs (Mapa larg ([(Estrada vel, (xs))]))
 
 {-|funcao que valida que rios contiguos tem velocidade oposta-}
@@ -75,7 +76,7 @@ carroline k (Mapa larg ([(terr, (x:xs))]))
 
 
 
-{-|funcao sucedida que valida se na ha demasiados terrenos do mesmo tipo-}
+{-|funcao  que valida se na ha demasiados terrenos do mesmo tipo-}
 terrenosseguidos :: Int -> Mapa -> Bool
 terrenosseguidos _ (Mapa _ ([])) = True
 terrenosseguidos 4 (Mapa l (((Rio _, _):xs))) = False
@@ -94,15 +95,19 @@ terrenosseguidos k (Mapa l (((Relva, _):xa:xs))) =
       (Relva, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
       _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
 
-veseRio :: Mapa-> Bool
-veseRio (Mapa l (((terr):xs)))
-  |take 3(show (terr)) == take 3 (show  (head xs)) = True
-  | otherwise = False
+{-|Funcao que valida se ha 4 ou 5 terrenos xcontiguos dependendo do tipo de terreno-}
 
-
+terrenoscontiguos :: Mapa -> Bool
+terrenoscontiguos (Mapa _ (([]))) = True
+terrenoscontiguos mapa@(Mapa l (((x):xs)))
+  | inicio (fst(head (head (agrupaterrenos mapa)))) == "Est" && length (head (agrupaterrenos mapa)) >5 || inicio ( (head (agrupaterrenos mapa))) == "Rel" && length (head (agrupaterrenos mapa))  > 5 = False
+  | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
+  | otherwise = terrenoscontiguos (Mapa l (((xs))))
+      where (a:b) = agrupaterrenos mapa
 inicio :: Show a => a -> [Char]
-inicio x = take 3 (show x)
+inicio x =(take 3(show x))
 agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
 
-mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatest2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
