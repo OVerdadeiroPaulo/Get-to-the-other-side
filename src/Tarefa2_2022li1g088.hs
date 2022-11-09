@@ -38,9 +38,9 @@ randomIntsL seed len = take len (randoms (mKStdGen seed))
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
-proximosTerrenosValidos (Mapa l ((te,obs):xs))| terrenoscontiguos (Mapa l ((te,obs):xs)) && isrioFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Relva]
-                                              | isestradaFIM (Mapa l ((te,obs):xs)) = [Rio 0, Relva]
-                                              | isrelvaFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Rio 0]
+proximosTerrenosValidos mapa@(Mapa l ((te,obs):xs))| tipodeobs mapa && terrenoscontiguos (Mapa l ((te,obs):xs)) && isrioFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Relva]
+                                              | tipodeobs mapa && isestradaFIM (Mapa l ((te,obs):xs)) = [Rio 0, Relva]
+                                              | tipodeobs mapa && isrelvaFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Rio 0]
                                               | otherwise = [Rio 0, Estrada 0, Relva]
 
 {-| Funcao que verifica se temos o numero limite de Rios-}
