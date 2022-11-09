@@ -46,14 +46,21 @@ tipodeobsaux (Mapa larg (((Rio vel, (x:xs)):ys)))
 tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
   | x==Tronco || x==Arvore = False
   |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
+ {-|versaO 2-}
+tipodeaux :: Mapa -> Bool
+tipodeaux (Mapa l ([(terr, (x:xs))]))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
 
 {-|funcao que valida se existe algum obstaculo invalido em varial inhas usando a tipodeobsaux-}
 
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([]))= True
 tipodeobs (Mapa larg (((terr, (xs)):ys))) 
-  | tipodeobsaux (Mapa larg (((terr, (xs)):ys))) == False = False
-  | otherwise = tipodeobsaux (Mapa larg ((ys)))
+  | tipodeaux (Mapa larg (((terr, (xs)):ys))) == False = False
+  | otherwise = tipodeaux (Mapa larg ((ys)))
 
 {-|funcao que valida que rios contiguos tem velocidade oposta-}
 
