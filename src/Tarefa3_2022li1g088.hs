@@ -13,10 +13,12 @@ import LI12223
 animaJogo :: Jogo -> Jogada -> Jogo
 animaJogo = undefined
 
-{-|funcao que nos diz a posicao para a qual o jogador iria sem obstaculos-}
-deslocaria :: Jogador -> Jogada -> Coordenadas
-deslocaria (Jogador coords) jogada 
+{-|funcao que nos diz a posicao para a qual o jogador se desloca-}
+deslocajogador :: Jogador -> Jogada -> Mapa -> Coordenadas
+deslocajogador (Jogador coords) jogada mapa@(Mapa l ([(terr, obs)]))
+  | veobstaculonacoordenada mapa (deslocajogador (Jogador coords) jogada (Mapa l ([(terr, obs)]))) == Arvore = coords
   | jogada == Parado = coords
+  | fst coords > l || fst coords < 0 = coords
   | jogada == Move Cima && snd coords == 0 = coords
   | jogada == Move Cima = (fst coords, (snd coords-1))
   | jogada == Move Baixo = (fst coords, (snd coords+1))
@@ -39,16 +41,17 @@ casotronco :: Jogador -> Mapa -> Coordenadas
 casotronco (Jogador cords) mapa@(Mapa l (((Rio vel, obs):xs)))
   | veobstaculonacoordenada mapa cords == Tronco = (fst cords  + vel, snd cords )
   | otherwise = cords
---cirobs :: Mapa -> Coordenadas -> Coordenadas
+
 {-nao sei se esta bem-}
 
 deslocaobs :: Mapa -> Coordenadas -> Obstaculo
 deslocaobs mapa@(Mapa l (((Rio vel, (h:t)):xs))) (a,b)
-  |a == 0 = veobstaculonacoordenada (mapa) (l,b)
-  | a == l = veobstaculonacoordenada mapa (0,b)
+  |a == 0 = veobstaculonacoordenada (mapa) (l-(vel-1),b)
+  | a == l = veobstaculonacoordenada mapa (0+(vel-1),b)
   |otherwise = veobstaculonacoordenada mapa (a+vel,b)
 deslocaobs mapa@(Mapa l (((Estrada vel, (h:t)):xs))) (a,b)
-  |a == 0 = veobstaculonacoordenada (mapa) (l,b)
-  | a == l = veobstaculonacoordenada mapa (0,b)
+  |a == 0 = veobstaculonacoordenada (mapa) (l-(vel-1),b)
+  | a == l = veobstaculonacoordenada mapa (0+(vel-1),b)
   |otherwise = veobstaculonacoordenada mapa (a+vel,b)
+deslocaobs mapa@(Mapa l ([(Relva, obs)])) (a,b) = veobstaculonacoordenada mapa (a,b)
 omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Nenhum,Carro,Tronco]),(Rio 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Carro]),(Estrada 2, [Nenhum,Carro])])
