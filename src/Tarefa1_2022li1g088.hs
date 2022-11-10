@@ -48,12 +48,12 @@ tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
   |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
  {-|versaO 2-}
 tipodeaux :: Mapa -> Bool
-tipodeaux (Mapa l (((terr, []):ys))) = True
-tipodeaux (Mapa l (((terr, (x:xs)):ys)))
+tipodeaux (Mapa l ([(terr, [])])) = True
+tipodeaux (Mapa l ([(terr, (x:xs))]))
   | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
   | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
   | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeaux (Mapa l (((terr, (xs))):ys))
+  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
 
 {-|funcao que valida se existe algum obstaculo invalido em varial inhas usando a tipodeobsaux-}
 
