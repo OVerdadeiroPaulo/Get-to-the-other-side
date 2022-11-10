@@ -180,4 +180,4 @@ mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,
 mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Carro,Tronco]),(Estrada 2, [Nenhum,Carro])])
 parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
 
-mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Carro])]
+mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Nenhum])]
