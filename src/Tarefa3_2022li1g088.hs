@@ -9,13 +9,13 @@ Módulo para a realização da Tarefa 3 do projeto de LI1 em 2022/23.
 module Tarefa3_2022li1g088 where
 
 import LI12223
+import Data.Data (dataTypeRep)
 
 animaJogo :: Jogo -> Jogada -> Jogo
---animaJogo (Jogo (Jogador (a,b))) ((Mapa l (((terr, (x:xs)):ys)))) jogada = undefined
-animaJogo = undefined
+animaJogo (Jogo (Jogador (a,b)) (mapa@(Mapa l (((terr, (x:xs)):ys))))) jogada = (Jogo (Jogador (a,b)) (daavolta (Mapa l (((terr, (x:xs)):ys)))))
 
 {-|funcao que nos diz a posicao para a qual o jogador se desloca-}
-deslocajogador :: Jogador -> Jogada -> Mapa -> Coordenadas
+{-deslocajogador :: Jogador -> Jogada -> Mapa -> Coordenadas
 deslocajogador (Jogador coords) jogada mapa@(Mapa l ([(terr, obs)]))
   | veobstaculonacoordenada mapa (deslocajogador (Jogador coords) jogada (Mapa l ([(terr, obs)]))) == Arvore = coords
   | jogada == Parado = coords
@@ -25,18 +25,19 @@ deslocajogador (Jogador coords) jogada mapa@(Mapa l ([(terr, obs)]))
   | jogada == Move Baixo = (fst coords, (snd coords+1))
   | jogada == Move Esquerda = ((fst coords -1), (snd coords))
   | jogada == Move Direita = ((fst coords +1), (snd coords))
-
-
-{-deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador
+-}
+deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador 
 deslocajogador (Jogador coords) jogada mapa@(Mapa l ([(terr, obs)]))
   | veobstaculonacoordenada mapa (deslocajogador (Jogador coords) jogada (Mapa l ([(terr, obs)]))) == Arvore = Jogador coords
   | jogada == Parado = Jogador coords
   | fst coords > l || fst coords <= 0 = Jogador coords
-  | jogada == Move Cima && snd coords <= 0 = Jogador coords
+  | jogada == Move Cima && snd coords == 0 = Jogador coords
   | jogada == Move Cima = Jogador (fst coords, (snd coords-1))
-  | jogada == Move Baixo = Jogador  (fst coords, (snd coords+1))
+  | jogada == Move Baixo = Jogador (fst coords, (snd coords+1))
   | jogada == Move Esquerda = Jogador ((fst coords -1), (snd coords))
-  | jogada == Move Direita = Jogador ((fst coords +1), (snd coords))-}
+  | jogada == Move Direita = Jogador  ((fst coords +1), (snd coords))
+    |where Jogador ordena = 
+
 
 {-|funcao que anima as coordenadas apos a inserçao de uma linha, nao é para ser usada-}
 animacoords :: Coordenadas -> Coordenadas

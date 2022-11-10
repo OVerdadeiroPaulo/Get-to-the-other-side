@@ -54,7 +54,7 @@ tipodeaux (Mapa l (((terr, [x]):ys)))
   | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
   | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
   | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = True
+  | otherwise = tipodeaux (Mapa l ((ys)))
 tipodeaux (Mapa l ([(terr, (x:xs))]))
   | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
   | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
@@ -177,7 +177,7 @@ mapafail = Mapa 9 ([(Rio 2, [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Ne
 
 mapatestFAIL1 :: Mapa
 mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Carro,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Arvore,Carro])])
 parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
 parteste2 = (Rio 6 ,[Nenhum, Tronco, Tronco,Tronco, Tronco , Tronco])
 
