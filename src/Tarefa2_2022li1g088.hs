@@ -15,8 +15,23 @@ import LI12223 (Mapa)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 
-{-
 
+estendeMapa :: Mapa -> Int -> Mapa 
+estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
+                            where te' = proximosTerrenosValidos (Mapa l ((te,obs):xs))
+                                  te2 :: Int -> Terreno
+                                  te2 a | mod (aleatoriode0a100 a) 2 == 0 = head te' 
+                                        | aleatoriode0a100 a >= 50 = last te'
+                                        | otherwise = head (tail te') 
+                                  obs' = proximosObstaculosValidos l (te2, [])
+                                  obs2 :: Int -> (Terreno,[Obstaculo]) -> [Obstaculo]
+                                  obs2 l (te2, obs')  | l <= (length obs2) = obs2  
+                                                      | mod (aleatoriode0a100 a) 2 == 0 = head obs': obs2 l obs'
+                                                      | otherwise = last obs': obs2
+                                       
+
+
+{-
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obstaculos):xs)) 
                                     | terreno == Estrada 0 = (Mapa la ((Estrada ve, obstaculos):xs))
@@ -24,7 +39,8 @@ estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obst
             where obstaculos = proximosObstaculosValidos la  x 
                   terreno = proximosTerrenosValidos (Mapa la linhas @(x:xs))
                   ve = (head randomIntsL)
-
+-}
+{-|Funcao que cria um numero aleatorio entre 0 a 100-}
 unlist::[a] -> a
 unlist (x:xs) =  x
 randomIntsL :: Int -> Int -> [Int]
@@ -32,17 +48,24 @@ randomIntsL seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
 aleatoriode0a100 k = abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
 
-randomIntsL seed len = take len (randoms (mKStdGen seed))
--}
+
 
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
+proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
+proximosTerrenosValidos (Mapa l ((te,obs):xs))  | isrioFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Relva]
+                                                | isestradaFIM (Mapa l ((te,obs):xs)) = [Rio 0, Relva]
+                                                | isrelvaFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Rio 0]
+                                 | otherwise = [Rio 0, Estrada 0, Relva]
+
+{-funcao aprova de bala-}
+{-proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
 proximosTerrenosValidos mapa@(Mapa l ((te,obs):xs))| tipodeobs mapa && terrenoscontiguos mapa && isrioFIM mapa = [Estrada 0, Relva]
                                                    | tipodeobs mapa && terrenoscontiguos mapa && isestradaFIM mapa = [Rio 0, Relva]
                                                    | tipodeobs mapa && terrenoscontiguos mapa && isrelvaFIM mapa = [Estrada 0, Rio 0]
                                                    | otherwise = [Rio 0, Estrada 0, Relva]
-
+-}
 {-| Funcao que verifica se temos o numero limite de Rios-}
 isrioFIM :: Mapa -> Bool
 isrioFIM mapa = isRio2 1 mapa

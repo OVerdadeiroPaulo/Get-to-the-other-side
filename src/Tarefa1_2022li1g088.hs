@@ -48,8 +48,20 @@ tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
   |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
  {-|versaO 2-}
 tipodeaux :: Mapa -> Bool
-tipodeaux (Mapa l ([(terr, [])])) = True
+tipodeaux (Mapa l []) = True
+tipodeaux (Mapa l (((terr, []):ys))) = True
+tipodeaux (Mapa l (((terr, [x]):ys)))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = True
 tipodeaux (Mapa l ([(terr, (x:xs))]))
+  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
+  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
+  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
+  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
+
+tipodeaux (Mapa l (((terr, (x:xs)):ys)))
   | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
   | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
   | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
@@ -167,3 +179,5 @@ mapatestFAIL1 :: Mapa
 mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
 mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Carro,Tronco]),(Estrada 2, [Nenhum,Carro])])
 parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
+
+mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Carro])]

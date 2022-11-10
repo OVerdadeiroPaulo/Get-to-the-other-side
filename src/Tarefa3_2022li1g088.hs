@@ -55,3 +55,10 @@ deslocaobs mapa@(Mapa l (((Estrada vel, (h:t)):xs))) (a,b)
   |otherwise = veobstaculonacoordenada mapa (a+vel,b)
 deslocaobs mapa@(Mapa l ([(Relva, obs)])) (a,b) = veobstaculonacoordenada mapa (a,b)
 omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Nenhum,Carro,Tronco]),(Rio 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Carro]),(Estrada 2, [Nenhum,Carro])])
+
+gira :: Int -> [a] -> [a]
+gira n [] = []
+gira n l@(x:xs) 
+  |n >= 0 = drop n l ++ take (length l -n) l
+  | n < 0 = undefined
+--daavolta (Mapa l (((terr, (x:xs)):ys)))
