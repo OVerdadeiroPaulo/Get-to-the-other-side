@@ -90,9 +90,9 @@ veostroncos :: (Terreno, [Obstaculo]) -> Bool
 veostroncos (a, []) = True
 veostroncos (a,[h,t]) = True
 veostroncos vari@(a,(h:t))
-  | head x == Tronco && length x >= 3 = False
-  | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) >= 3 = False
-  | otherwise = veostroncos (a,(t))
+  | head x == Tronco && length x > 5 = False
+  | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) > 5 = False
+  | otherwise = True
       where (x:xs) = agrupaobs (h:t)
 
 
@@ -110,9 +110,9 @@ veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
 veoscarros (a,[h,t]) = True
 veoscarros vari@(a,(h:t))
-  | head x == Carro && length x >= 5 = False
-  | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) >= 5 = False
-  | otherwise = veoscarros (a,(t))
+  | head x == Carro && length x > 3 = False
+  | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) > 3 = False
+  | otherwise = True
       where (x:xs) = agrupaobs (h:t)
 
 
@@ -125,40 +125,16 @@ obsemlinha (Mapa l (((terr, obs):xs)))
  | otherwise = obsemlinha (Mapa l ((xs))) 
 
 
-{-obstaculoscontiguos :: Mapa -> Bool
-obstaculoscontiguos (Mapa l ( [])) = True
-obstaculoscontiguos mapa@(Mapa l ((x:xs)))
-  | inicio (head(snd (head (head (agrupaOBSTACULOS mapatest))))) == "Tro" && length (snd (head(head (agrupaOBSTACULOS mapa)))) > 5 = False
-  |inicio (head(snd (head (head (agrupaOBSTACULOS mapatest))))) == "Car" && length (snd (head(head (agrupaOBSTACULOS mapa)))) > 3 = False
-  |otherwise = obstaculoscontiguos (Mapa l ((xs)))
--}
 
 
-{-|funcao  que valida se na ha demasiados terrenos do mesmo tipo-}
-terrenosseguidos :: Int -> Mapa -> Bool
-terrenosseguidos _ (Mapa _ ([])) = True
-terrenosseguidos 4 (Mapa l (((Rio _, _):xs))) = False
-terrenosseguidos k (Mapa l (((Rio _, _):(xa:xs)))) =
-     case xa of 
-      (Rio _, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
-terrenosseguidos 5 (Mapa l (((Estrada _, _):xs))) = False
-terrenosseguidos k (Mapa l (((Estrada _, _):xa:xs))) =
-     case xa of 
-      (Estrada _, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
-terrenosseguidos 5 (Mapa l (((Relva, _):xs))) = False
-terrenosseguidos k (Mapa l (((Relva, _):xa:xs))) =
-     case xa of 
-      (Relva, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
+
 
 {-|Funcao que valida se ha 4 ou 5 terrenos contiguos dependendo do tipo de terreno-}
 
 terrenoscontiguos :: Mapa -> Bool
 terrenoscontiguos (Mapa _ (([]))) = True
 terrenoscontiguos mapa@(Mapa l (((x):xs)))
-  | inicio (fst(head (head (agrupaterrenos mapa)))) == "Est" && length (head (agrupaterrenos mapa)) >5 || inicio ( (head (agrupaterrenos mapa))) == "Rel" && length (head (agrupaterrenos mapa))  > 5 = False
+  | (inicio (fst(head a)) == "Est" && length (head (agrupaterrenos mapa)) >5 )|| (inicio (fst(head a))  == "Rel" && length (head (agrupaterrenos mapa))  > 5) = False
   | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
@@ -174,10 +150,27 @@ mapatestfaillargura = Mapa 8 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronc
 mapatestfailrio = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (3), [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
 mapamapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
 mapafail = Mapa 9 ([(Rio 2, [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
-
-mapatestFAIL1 :: Mapa
+mapaarvore = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
 mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Carro,Tronco]),(Estrada 2, [Nenhum,Carro])])
+mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Arvore,Carro])])
 parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
+parteste2 = (Rio 6 ,[Nenhum, Tronco, Tronco,Tronco, Tronco , Tronco])
+mapafailterrcontiguos = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
+mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Carro])]
 
-mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Nenhum])]
+
+
+novoteste = Mapa 12 [(Estrada 3,[Carro,Carro,Carro,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),
+        (Estrada (-3),[Carro,Nenhum,Carro,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum]),
+        (Relva,[Arvore,Nenhum,Arvore,Arvore,Arvore,Nenhum,Arvore,Arvore,Arvore,Nenhum,Arvore,Arvore]),
+        (Relva,[Arvore,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),
+        (Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum]),
+        (Rio (-5),[Tronco,Nenhum,Nenhum,Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Nenhum,Tronco,Nenhum]),
+        (Rio 2,[Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco]),
+        (Estrada 3,[Nenhum,Carro,Carro,Carro,Nenhum,Carro,Carro,Carro,Nenhum,Carro,Carro,Carro]),
+        (Estrada (-3),[Nenhum,Carro,Nenhum,Carro,Carro,Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro]),
+        (Relva,[Nenhum,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Arvore,Arvore,Nenhum]),
+        (Relva,[Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),
+        (Relva,[Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Arvore]),
+        (Rio (-5),[Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco]),
+        (Rio 2,[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Nenhum])]
