@@ -54,7 +54,7 @@ tipodeaux (Mapa l (((terr, [x]):ys)))
   | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
   | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
   | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeaux (Mapa l (((terr, [x]):ys)))
+  | otherwise = True
 tipodeaux (Mapa l ([(terr, (x:xs))]))
   | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
   | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
@@ -127,31 +127,14 @@ obsemlinha (Mapa l (((terr, obs):xs)))
 
 
 
-{-|funcao  que valida se na ha demasiados terrenos do mesmo tipo-}
-terrenosseguidos :: Int -> Mapa -> Bool
-terrenosseguidos _ (Mapa _ ([])) = True
-terrenosseguidos 4 (Mapa l (((Rio _, _):xs))) = False
-terrenosseguidos k (Mapa l (((Rio _, _):(xa:xs)))) =
-     case xa of 
-      (Rio _, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
-terrenosseguidos 5 (Mapa l (((Estrada _, _):xs))) = False
-terrenosseguidos k (Mapa l (((Estrada _, _):xa:xs))) =
-     case xa of 
-      (Estrada _, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
-terrenosseguidos 5 (Mapa l (((Relva, _):xs))) = False
-terrenosseguidos k (Mapa l (((Relva, _):xa:xs))) =
-     case xa of 
-      (Relva, _) -> terrenosseguidos (k+1) (Mapa l ((xa:xs)))
-      _ -> terrenosseguidos 0 (Mapa l ((xa:xs)))
+
 
 {-|Funcao que valida se ha 4 ou 5 terrenos contiguos dependendo do tipo de terreno-}
 
 terrenoscontiguos :: Mapa -> Bool
 terrenoscontiguos (Mapa _ (([]))) = True
 terrenoscontiguos mapa@(Mapa l (((x):xs)))
-  | inicio (fst(head (head (agrupaterrenos mapa)))) == "Est" && length (head (agrupaterrenos mapa)) >5 || inicio ( (head (agrupaterrenos mapa))) == "Rel" && length (head (agrupaterrenos mapa))  > 5 = False
+  | (inicio (fst(head a)) == "Est" && length (head (agrupaterrenos mapa)) >5 )|| (inicio (fst(head a))  == "Rel" && length (head (agrupaterrenos mapa))  > 5) = False
   | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
@@ -168,16 +151,14 @@ mapatestfailrio = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tr
 mapamapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
 mapafail = Mapa 9 ([(Rio 2, [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
 mapaarvore = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
-mapatestFAIL1 :: Mapa
 mapatestFAIL1 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
 mapatestfailtipo2 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Arvore,Carro])])
 parteste = (Rio 6 ,[Tronco, Tronco, Tronco,Tronco, Nenhum , Tronco])
 parteste2 = (Rio 6 ,[Nenhum, Tronco, Tronco,Tronco, Tronco , Tronco])
-
+mapafailterrcontiguos = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
 mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Carro])]
 
 
-aindanovo = Mapa 12 [(Rio 2,[Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Tronco,Tronco,Tronco])]
 
 novoteste = Mapa 12 [(Estrada 3,[Carro,Carro,Carro,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),
         (Estrada (-3),[Carro,Nenhum,Carro,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum]),
