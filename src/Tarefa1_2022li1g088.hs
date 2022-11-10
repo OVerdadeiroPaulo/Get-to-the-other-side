@@ -90,7 +90,7 @@ veostroncos :: (Terreno, [Obstaculo]) -> Bool
 veostroncos (a, []) = True
 veostroncos (a,[h,t]) = True
 veostroncos vari@(a,(h:t))
-  | head x == Tronco && length x >= 3 = False
+  | head x == Tronco && length x >= 5 = False
   | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) >= 3 = False
   | otherwise = veostroncos (a,(t))
       where (x:xs) = agrupaobs (h:t)
@@ -110,7 +110,7 @@ veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
 veoscarros (a,[h,t]) = True
 veoscarros vari@(a,(h:t))
-  | head x == Carro && length x >= 5 = False
+  | head x == Carro && length x >= 3 = False
   | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) >= 5 = False
   | otherwise = veoscarros (a,(t))
       where (x:xs) = agrupaobs (h:t)
