@@ -15,7 +15,7 @@ import LI12223 (Mapa)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 
-
+{-
 
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obstaculos):xs)) 
@@ -32,17 +32,18 @@ randomIntsL seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
 aleatoriode0a100 k = abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
 
+randomIntsL seed len = take len (randoms (mKStdGen seed))
+-}
 
-
-{-Funcao que verifica os proximos terrenos validos-}
+{-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
-proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva]
-proximosTerrenosValidos (Mapa l ((te,obs):xs))| isrioFIM (Mapa l ((te,obs):xs)) ==True = [Estrada 0, Relva]
-                                              | isestradaFIM (Mapa l ((te,obs):xs)) == True = [Rio 0, Relva]
-                                              | isrelvaFIM (Mapa l ((te,obs):xs)) == True = [Estrada 0, Rio 0]
+proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
+proximosTerrenosValidos mapa@(Mapa l ((te,obs):xs))| tipodeobs mapa && terrenoscontiguos (Mapa l ((te,obs):xs)) && isrioFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Relva]
+                                              | tipodeobs mapa && isestradaFIM (Mapa l ((te,obs):xs)) = [Rio 0, Relva]
+                                              | tipodeobs mapa && isrelvaFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Rio 0]
                                               | otherwise = [Rio 0, Estrada 0, Relva]
 
-
+{-| Funcao que verifica se temos o numero limite de Rios-}
 isrioFIM :: Mapa -> Bool
 isrioFIM mapa = isRio2 1 mapa
 
@@ -52,6 +53,7 @@ isRio2 4 (Mapa _ ((te,obs):xs)) = True
 isRio2 n (Mapa l ((te,obs):xs)) | inicio te == "Rio" = isRio2 (n+1)  (Mapa l (xs))
                                 | otherwise = False
 
+{-| Funcao que verifica se temos o numero limite de estradas-}
 isestradaFIM :: Mapa -> Bool
 isestradaFIM mapa = isEstrada2 1 mapa
 
@@ -60,6 +62,8 @@ isEstrada2 _ (Mapa _ []) = False
 isEstrada2 5 (Mapa _ ((te,obs): xs)) = True
 isEstrada2 n (Mapa l ((te,obs): xs)) | inicio te == "Est" = isEstrada2 (n+1) (Mapa l (xs))
                                      | otherwise = False
+
+{-| Funcao que verifica se temos o numero limite de Relva-}                                    
 isrelvaFIM :: Mapa -> Bool
 isrelvaFIM mapa = isRelva2 1 mapa
 
@@ -69,19 +73,23 @@ isRelva2 5 (Mapa _ ((te,obs):xs)) = True
 isRelva2 n (Mapa l ((te,obs):xs)) | inicio te == "Rel" = isRelva2 (n+1) (Mapa l (xs))
                                   | otherwise = False
 
-{-
+
 {-|Funcao que verifica os possiveis proximos obstaculos validos-}
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada vel, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco] 
-                                         | tipobs (Mapa n (((te, (x:xs)):ys))) && n > length (x:xs) &&  isRelva' = [Nenhum, Arvore]
-                                         | tipobs (Mapa n (((te, (x:xs)):ys))) && 
-                                         n > length (x:xs) &&  isEstrada' = [Nenhum, Carro]
+proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
+                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
+                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+                                         n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+                                         n > length (x:xs) = [Nenhum, Carro]
                                          | otherwise = []
--}
 
+{-| Funcao que verifica se os obstaculos correspondem ao tipo de Terreno-}
 tipobs :: (Terreno,[Obstaculo]) -> Bool
 tipobs (_, []) = True
 tipobs (te, (x:xs))
@@ -92,28 +100,14 @@ tipobs (te, (x:xs))
 
 
 
-{-(para os casos em que nao temos nenhuma opcao com o nenhum)  |tiposdeobs (Mapa n (te, (x:xs))) && (n-1) == length (x:xs) && isRio (te, (x:xs)) = [Nenhum] -}
 {-Funcao que verifica se o terreno e Rio-}
 {-(para os casos em que temos que verificar se o nenum faz parte) proximosObstaculosValidos n (te, (x:xs)) | tiposdeobs (Mapa n (te, (x:xs))) && n > length (x:xs) && isRio (te, (x:xs)) && elem Nenhum (x:xs) = [Nenhum,Tronco] -}
 
 
+
+
 {-
-isRio' :: (Terreno,[Obstaculo]) -> Bool
-isRio' (te, _) = case te of 
-                        (Rio _) -> True
-                        _ -> False
-
-{-Funcao que verifica se o terreno e Estrada-}
-isEstrada' :: (Terreno,[Obstaculo]) -> Bool
-isEstrada' (te, _) = case te of 
-                             (Estrada _) -> True
-                             _ -> False
-
-{-Funcao que verifica se o terreno e Relva-}
-isRelva' :: (Terreno,[Obstaculo]) -> Bool
-isRelva' (te, _) = case te of 
-                           (Relva) -> True
-                           _ -> False
+randomIntsL :: Int -> Int -> [Int]
+randomIntsL seed len = take len (randoms (mKStdGen seed))
 -}
-
 
