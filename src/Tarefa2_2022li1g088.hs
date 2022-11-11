@@ -14,6 +14,7 @@ import System.Random
 import LI12223 (Mapa)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
+import Data.String (String)
 
 
 {-estendeMapa :: Mapa -> Int -> Mapa 
@@ -30,6 +31,7 @@ estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                                  where te2 = ter28 a (Mapa l ((te,obs):xs)) 
                                        obs2 = obs28 l (te2, []) a
                                         
+
 {-estendeMapa :: Show (Int -> Mapa) => Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                                  where te2 = ter28 a (Mapa l ((te,obs):xs)) 
@@ -74,9 +76,9 @@ unlist (x:xs) =  x
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
-aleatoriode0a100 k = abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
-
-
+aleatoriode0a100 k =1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
+aleatoriofinal :: Int -> Int
+aleatoriofinal k= 1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (3))
 
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]

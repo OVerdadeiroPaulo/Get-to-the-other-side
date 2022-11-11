@@ -11,25 +11,25 @@ module Tarefa1_2022li1g088 where
 import LI12223
 import Data.List (groupBy)
 import Control.Arrow (Arrow(first))
-
+{-|Funcao principal que determina a validez de um mapa devolvendo True para um mapa válido e False para um mapa valido sendo que um mapa só é válido se todas as auxiliares devolverem True-}
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
   | vervariosvazios mapa && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && obsemlinha mapa && terrenoscontiguos mapa = True
   | otherwise = False
 
 
-{-|Funcao auxiliar que verifica que tem algum espaço com Nenhum obstaculo numa linha-}
+{-|Funcao auxiliar que verifica que tem algum espaço com Nenhum obstaculo numa linha, que deVolve True quando encontra um nenhum e False se chegar ao fim da lista de obstaculos sem encontrar nenhum-}
 vervazios :: (Terreno,[Obstaculo]) -> Bool
 vervazios (terr,[]) = False
 vervazios (terr,(x:xs) )
   | x== Nenhum = True
   |otherwise = vervazios (terr,xs)
-{-|Funcao  que verifica que tem algum espaço com Nenhum obstaculo num Mapa usando a vervazios-}
+{-|Funcao  que verifica que tem algum Terreno com Nenhum obstaculo num Mapa usando a vervazios, devolvendo False se encontrar algum terreno sem um nenhum e True se chegar ao fim da lista de pares sem dar false-}
 
 vervariosvazios :: Mapa -> Bool
 vervariosvazios mapa@(Mapa l ((par@(terr, (o:bs)):xs)))  = vervazios par ||  (vervariosvazios  (mapa))
                                                    where ((a,(y:ys)):ls) = xs
-{-|funcao que valida que a largura é do tamanho da lista de obstaculos-}
+{-|funcao que valida que a largura é do tamanho da lista de obstaculos, vendo recursivamente par a par se a length da lista de obstaculos é igual á largura do mapa, devolvendo False se encontrar uma lista com length diferente da largura e True se chagar ao fim da lista sem isto acontecer-}
 
 
 
@@ -38,7 +38,7 @@ vernrobstaculos (Mapa l []) = True
 vernrobstaculos (Mapa l ((_ , k):xs)) 
   | l == length k = vernrobstaculos (Mapa l (xs))
   | otherwise = False
-{-|funcao que verifica se o Terreno tem algum Obstaculo nao permitido-}
+{-|Funcao auxiliar que verifica se o Terreno tem algum Obstaculo nao permitido, devolvendo False se encontrar algum obstaculo nao permitido ou True se chegar ao fim da lista sem isto acontecer.Tem um caso de excepçao para um Terreno so com um obstaculo e um mapa só com um Terreno -}
 
 tipodeaux :: Mapa -> Bool
 tipodeaux (Mapa l []) = True
@@ -60,7 +60,7 @@ tipodeaux (Mapa l (((terr, (x:xs)):ys)))
   | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
   | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
 
-{-|funcao que valida se existe algum obstaculo invalido em varial inhas usando a tipodeobsaux-}
+{-|Funcao que valida se existe algum obstaculo invalido em varias linhas usando a tipodeaux, devolvendo False se encontrar algum obstaculo inválido e True se chegar ao fim do mapa sem o encontrar. -}
 
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([]))= True
@@ -68,7 +68,7 @@ tipodeobs (Mapa larg (((terr, (xs)):ys)))
   | tipodeaux (Mapa larg (((terr, (xs)):ys))) == False = False
   | otherwise = tipodeaux (Mapa larg ((ys)))
 
-{-|funcao que valida que rios contiguos tem velocidade oposta-}
+{-|Funcao que valida que rios contiguos tem velocidade oposta, devolvendo False se uma velocidade multiplicada pela outra for maior que 0 ou igual e True caso seja inferior a zero para todos os pares de rios. Devolve true tambem se aplicada a um terreno que nao seja Rio-}
 
 riospostos :: Mapa -> Bool
 riospostos (Mapa larg ([])) = True
@@ -76,7 +76,7 @@ riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | vel1 * vel2 >= 0 = False
   | otherwise = riospostos (Mapa larg ((xs)))
 riospostos _ = True
-{-|funcao que valida o comprimento dos obstaculos(troncos) -}
+{-|Funcao que valida o comprimento dos obstaculos(troncos) -}
 
 
 veostroncos :: (Terreno, [Obstaculo]) -> Bool

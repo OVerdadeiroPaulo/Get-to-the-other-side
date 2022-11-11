@@ -59,5 +59,14 @@ obsnaonenhum (Estrada vel) = Carro
 obsnaonenhum (Relva) = Arvore
 proxobsval :: (Terreno,[Obstaculo]) -> [Obstaculo]
 proxobsval par@(terr,[]) = [Nenhum, (obsnaonenhum terr)]
-proxobsval par@(terr,(o:bs)) 
-  | [Nenhum,(obsnaonenhum terr)]
+proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
+proximosObstaculosValidos _ (terr, []) = [Nenhum, (obsnaonenhum terr)]
+proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
+                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
+                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+                                         n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+                                         n > length (x:xs) = [Nenhum, Carro]
+                                         | otherwise = []
