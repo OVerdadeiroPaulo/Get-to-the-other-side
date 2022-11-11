@@ -26,11 +26,21 @@ estendeMapa (Mapa l linha) a = let  te' = proximosTerrenosValidos (Mapa l linha)
 -}
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
-estendeMapa (Mapa l ((te,obs):xs)) a = let  te' = proximosTerrenosValidos (Mapa l((te,obs):xs))                                  
-                                            te2 = if mod (aleatoriode0a100 a) 2 == 0 then (head te') else if(aleatoriode0a100 a) >= 50 then (last te') else head (tail te') 
-                                            obs2 = obs28 l (te2, []) a
-                                        in  Mapa l ((te2,obs2):(te,obs):xs)
-                             
+estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
+                                 where te2 = ter28 a (Mapa l ((te,obs):xs)) 
+                                       obs2 = obs28 l (te2, []) a
+                                        
+{-estendeMapa :: Show (Int -> Mapa) => Mapa -> Int -> Mapa
+estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
+                                 where te2 = ter28 a (Mapa l ((te,obs):xs)) 
+                                       obs2 = obs28 l (te2, []) a
+                                        -}
+
+                                  
+ter28:: Int -> Mapa -> Terreno
+ter28 a te' | mod (aleatoriode0a100 a) 2 == 0 = head (proximosTerrenosValidos te')
+            | ((aleatoriode0a100 a) + 50) >= 100 = last (proximosTerrenosValidos te')
+            | otherwise = head (tail (proximosTerrenosValidos te'))                             
 {-|Funcao responsavel por selecionar a lista de obstaculos-}
 obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
 obs28 l (te2, b) a | l == (length b) = b
