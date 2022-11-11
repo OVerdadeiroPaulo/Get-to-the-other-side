@@ -16,22 +16,22 @@ import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 
 
-estendeMapa :: Mapa -> Int -> Mapa 
+{-estendeMapa :: Mapa -> Int -> Mapa 
 estendeMapa (Mapa l linha) a = let  te' = proximosTerrenosValidos (Mapa l linha)
                                             te2 :: Int -> [Terreno] -> Terreno
                                             te2 a te' | mod (aleatoriode0a100 a) 2 == 0 = (head te') 
                                                       | aleatoriode0a100 a >= 50 = (last te')
                                                       | otherwise = head (tail te') 
                                in  Mapa l ((te2,obs2): linha)
-{-
-estendeMapa :: Mapa -> Int -> Mapa 
-estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
+-}
+estendeMapa2 :: Mapa -> Int -> Mapa 
+estendeMapa2 (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                             where te' = proximosTerrenosValidos (Mapa l ((te,obs):xs))
                                   te2 :: Int -> Terreno
                                   te2 a | mod (aleatoriode0a100 a) 2 == 0 = head te' 
                                         | aleatoriode0a100 a >= 50 = last te'
                                         | otherwise = head (tail te') 
-  -}                                                  
+                                                
 obs' :: Int -> Int -> (Terreno,[Obstaculo]) -> Obstaculo
 obs' a l (te2, (x:xs)) | mod (aleatoriode0a100 a) 2 == 0 = head (proximosObstaculosValidos l (te2, (x:xs)))
                        | otherwise = last (proximosTerrenosValidos l (te2, (x:xs)))
@@ -146,3 +146,4 @@ randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mKStdGen seed))
 -}
 
+mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])

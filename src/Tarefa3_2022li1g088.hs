@@ -23,6 +23,7 @@ posicaoapos (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | jogada == Move Esquerda = ((fst coords -1), (snd coords))
   | jogada == Move Direita = ((fst coords +1), (snd coords))
   | jogada == Parado = coords
+{-| funcao para o movimento do jogador ja c'om os casos em que o movimento é impossivel-}  
 deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador 
 deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | veobstaculonacoordenada mapa (ordena) == Arvore = Jogador coords

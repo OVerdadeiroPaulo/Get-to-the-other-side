@@ -25,8 +25,7 @@ vervazios (x:xs)
   | x== Nenhum = True
   |otherwise = vervazios xs
 {-|funcao que valida que a largura é do tamanho da lista de obstaculos-}
-vernrobstaculosfailed :: Mapa -> Bool
-vernrobstaculosfailed (Mapa l ((_ , k):xs)) = l == length k
+
 
 
 vernrobstaculos :: Mapa -> Bool
@@ -138,8 +137,10 @@ terrenoscontiguos mapa@(Mapa l (((x):xs)))
   | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
+{-| funcao que devolve uma string com os primeiros 3 caracteres da lista -}
 inicio :: Show a => a -> [Char]
 inicio x =(take 3(show x))
+{-|auxiliar para terrenos contiguos que cria uma lista de listas pelo tipo de terreno similar a group-}
 agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
 
