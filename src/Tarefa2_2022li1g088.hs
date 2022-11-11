@@ -11,13 +11,20 @@ module Tarefa2_2022li1g088 where
 import LI12223 
 import Tarefa1_2022li1g088
 import System.Random
-import LI12223 (Mapa)
+import LI12223 (Mapa, Terreno)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 import Data.String (String)
 import Lixo (obsnaonenhum)
+obsnaonenhum :: Terreno -> Obstaculo
+obsnaonenhum (Rio vel) = Tronco
+obsnaonenhum (Estrada vel) = Carro
+obsnaonenhum (Relva) = Arvore
 
-
+inicionovo :: Terreno -> String
+inicionovo (Rio vel) = "Rio"
+inicionovo (Estrada  vel) = "Est" 
+inicionovo Relva =  "Rel"
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
@@ -47,8 +54,10 @@ aleatoriode0a100 :: Int -> Int
 aleatoriode0a100 k =1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
 aleatoriofinal k= 1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (3))
-
-
+aleatorio4men4aux k = (1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (8))) 
+aleatorio4final k 
+  |aleatorio4men4aux >= 5 = aleatorio4men4aux / 2
+  | otherwise = -aleatorio4men4aux
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
@@ -131,7 +140,6 @@ tipobs (te, (x:xs))
   | inicio te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
   | otherwise = False
 
-<<<<<<< HEAD
 tipobscurto :: (Terreno,[Obstaculo]) -> Bool
 tipobscurto (_, []) = True
 tipobscurto (te, (x:xs))
@@ -145,8 +153,6 @@ tipobscurto (te, (x:xs))
 
 
 
-=======
->>>>>>> 2d019643ae290dab0aece96a0e6286631eb0c7b9
 {-
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mKStdGen seed))

@@ -46,12 +46,12 @@ tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
   | x==Tronco || x==Arvore = False
   |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
 -}
-inicio :: Show a => a -> [Char]
-inicio x =(take 3(show x))
-depara :: Terreno -> String
-depara (Rio vel) = "Rio"
-depara (Estrada  vel) = "Est" 
-depara Relva =  "Rel"
+inicioantigo :: Show a => a -> [Char]
+inicioantigo x =(take 3(show x))
+inicio :: Terreno -> String
+inicio (Rio vel) = "Rio"
+inicio (Estrada  vel) = "Est" 
+inicio Relva =  "Rel"
 --  deriving (Show(Int-> Mapa))
 obsnaonenhum :: Terreno -> Obstaculo
 obsnaonenhum (Rio vel) = Tronco
