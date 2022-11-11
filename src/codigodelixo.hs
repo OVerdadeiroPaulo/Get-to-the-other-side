@@ -50,8 +50,8 @@ inicio :: Show a => a -> [Char]
 inicio x =(take 3(show x))
 depara :: Terreno -> String
 depara (Rio vel) = "Rio"
-depara (Estrada  vel) = "Estrada" 
-depara Relva =  "Relva"
+depara (Estrada  vel) = "Est" 
+depara Relva =  "Rel"
 --  deriving (Show(Int-> Mapa))
 obsnaonenhum :: Terreno -> Obstaculo
 obsnaonenhum (Rio vel) = Tronco
