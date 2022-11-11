@@ -15,6 +15,7 @@ import LI12223 (Mapa)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 import Data.String (String)
+import Lixo (obsnaonenhum)
 
 
 {-estendeMapa :: Mapa -> Int -> Mapa 
@@ -127,6 +128,13 @@ isRelva2 n (Mapa l ((te,obs):xs)) | inicio te == "Rel" = isRelva2 (n+1) (Mapa l 
                                   | otherwise = False
 
 
+proximosObstaculosValidoscurto :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
+proximosObstaculosValidoscurto _ (terr, []) = [Nenhum, (obsnaonenhum terr)]
+proximosObstaculosValidoscurto n (te, (x:xs)) |  tipobscurto (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
+                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) = [Nenhum,obsnaonenhum te]                     
+                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | otherwise = []
+
 {-|Funcao que verifica os possiveis proximos obstaculos validos-}
 proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
@@ -151,6 +159,11 @@ tipobs (te, (x:xs))
   | inicio te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
   | otherwise = False
 
+tipobscurto :: (Terreno,[Obstaculo]) -> Bool
+tipobscurto (_, []) = True
+tipobscurto (te, (x:xs))
+  |x == obsnaonenhum te  || x == Nenhum = tipobscurto (te, xs)
+  | otherwise = False
 
 
 {-Funcao que verifica se o terreno e Rio-}

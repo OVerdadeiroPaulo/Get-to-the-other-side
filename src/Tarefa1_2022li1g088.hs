@@ -81,10 +81,8 @@ veostroncos (a, []) = True
 veostroncos (a,[h,t]) = True
 veostroncos vari@(Rio vel,(h:t))
   | head x == Tronco && length x > 5 = False
-  | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) > 5 = False
-  | otherwise = True
-      where (x:xs) = agrupaobs (h:t)
-
+  | otherwise = veostroncos (Rio vel,(t))
+      where (x:xs) = agrupaobs (h:t) ++ agrupaobs (h:t)
 
 {-|auxiliar para veroscarrose verostroncos-}
 agrupaobs :: Eq a => [a] -> [[a]]
@@ -94,17 +92,18 @@ agrupaobs (x:xs)
   | elem x (head a) = (x: (head a)) : tail a
   | otherwise = [x] : a
      where a = agrupaobs xs
-
+     
+{-funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
+outra x = not (elem True( map (possivel) (agrupaobs  x)))
+possivel x = length x>5 && head x == Tronco -}
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
 veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
 veoscarros (a,[h,t]) = True
 veoscarros vari@(Estrada vel,(h:t))
-  | head x == Carro && length x > 3 = False
-  | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) > 3 = False
-  | otherwise = True
-      where (x:xs) = agrupaobs (h:t)
-veoscarros (_,(x:xs)) = True
+  | head x == Carro && length x > 5 = False
+  | otherwise = veoscarros (Estrada vel,(t))
+      where (x:xs) = agrupaobs (h:t) ++ agrupaobs (h:t)
 
 
 {-|juncao da veoscarros e veostroncos-}
@@ -124,8 +123,8 @@ obsemlinha (Mapa l (((terr, obs):xs)))
 terrenoscontiguos :: Mapa -> Bool
 terrenoscontiguos (Mapa _ (([]))) = True
 terrenoscontiguos mapa@(Mapa l (((x):xs)))
-  | (inicio (fst(head a)) == "Est" && length (head (agrupaterrenos mapa)) >5 )|| (inicio (fst(head a))  == "Rel" && length (head (agrupaterrenos mapa))  > 5) = False
-  | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
+  | (inicio (fst(head a)) == "Est" && length (a) >5 )|| (inicio (fst(head a))  == "Rel" && length (a)  > 5) = False
+  | inicio (fst(head a)) == "Rio" && length (a) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
 {-| funcao que devolve uma string com os primeiros 3 caracteres da lista -}
