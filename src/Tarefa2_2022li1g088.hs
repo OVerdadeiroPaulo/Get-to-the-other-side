@@ -16,14 +16,6 @@ import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 
 
-{-estendeMapa :: Mapa -> Int -> Mapa 
-estendeMapa (Mapa l linha) a = let  te' = proximosTerrenosValidos (Mapa l linha)
-                                            te2 :: Int -> [Terreno] -> Terreno
-                                            te2 a te' | mod (aleatoriode0a100 a) 2 == 0 = (head te') 
-                                                      | aleatoriode0a100 a >= 50 = (last te')
-                                                      | otherwise = head (tail te') 
-                               in  Mapa l ((te2,obs2): linha)
--}
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
