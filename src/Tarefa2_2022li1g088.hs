@@ -152,3 +152,4 @@ randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mKStdGen seed))
 -}
 
+mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])

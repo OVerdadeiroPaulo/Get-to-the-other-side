@@ -14,19 +14,23 @@ import Control.Arrow (Arrow(first))
 
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
-  | vervazios listadeobs && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && obsemlinha mapa && terrenoscontiguos mapa = True
+  | vervariosvazios mapa && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && obsemlinha mapa && terrenoscontiguos mapa = True
   | otherwise = False
 
 
-{-|Funcao que verifica que tem algum espaço com Nenhum obstaculo-}
-vervazios :: [Obstaculo] -> Bool
-vervazios [] = False
-vervazios (x:xs) 
+{-|Funcao auxiliar que verifica que tem algum espaço com Nenhum obstaculo numa linha-}
+vervazios :: (Terreno,[Obstaculo]) -> Bool
+vervazios (terr,[]) = False
+vervazios (terr,(x:xs) )
   | x== Nenhum = True
-  |otherwise = vervazios xs
+  |otherwise = vervazios (terr,xs)
+{-|Funcao  que verifica que tem algum espaço com Nenhum obstaculo num Mapa usando a vervazios-}
+
+vervariosvazios :: Mapa -> Bool
+vervariosvazios mapa@(Mapa l ((par@(terr, (o:bs)):xs)))  = vervazios par ||  (vervariosvazios  (mapa))
+                                                   where ((a,(y:ys)):ls) = xs
 {-|funcao que valida que a largura é do tamanho da lista de obstaculos-}
-vernrobstaculosfailed :: Mapa -> Bool
-vernrobstaculosfailed (Mapa l ((_ , k):xs)) = l == length k
+
 
 
 vernrobstaculos :: Mapa -> Bool
@@ -35,18 +39,7 @@ vernrobstaculos (Mapa l ((_ , k):xs))
   | l == length k = vernrobstaculos (Mapa l (xs))
   | otherwise = False
 {-|funcao que verifica se o Terreno tem algum Obstaculo nao permitido-}
-tipodeobsaux :: Mapa -> Bool
-tipodeobsaux (Mapa larg (((_, []) :y))) = True
-tipodeobsaux (Mapa larg (((Relva, (x:xs)):ys)))
-  | x==Carro ||x==Tronco = False
-  | otherwise = tipodeobsaux (Mapa larg (((Relva, (xs)):ys)))
-tipodeobsaux (Mapa larg (((Rio vel, (x:xs)):ys)))
-  | x==Carro ||x==Arvore = False
-  |otherwise = tipodeobsaux (Mapa larg (((Rio vel, (xs)):ys)))
-tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
-  | x==Tronco || x==Arvore = False
-  |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
- {-|versaO 2-}
+
 tipodeaux :: Mapa -> Bool
 tipodeaux (Mapa l []) = True
 tipodeaux (Mapa l (((terr, []):ys))) = True
@@ -59,7 +52,7 @@ tipodeaux (Mapa l ([(terr, (x:xs))]))
   | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
   | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
   | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
-  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
+  | otherwise = tipodeaux (Mapa l [(terr, (xs))])
 
 tipodeaux (Mapa l (((terr, (x:xs)):ys)))
   | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
@@ -138,8 +131,10 @@ terrenoscontiguos mapa@(Mapa l (((x):xs)))
   | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
+{-| funcao que devolve uma string com os primeiros 3 caracteres da lista -}
 inicio :: Show a => a -> [Char]
 inicio x =(take 3(show x))
+{-|auxiliar para terrenos contiguos que cria uma lista de listas pelo tipo de terreno similar a group-}
 agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
 
@@ -158,8 +153,8 @@ parteste2 = (Rio 6 ,[Nenhum, Tronco, Tronco,Tronco, Tronco , Tronco])
 mapafailterrcontiguos = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
 mapafailnonexhaust =  Mapa 3 [(Rio 2, [Nenhum,Tronco,Carro])]
 
-
-
+linhavervaz= [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]
+vervaziosfail = [Tronco,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]
 novoteste = Mapa 12 [(Estrada 3,[Carro,Carro,Carro,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),
         (Estrada (-3),[Carro,Nenhum,Carro,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Carro,Nenhum,Nenhum]),
         (Relva,[Arvore,Nenhum,Arvore,Arvore,Arvore,Nenhum,Arvore,Arvore,Arvore,Nenhum,Arvore,Arvore]),

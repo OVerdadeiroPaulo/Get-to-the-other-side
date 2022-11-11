@@ -13,16 +13,17 @@ import Data.Data (dataTypeRep)
 import Data.Type.Equality (TestEquality(testEquality))
 
 animaJogo :: Jogo -> Jogada -> Jogo
-animaJogo (Jogo (Jogador (a,b)) (mapa@(Mapa l (((terr, (x:xs)):ys))))) jogada = (Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Mapa l (((terr, (x:xs)):ys)))))
+animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, (x:xs)):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Mapa l ((terr, (x:xs)):ys)))
 
 {-|funcao que nos diz a posicao para a qual o jogador se desloca-}
 posicaoapos :: Jogador -> Jogada -> Mapa -> Coordenadas
 posicaoapos (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
-  | jogada == Move Cima = (fst coords, (snd coords-1))
-  | jogada == Move Baixo = (fst coords, (snd coords+1))
-  | jogada == Move Esquerda = ((fst coords -1), (snd coords))
-  | jogada == Move Direita = ((fst coords +1), (snd coords))
+  | jogada == Move Cima = (fst coords, snd coords-1)
+  | jogada == Move Baixo = (fst coords, snd coords+1)
+  | jogada == Move Esquerda = (fst coords -1, snd coords)
+  | jogada == Move Direita = (fst coords +1, snd coords)
   | jogada == Parado = coords
+{-| funcao para o movimento do jogador ja c'om os casos em que o movimento é impossivel-}  
 deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador 
 deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | veobstaculonacoordenada mapa (ordena) == Arvore = Jogador coords
