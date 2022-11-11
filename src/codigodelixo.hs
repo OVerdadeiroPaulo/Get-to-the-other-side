@@ -70,3 +70,45 @@ proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:
                                          | inicio te == "Est" && tipobs (te, (x:xs)) && 
                                          n > length (x:xs) = [Nenhum, Carro]
                                          | otherwise = []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tipodeobs :: Mapa -> Bool
+tipodeobs (Mapa larg ([]))= True
+tipodeobs (Mapa larg (((terr, (xs)):ys))) 
+  | tipodeauxANTIGA (Mapa larg (((terr, (xs)):ys))) == False = False
+  | otherwise = tipodeauxANTIGA (Mapa larg ((ys)))
+
+
+
+tipodeauxANTIGA :: Mapa -> Bool
+tipodeauxANTIGA (Mapa l []) = True
+tipodeauxANTIGA (Mapa l (((terr, []):ys))) = True
+tipodeauxANTIGA (Mapa l (((terr, [x]):ys)))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = True
+tipodeauxANTIGA (Mapa l ([(terr, (x:xs))]))
+  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
+  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
+  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
+  | otherwise = tipodeauxANTIGA (Mapa l [(terr, (xs))])
+
+tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
+

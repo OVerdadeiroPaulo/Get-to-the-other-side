@@ -46,56 +46,25 @@ obsnaonenhum (Estrada vel) = Carro
 obsnaonenhum (Relva) = Arvore 
 {-|Funcao auxiliar que verifica se o Terreno tem algum Obstaculo nao permitido, devolvendo False se encontrar algum obstaculo nao permitido ou True se chegar ao fim da lista sem isto acontecer.Tem um caso de excepçao para um Terreno so com um obstaculo e um mapa só com um Terreno -}
 
-tipodeauxANTIGA :: Mapa -> Bool
-tipodeauxANTIGA (Mapa l []) = True
-tipodeauxANTIGA (Mapa l (((terr, []):ys))) = True
-tipodeauxANTIGA (Mapa l (((terr, [x]):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+
+tipodeaux :: (Terreno,  [Obstaculo]) -> Bool
+tipodeaux (terr, []) = True
+tipodeaux (terr, [x])
+  |(x /= Nenhum && x/= obsnaonenhum terr) = False
   | otherwise = True
-tipodeauxANTIGA (Mapa l ([(terr, (x:xs))]))
-  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
-  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
-  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
-  | otherwise = tipodeauxANTIGA (Mapa l [(terr, (xs))])
-
-tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
-
-
-
-tipodeaux :: Mapa -> Bool
-tipodeaux (Mapa l []) = True
-tipodeaux (Mapa l (((terr, []):ys))) = True
-tipodeaux (Mapa l (((terr, [x]):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = True
-tipodeaux (Mapa l ([(terr, (x:xs))]))
-  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
-  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
-  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
-  | otherwise = tipodeaux (Mapa l [(terr, (xs))])
-
-tipodeaux (Mapa l (((terr, (x:xs)):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
+tipodeaux (terr, (x:xs))
+  |(x /= Nenhum && x/= obsnaonenhum terr) = False
+  | otherwise = tipodeaux (terr, (xs))
 
 {-|Funcao que valida se existe algum obstaculo invalido em varias linhas usando a tipodeauxANTIGA, devolvendo False se encontrar algum obstaculo inválido e True se chegar ao fim do mapa sem o encontrar. -}
+
+
 
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([]))= True
 tipodeobs (Mapa larg (((terr, (xs)):ys))) 
-  | tipodeauxANTIGA (Mapa larg (((terr, (xs)):ys))) == False = False
-  | otherwise = tipodeauxANTIGA (Mapa larg ((ys)))
-
+  | not (tipodeaux (terr, (xs))) = False
+  | otherwise = tipodeobs (Mapa larg ((ys))) 
 {-|Funcao que valida que rios contiguos tem velocidade oposta, devolvendo False se uma velocidade multiplicada pela outra for maior que 0 ou igual e True caso seja inferior a zero para todos os pares de rios. Devolve true tambem se aplicada a um terreno que nao seja Rio-}
 
 riospostos :: Mapa -> Bool
@@ -110,7 +79,7 @@ riospostos _ = True
 veostroncos :: (Terreno, [Obstaculo]) -> Bool
 veostroncos (a, []) = True
 veostroncos (a,[h,t]) = True
-veostroncos vari@(a,(h:t))
+veostroncos vari@(Rio vel,(h:t))
   | head x == Tronco && length x > 5 = False
   | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) > 5 = False
   | otherwise = True
@@ -130,19 +99,19 @@ agrupaobs (x:xs)
 veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
 veoscarros (a,[h,t]) = True
-veoscarros vari@(a,(h:t))
+veoscarros vari@(Estrada vel,(h:t))
   | head x == Carro && length x > 3 = False
   | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) > 3 = False
   | otherwise = True
       where (x:xs) = agrupaobs (h:t)
-
+veoscarros (_,(x:xs)) = True
 
 
 {-|juncao da veoscarros e veostroncos-}
 obsemlinha :: Mapa -> Bool
 obsemlinha (Mapa l ([])) = True
 obsemlinha (Mapa l (((terr, obs):xs))) 
- | veoscarros (terr, obs) == False || veostroncos (terr, obs) == False = False
+ | not (veoscarros (terr, obs) ) || not(veostroncos (terr, obs) )= False
  | otherwise = obsemlinha (Mapa l ((xs))) 
 
 
