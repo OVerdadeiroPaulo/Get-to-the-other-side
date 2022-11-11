@@ -18,31 +18,17 @@ import Data.String (String)
 import Lixo (obsnaonenhum)
 
 
-{-estendeMapa :: Mapa -> Int -> Mapa 
-estendeMapa (Mapa l linha) a = let  te' = proximosTerrenosValidos (Mapa l linha)
-                                            te2 :: Int -> [Terreno] -> Terreno
-                                            te2 a te' | mod (aleatoriode0a100 a) 2 == 0 = (head te') 
-                                                      | aleatoriode0a100 a >= 50 = (last te')
-                                                      | otherwise = head (tail te') 
-                               in  Mapa l ((te2,obs2): linha)
--}
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                                  where te2 = ter28 a (Mapa l ((te,obs):xs)) 
                                        obs2 = obs28 l (te2, []) a
-                                        
+                              
 
-{-estendeMapa :: Show (Int -> Mapa) => Mapa -> Int -> Mapa
-estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
-                                 where te2 = ter28 a (Mapa l ((te,obs):xs)) 
-                                       obs2 = obs28 l (te2, []) a
-                                        -}
-
-                                  
+{-|Funcao que escolhe um Terreno aleatorio-}                                  
 ter28:: Int -> Mapa -> Terreno
-ter28 a te' | mod (aleatoriode0a100 a) 2 == 0 = head (proximosTerrenosValidos te')
-            | ((aleatoriode0a100 a) + 50) >= 100 = last (proximosTerrenosValidos te')
+ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te')
+            | aleatoriofinal a == 2 = last (proximosTerrenosValidos te')
             | otherwise = head (tail (proximosTerrenosValidos te'))                             
 {-|Funcao responsavel por selecionar a lista de obstaculos-}
 obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
@@ -52,25 +38,6 @@ obs28 l (te2, b) a | l == (length b) = b
                                   in obs28 l (te2, b ++ [obs3] ) a 
 
 
-
-{-obs' :: Int -> Int -> (Terreno,[Obstaculo]) -> Obstaculo
-obs' a l (te2, (x:xs)) | mod (aleatoriode0a100 a) 2 == 0 = head (proximosObstaculosValidos l (te2, (x:xs)))
-                       | otherwise = last (proximosObstaculosValidos l (te2, (x:xs)))-}
-                      
-{-}                                       
-obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
-obs28 l (te2, b) a | l == (length b) = b
-                   | b == [] || l > length b = obs28 l (te2, (obs' a l (te2, b)): b) a
--}
-{-
-estendeMapa :: Mapa -> Int -> Mapa
-estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obstaculos):xs)) 
-                                    | terreno == Estrada 0 = (Mapa la ((Estrada ve, obstaculos):xs))
-                                    | terreno == Relva = (Mapa la ((relva, obstaculos):xs))
-            where obstaculos = proximosObstaculosValidos la  x 
-                  terreno = proximosTerrenosValidos (Mapa la linhas @(x:xs))
-                  ve = (head randomIntsL)
--}
 {-|Funcao que cria um numero aleatorio entre 0 a 100-}
 unlist::[a] -> a
 unlist (x:xs) =  x
@@ -81,16 +48,20 @@ aleatoriode0a100 k =1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
 aleatoriofinal k= 1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (3))
 
+
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
-proximosTerrenosValidos (Mapa l ((te,obs):xs))  | isrioFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Relva]
-                                                | isestradaFIM (Mapa l ((te,obs):xs)) = [Rio 0, Relva]
-                                                | isrelvaFIM (Mapa l ((te,obs):xs)) = [Estrada 0, Rio 0]
-                                 | otherwise = [Rio 0, Estrada 0, Relva]
+proximosTerrenosValidos mapa@(Mapa l ((te,obs):xs))
+                                              | terrenoscontiguos mapa && isrioFIM mapa = [Estrada 0, Relva]
+                                              | terrenoscontiguos mapa && isestradaFIM mapa = [Rio 0, Relva]
+                                              | terrenoscontiguos mapa && isrelvaFIM mapa = [Estrada 0, Rio 0]
+                                              | not (terrenoscontiguos mapa ) = []
+                                              | otherwise = [Rio 0, Estrada 0, Relva]
 
+{-
 {-funcao aprova de bala-}
-{-proximosTerrenosValidos :: Mapa -> [Terreno]
+proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
 proximosTerrenosValidos mapa@(Mapa l ((te,obs):xs))| tipodeobs mapa && terrenoscontiguos mapa && isrioFIM mapa = [Estrada 0, Relva]
                                                    | tipodeobs mapa && terrenoscontiguos mapa && isestradaFIM mapa = [Rio 0, Relva]
@@ -140,7 +111,8 @@ proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada vel, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
+proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]                        
+                                         |inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Tronco (x:xs)) = [Tronco]                     
                                          | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
                                          | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
                                          | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
@@ -159,6 +131,7 @@ tipobs (te, (x:xs))
   | inicio te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
   | otherwise = False
 
+<<<<<<< HEAD
 tipobscurto :: (Terreno,[Obstaculo]) -> Bool
 tipobscurto (_, []) = True
 tipobscurto (te, (x:xs))
@@ -172,6 +145,8 @@ tipobscurto (te, (x:xs))
 
 
 
+=======
+>>>>>>> 2d019643ae290dab0aece96a0e6286631eb0c7b9
 {-
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mKStdGen seed))
