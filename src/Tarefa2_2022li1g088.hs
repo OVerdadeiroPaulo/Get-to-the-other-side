@@ -16,33 +16,39 @@ import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 
 
-estendeMapa :: Mapa -> Int -> Mapa 
+{-estendeMapa :: Mapa -> Int -> Mapa 
 estendeMapa (Mapa l linha) a = let  te' = proximosTerrenosValidos (Mapa l linha)
                                             te2 :: Int -> [Terreno] -> Terreno
                                             te2 a te' | mod (aleatoriode0a100 a) 2 == 0 = (head te') 
                                                       | aleatoriode0a100 a >= 50 = (last te')
                                                       | otherwise = head (tail te') 
                                in  Mapa l ((te2,obs2): linha)
-{-
-estendeMapa :: Mapa -> Int -> Mapa 
-estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
-                            where te' = proximosTerrenosValidos (Mapa l ((te,obs):xs))
-                                  te2 :: Int -> Terreno
-                                  te2 a | mod (aleatoriode0a100 a) 2 == 0 = head te' 
-                                        | aleatoriode0a100 a >= 50 = last te'
-                                        | otherwise = head (tail te') 
-  -}                                                  
-obs' :: Int -> Int -> (Terreno,[Obstaculo]) -> Obstaculo
+-}
+{-|Funcao estendemapa, que adiciona uma linha ao mapa -}
+estendeMapa :: Mapa -> Int -> Mapa
+estendeMapa (Mapa l ((te,obs):xs)) a = let  te' = proximosTerrenosValidos (Mapa l((te,obs):xs))                                  
+                                            te2 = if mod (aleatoriode0a100 a) 2 == 0 then (head te') else if(aleatoriode0a100 a) >= 50 then (last te') else head (tail te') 
+                                            obs2 = obs28 l (te2, []) a
+                                        in  Mapa l ((te2,obs2):(te,obs):xs)
+                             
+{-|Funcao responsavel por selecionar a lista de obstaculos-}
+obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
+obs28 l (te2, b) a | l == (length b) = b
+                   | otherwise = let obst = proximosObstaculosValidos l (te2, b)
+                                     obs3 = if mod (aleatoriode0a100 a) 2 == 0 then head obst else last obst
+                                  in obs28 l (te2, b ++ [obs3] ) a 
+
+
+
+{-obs' :: Int -> Int -> (Terreno,[Obstaculo]) -> Obstaculo
 obs' a l (te2, (x:xs)) | mod (aleatoriode0a100 a) 2 == 0 = head (proximosObstaculosValidos l (te2, (x:xs)))
-                       | otherwise = last (proximosTerrenosValidos l (te2, (x:xs)))
-
-obs2 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
-obs2 l (te2, (x:xs)) a | l == (length (x:xs)) = (x:xs)
-                       | otherwise = obs2 l (te2, (x:xs) ++ [obs' a l (te2, (x:xs))])
+                       | otherwise = last (proximosObstaculosValidos l (te2, (x:xs)))-}
                       
-                                       
-
-
+{-}                                       
+obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
+obs28 l (te2, b) a | l == (length b) = b
+                   | b == [] || l > length b = obs28 l (te2, (obs' a l (te2, b)): b) a
+-}
 {-
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa la linhas@(x:xs)) | terreno == Rio 0 = (Mapa la ((Rio ve, obstaculos):xs)) 
