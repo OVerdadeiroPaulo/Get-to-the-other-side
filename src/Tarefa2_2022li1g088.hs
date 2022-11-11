@@ -51,10 +51,12 @@ unlist (x:xs) =  x
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
-aleatoriode0a100 k =1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
+aleatoriode0a100 k =1+ abs ((head(randomIntsL (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
-aleatoriofinal k= 1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (3))
-aleatorio4men4aux k = (1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (8))) 
+aleatoriofinal k= 1+ abs ((head(randomIntsL (k) (1) )) `mod` (3))
+aleatorio4men4aux :: Int -> Int
+aleatorio4men4aux k = 1+ abs ((head(randomIntsL (k) (1) )) `mod` (8)) 
+aleatorio4final :: Int -> Int
 aleatorio4final k 
   |aleatorio4men4aux >= 5 = aleatorio4men4aux / 2
   | otherwise = -aleatorio4men4aux
