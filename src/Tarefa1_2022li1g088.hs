@@ -46,77 +46,45 @@ obsnaonenhum (Estrada vel) = Carro
 obsnaonenhum (Relva) = Arvore 
 {-|Funcao auxiliar que verifica se o Terreno tem algum Obstaculo nao permitido, devolvendo False se encontrar algum obstaculo nao permitido ou True se chegar ao fim da lista sem isto acontecer.Tem um caso de excepçao para um Terreno so com um obstaculo e um mapa só com um Terreno -}
 
-tipodeauxANTIGA :: Mapa -> Bool
-tipodeauxANTIGA (Mapa l []) = True
-tipodeauxANTIGA (Mapa l (((terr, []):ys))) = True
-tipodeauxANTIGA (Mapa l (((terr, [x]):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+
+tipodeaux :: (Terreno,  [Obstaculo]) -> Bool
+tipodeaux (terr, []) = True
+tipodeaux (terr, [x])
+  |(x /= Nenhum && x/= obsnaonenhum terr) = False
   | otherwise = True
-tipodeauxANTIGA (Mapa l ([(terr, (x:xs))]))
-  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
-  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
-  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
-  | otherwise = tipodeauxANTIGA (Mapa l [(terr, (xs))])
-
-tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
-
-
-
-tipodeaux :: Mapa -> Bool
-tipodeaux (Mapa l []) = True
-tipodeaux (Mapa l (((terr, []):ys))) = True
-tipodeaux (Mapa l (((terr, [x]):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = True
-tipodeaux (Mapa l ([(terr, (x:xs))]))
-  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
-  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
-  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
-  | otherwise = tipodeaux (Mapa l [(terr, (xs))])
-
-tipodeaux (Mapa l (((terr, (x:xs)):ys)))
-  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
-  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
-  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
-  | otherwise = tipodeaux (Mapa l ([(terr, (xs))]))
+tipodeaux (terr, (x:xs))
+  |(x /= Nenhum && x/= obsnaonenhum terr) = False
+  | otherwise = tipodeaux (terr, (xs))
 
 {-|Funcao que valida se existe algum obstaculo invalido em varias linhas usando a tipodeauxANTIGA, devolvendo False se encontrar algum obstaculo inválido e True se chegar ao fim do mapa sem o encontrar. -}
+
+
 
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([]))= True
 tipodeobs (Mapa larg (((terr, (xs)):ys))) 
-  | tipodeauxANTIGA (Mapa larg (((terr, (xs)):ys))) == False = False
-  | otherwise = tipodeauxANTIGA (Mapa larg ((ys)))
-
+  | not (tipodeaux (terr, (xs))) = False
+  | otherwise = tipodeobs (Mapa larg ((ys))) 
 {-|Funcao que valida que rios contiguos tem velocidade oposta, devolvendo False se uma velocidade multiplicada pela outra for maior que 0 ou igual e True caso seja inferior a zero para todos os pares de rios. Devolve true tambem se aplicada a um terreno que nao seja Rio-}
 
 riospostos :: Mapa -> Bool
+riospostos (Mapa larg ([(terr,x)])) = True
 riospostos (Mapa larg ([])) = True
 riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
   | vel1 * vel2 >= 0 = False
-  | otherwise = riospostos (Mapa larg ((xs)))
-riospostos _ = True
+  | otherwise = riospostos (Mapa larg ((Rio vel2, obs):xs))
+riospostos  (Mapa larg ((terr1, obst): (terr, obs):xs)) = riospostos (Mapa larg ((terr, obs):xs))
 {-|Funcao que valida o comprimento dos obstaculos(troncos) -}
 
 
 veostroncos :: (Terreno, [Obstaculo]) -> Bool
 veostroncos (a, []) = True
 veostroncos (a,[h,t]) = True
-veostroncos vari@(a,(h:t))
+veostroncos vari@(Rio vel,(h:t))
   | head x == Tronco && length x > 5 = False
-  | head x == Tronco &&  elem Tronco (last xs) && (length x) + (length (last (x:xs))) > 5 = False
-  | otherwise = True
-      where (x:xs) = agrupaobs (h:t)
-
-
+  | otherwise = veostroncos (Rio vel,(t))
+      where (x:xs) = agrupaobs (h:t) ++ agrupaobs (h:t)
+veostroncos _ = True
 {-|auxiliar para veroscarrose verostroncos-}
 agrupaobs :: Eq a => [a] -> [[a]]
 agrupaobs [] = []
@@ -125,25 +93,28 @@ agrupaobs (x:xs)
   | elem x (head a) = (x: (head a)) : tail a
   | otherwise = [x] : a
      where a = agrupaobs xs
-
+     
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
 veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
 veoscarros (a,[h,t]) = True
-veoscarros vari@(a,(h:t))
-  | head x == Carro && length x > 3 = False
-  | head x == Carro &&  elem Carro (last xs) && (length x) + (length (last (x:xs))) > 3 = False
-  | otherwise = True
-      where (x:xs) = agrupaobs (h:t)
-
-
+veoscarros vari@(Estrada vel,(h:t))
+  | head x == Carro && length x > 5 = False
+  | otherwise = veoscarros (Estrada vel,(t))
+      where (x:xs) = agrupaobs (h:t) ++ agrupaobs (h:t)
+veoscarros _ = True
 
 {-|juncao da veoscarros e veostroncos-}
 obsemlinha :: Mapa -> Bool
 obsemlinha (Mapa l ([])) = True
 obsemlinha (Mapa l (((terr, obs):xs))) 
- | veoscarros (terr, obs) == False || veostroncos (terr, obs) == False = False
+ | not (veoscarros (terr, obs) ) || not(veostroncos (terr, obs) )= False
  | otherwise = obsemlinha (Mapa l ((xs))) 
+
+{-funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
+outra x = not (elem True( map (possivel) (agrupaobs  x)))
+possivel x = length x>5 && head x == Tronco -}
+
 
 
 
@@ -155,22 +126,29 @@ obsemlinha (Mapa l (((terr, obs):xs)))
 terrenoscontiguos :: Mapa -> Bool
 terrenoscontiguos (Mapa _ (([]))) = True
 terrenoscontiguos mapa@(Mapa l (((x):xs)))
-  | (inicio (fst(head a)) == "Est" && length (head (agrupaterrenos mapa)) >5 )|| (inicio (fst(head a))  == "Rel" && length (head (agrupaterrenos mapa))  > 5) = False
-  | inicio (fst(head a)) == "Rio" && length (head (agrupaterrenos mapa)) > 4 = False
+  | (inicionovo (fst(head a)) == "Est" && length (a) >5 )|| (inicionovo (fst(head a))  == "Rel" && length (a)  > 5) = False
+  | inicionovo (fst(head a)) == "Rio" && length (a) > 4 = False
   | otherwise = terrenoscontiguos (Mapa l (((xs))))
       where (a:b) = agrupaterrenos mapa
-{-| funcao que devolve uma string com os primeiros 3 caracteres da lista -}
-inicio :: Show a => a -> [Char]
-inicio x =(take 3(show x))
+
 {-|auxiliar para terrenos contiguos que cria uma lista de listas pelo tipo de terreno similar a group-}
 agrupaterrenos :: Mapa -> [[(Terreno, [Obstaculo])]]
 agrupaterrenos mapa@(Mapa _ (((terr, obst):xs))) = groupBy (\x y -> (elem (take 3(show x)) [take 3 (show  y)]))  ((terr, obst) : xs)
+{-| funcao que devolve uma string com os primeiros 3 caracteres da lista -}
+inicionovo :: Terreno -> String
+inicionovo (Rio vel) = "Rio"
+inicionovo (Estrada  vel) = "Est" 
+inicionovo Relva =  "Rel"
+{-|Versao antiga menos eficiente da funçao inicionovo-}
+inicio :: Show a => a -> [Char]
+inicio x =(take 3(show x))
 
-mapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-mapatest2 = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
-mapatestfailtipodeobs = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Carro,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
-mapatestfaillargura = Mapa 8 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
-mapatestfailrio = Mapa 9 ([(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (3), [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
+
+mapatest = Mapa 4 [(Rio 2, [Nenhum,Tronco,Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])]
+mapatest2 = Mapa 9 [(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])]
+mapatestfailtipodeobs = Mapa 9 [(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Carro,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])]
+mapatestfaillargura = Mapa 8 [(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])]
+mapatestfailrio = Mapa 9 [(Rio 2, [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Rio (-1), [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])]
 mapamapatest = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
 mapafail = Mapa 9 ([(Rio 2, [Tronco,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Tronco,Nenhum,Nenhum]),(Estrada 2, [Nenhum,Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Relva, [Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Nenhum])])
 mapaarvore = Mapa 2 ([(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore]),(Relva, [Nenhum,Arvore])])
@@ -197,3 +175,7 @@ novoteste = Mapa 12 [(Estrada 3,[Carro,Carro,Carro,Nenhum,Nenhum,Carro,Carro,Car
         (Relva,[Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Arvore]),
         (Rio (-5),[Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco,Nenhum,Tronco]),
         (Rio 2,[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Nenhum])]
+falsoNaVelocidadeOpostadosRios =Mapa 2 [(Estrada 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio (2), [Nenhum,Tronco])]
+falsoDevidoAoTipoDeObstaculos =  Mapa 2 [(Estrada 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Carro])]
+falsoemTerrenosContiguosRios = Mapa 2 [(Estrada 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco])]
+falsoNoComprimentodosObstaculos = Mapa 2 [(Estrada 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio (2), [Nenhum,Nenhum,Tronco])]

@@ -46,12 +46,12 @@ tipodeobsaux (Mapa larg (((Estrada vel, (x:xs)):ys)))
   | x==Tronco || x==Arvore = False
   |otherwise = tipodeobsaux (Mapa larg (((Estrada vel, (xs)):ys)))
 -}
-inicio :: Show a => a -> [Char]
-inicio x =(take 3(show x))
-depara :: Terreno -> String
-depara (Rio vel) = "Rio"
-depara (Estrada  vel) = "Est" 
-depara Relva =  "Rel"
+inicioantigo :: Show a => a -> [Char]
+inicioantigo x =(take 3(show x))
+inicionovo :: Terreno -> String
+inicionovo (Rio vel) = "Rio"
+inicionovo (Estrada  vel) = "Est" 
+inicionovo Relva =  "Rel"
 --  deriving (Show(Int-> Mapa))
 obsnaonenhum :: Terreno -> Obstaculo
 obsnaonenhum (Rio vel) = Tronco
@@ -59,14 +59,58 @@ obsnaonenhum (Estrada vel) = Carro
 obsnaonenhum (Relva) = Arvore
 proxobsval :: (Terreno,[Obstaculo]) -> [Obstaculo]
 proxobsval par@(terr,[]) = [Nenhum, (obsnaonenhum terr)]
-proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
-proximosObstaculosValidos _ (terr, []) = [Nenhum, (obsnaonenhum terr)]
-proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
-                                         | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
-                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
-                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
-                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
-                                         n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
-                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
-                                         n > length (x:xs) = [Nenhum, Carro]
+proximosObstaculosValidoscurto :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
+proximosObstaculosValidoscurto _ (terr, []) = [Nenhum, (obsnaonenhum terr)]
+proximosObstaculosValidoscurto n (te, (x:xs)) |  tipobscurto (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
+                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) = [Nenhum,obsnaonenhum te]                     
+                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
                                          | otherwise = []
+
+tipobscurto :: (Terreno,[Obstaculo]) -> Bool
+tipobscurto (_, []) = True
+tipobscurto (te, (x:xs))
+  | inicio te == "Rel" && x == Arvore || x == Nenhum = tipobscurto (te, xs) 
+  | inicio te == "Rio" && x == Tronco || x == Nenhum = tipobscurto (te, xs)
+  | inicio te == "Est" && x == Carro  || x == Nenhum = tipobscurto (te, xs)
+  | otherwise = False
+
+
+
+
+
+
+
+
+
+
+
+
+tipodeobs :: Mapa -> Bool
+tipodeobs (Mapa larg ([]))= True
+tipodeobs (Mapa larg (((terr, (xs)):ys))) 
+  | tipodeauxANTIGA (Mapa larg (((terr, (xs)):ys))) == False = False
+  | otherwise = tipodeauxANTIGA (Mapa larg ((ys)))
+
+
+
+tipodeauxANTIGA :: Mapa -> Bool
+tipodeauxANTIGA (Mapa l []) = True
+tipodeauxANTIGA (Mapa l (((terr, []):ys))) = True
+tipodeauxANTIGA (Mapa l (((terr, [x]):ys)))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = True
+tipodeauxANTIGA (Mapa l ([(terr, (x:xs))]))
+  | inicio terr == "Rel" && ( x == Carro ||  x== Tronco) = False
+  | inicio terr == "Est" && ( x == Arvore ||  x== Tronco) = False
+  | inicio terr == "Rio" && ( x == Carro ||  x== Arvore) = False
+  | otherwise = tipodeauxANTIGA (Mapa l [(terr, (xs))])
+
+tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
+  | inicio terr == "Rel" && (x == Carro || x== Tronco) = False
+  | inicio terr == "Rio" && (x == Carro || x== Arvore) = False
+  | inicio terr == "Est" && (x == Tronco || x == Arvore) = False
+  | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
+
+funcao= map (>5)( (map length (map (head == Tronco)(agrupaobs [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]))))
