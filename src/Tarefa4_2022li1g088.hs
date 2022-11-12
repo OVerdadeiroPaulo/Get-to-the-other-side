@@ -22,11 +22,14 @@ inicionovo4 :: Terreno -> String
 inicionovo4 (Rio vel) = "Rio"
 inicionovo4 (Estrada  vel) = "Est" 
 inicionovo4 Relva =  "Rel"
+
+
+
+
 mapaRioCai = Mapa 1 ([(Rio 2, [Tronco]),(Rio 2, [Nenhum])])
 mapaCarroAtropela = Mapa 1 ([(Estrada  2, [Nenhum]),(Estrada  2, [Carro])])
 mapaSaiDoMapa = Mapa 1 ([(Relva, [Nenhum])])
-
-
+jogonaoterminou = Jogo(Jogador (0,0)) mapaSaiDoMapa
 jogoAfoga = Jogo (Jogador (0,1)) mapaRioCai
 jogoAtropela = Jogo (Jogador (0,1)) mapaCarroAtropela
 jogosaidomapaYmaior= Jogo (Jogador (0,1)) mapaSaiDoMapa
