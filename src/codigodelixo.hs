@@ -114,3 +114,60 @@ tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
   | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
 
 funcao= map (>5)( (map length (map (head == Tronco)(agrupaobs [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]))))
+-- |funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
+outra x = not (elem True( map (possivel) (agrupaobs  x)))
+possivel x = length x>5 && head x == Tronco 
+{-|Versao antiga menos eficiente da funçao inicionovo-}
+inicio :: Show a => a -> [Char]
+inicio x =(take 3(show x))
+
+
+contaobstaculos :: Mapa -> Bool
+contaobstaculos (Mapa l (((terr, obs):xs))) 
+ | contador obs == True = contaobstaculos (Mapa l ((xs))) 
+ | otherwise = False
+contador :: [Obstaculo] -> Bool
+contador x = not (elem True( map (auxcontador) (agrupaobs  (x ++ x))))
+auxcontador x = (length x>5 && head x == Tronco )|| (length x>3 && head x == Carro )
+
+{-|juncao da veoscarros e veostroncos-}
+obsemlinha :: Mapa -> Bool
+obsemlinha (Mapa l ([])) = True
+obsemlinha (Mapa l (((terr, obs):xs))) 
+ | not (veoscarros (terr, obs) ) || not(veostroncos (terr, obs) )= False
+ | otherwise = obsemlinha (Mapa l ((xs))) 
+{-|funcao que valida o comprimento dos obstaculos(carros) -}
+veoscarros :: (Terreno, [Obstaculo]) -> Bool
+veoscarros (a, []) = True
+veoscarros (a,[h,t]) = True
+veoscarros vari@(terr,(h:t))
+  | head x == Carro && length x > 3 = False
+  | otherwise = veoscarros (terr,(t))
+      where (x:xs) = agrupaobs ((h:t)++(h:t))
+
+{-|Funcao que valida o comprimento dos obstaculos(troncos) -}
+veostroncos :: (Terreno, [Obstaculo]) -> Bool
+veostroncos (a, []) = True
+veostroncos (a,[h,t]) = True
+veostroncos vari@(terr,(h:t))
+  | head x == Tronco && length x > 5 = False
+  | otherwise = veostroncos ( terr,(t))
+      where (x:xs) = agrupaobs ((h:t)++(h:t))
+
+
+veosdois ::[Obstaculo] -> Int -> Bool
+veosdois [] _ = True
+veosdois  (h:t) n
+  | head x == Carro && length x > n = False
+  | otherwise = veosdois t n
+      where (x:xs) = agrupaobs ((h:t)++(h:t))
+
+
+obstseguidos :: Mapa -> Bool
+obstseguidos (Mapa l []) = True
+obstseguidos (Mapa l (((terr, (o:bs)):xs)))
+  | inicionovo terr == "Est" && veosdois (o:bs) 3 == True = obstseguidos (Mapa l ((xs)))
+  | inicionovo terr == "Est" && veosdois (o:bs) 3 ==  False = False
+  | inicionovo terr == "Rio" && veosdois (o:bs) 5 == True = obstseguidos (Mapa l ((xs)))
+  | inicionovo terr == "Rio" && veosdois (o:bs) 5 ==  False = False
+  | inicionovo terr == "Relva" = True
