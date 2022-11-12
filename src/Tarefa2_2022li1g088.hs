@@ -46,14 +46,14 @@ obs28 l (te2, b) a | l == (length b) = b
 
 {-|Funcao que cria um numero aleatorio entre 0 a 100-}
 
-randomIntsL :: Int -> Int -> [Int]
-randomIntsL seed len = take len (randoms (mkStdGen seed))
+listarandom :: Int -> Int -> [Int]
+listarandom seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
-aleatoriode0a100 k =1+ abs ((head(randomIntsL (k) (1) )) `mod` (100))
+aleatoriode0a100 k =1+ abs ((head(listarandom (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
-aleatoriofinal k= 1+ abs ((head(randomIntsL (k) (1) )) `mod` (3))
+aleatoriofinal k= 1+ abs ((head(listarandom (k) (1) )) `mod` (3))
 so4 :: Int -> Int
-so4 k = 1+ abs ((head(randomIntsL (k) (1) )) `mod` (8)) 
+so4 k = 1+ abs ((head(listarandom (k) (1) )) `mod` (8)) 
 aleatorio4final :: Int -> Int
 aleatorio4final k 
   |so4 k >= 5 =  1 + mod  (so4 k)  5
@@ -154,8 +154,8 @@ tipobscurto (te, (x:xs))
 
 
 {-
-randomIntsL :: Int -> Int -> [Int]
-randomIntsL seed len = take len (randoms (mKStdGen seed))
+listarandom :: Int -> Int -> [Int]
+listarandom seed len = take len (randoms (mKStdGen seed))
 -}
 
 mapatest22 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
