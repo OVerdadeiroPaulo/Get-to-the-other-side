@@ -17,7 +17,7 @@ import Data.List (elemIndex)
 import Data.String (String)
 
 
-{-|Funcao estendemapa, que adiciona uma linha ao mapa -}
+{-|Funcao estendemapa. Esta funcao usa as funcoes auxiliares ProximosObstaculosvalidos e   -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                                  where te2 = ter28 a (Mapa l ((te,obs):xs)) 
@@ -26,9 +26,9 @@ estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
 
 {-|Funcao que escolhe um Terreno aleatorio-}                                  
 ter28:: Int -> Mapa -> Terreno
-ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te')
-            | aleatoriofinal a == 2 = last (proximosTerrenosValidos te')
-            | otherwise = head (tail (proximosTerrenosValidos te'))                             
+ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te') vel a 
+            | aleatoriofinal a == 2 = last (proximosTerrenosValidos te') vel a
+            | otherwise = head (tail (proximosTerrenosValidos te')) vel a                              
 {-|Funcao responsavel por selecionar a lista de obstaculos-}
 obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
 obs28 l (te2, b) a | l == (length b) = b
@@ -46,6 +46,9 @@ aleatoriode0a100 :: Int -> Int
 aleatoriode0a100 k =1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
 aleatoriofinal k= 1+ abs ((unlist(randomIntsL (k) (1) )) `mod` (3))
+
+velGerada :: Int -> Int
+velGerada k = (-4) + (abs ((unlist(randomIntsL (k) (1) )) `mod` (9)))* ((unlist(randomIntsL (k) (1) )) `mod` (2))
 
 
 {-| Funcao que verifica os proximos terrenos validos-}
