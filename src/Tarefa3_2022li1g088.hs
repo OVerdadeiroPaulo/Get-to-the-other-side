@@ -83,8 +83,9 @@ daavolta (Mapa l (((terr, (x:xs)):ys))) =  (Mapa l ((giratodos(terr, (x:xs)): ma
 mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
 mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
 mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
-jogo1 :: Jogo
-jogo1 = (Jogo (Jogador (0,1)))  mapaarvore
+mapanormal = Mapa 2 [(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
 jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
 jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
-jogoTronco = (Jogo (Jogador (0,1)) mapaRioTronco) 
+jogoTronco = (Jogo (Jogador (1,0)) mapaRioTronco) 
+jogoNormal = (Jogo (Jogador (0,1)) mapanormal) 
+
