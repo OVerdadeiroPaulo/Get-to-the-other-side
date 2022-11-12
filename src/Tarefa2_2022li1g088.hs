@@ -27,15 +27,22 @@ inicionovo Relva =  "Rel"
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
-                                 where te2 = ter28 a (Mapa l ((te,obs):xs)) 
+                                 where te2 = ter29 a (te,obs) (ter28 a (Mapa l ((te,obs):xs))) 
                                        obs2 = obs28 l (te2, []) a
-                              
+                           
 
 {-|Funcao que escolhe um Terreno aleatorio-}                                  
 ter28:: Int -> Mapa -> Terreno
-ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te')
-            | aleatoriofinal a == 2 = last (proximosTerrenosValidos te')
-            | otherwise = head (tail (proximosTerrenosValidos te'))                             
+ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te')  
+            | aleatoriofinal a == 2 = last (proximosTerrenosValidos te') 
+            | otherwise = head (tail (proximosTerrenosValidos te'))   
+{-|Funcao que adiciona velocidade aos Terrenos e certifica que temos sempre rios opostos-}
+ter29 :: Int -> (Terreno,[Obstaculo]) -> Terreno -> Terreno 
+ter29 a (Rio vel1,obs) (Rio vel) | vel1 > 0 = Rio (aleatorio4'final a) 
+                                 | otherwise = Rio (aleatorio4''final a)      
+ter29 a (te,obs) (Estrada vel) | vel == 0 = Estrada (aleatorio4final a)
+                               |otherwise = Estrada vel
+ter29 a (te,obs) Relva = Relva                                         
 {-|Funcao responsavel por selecionar a lista de obstaculos-}
 obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
 obs28 l (te2, b) a | l == (length b) = b
@@ -56,8 +63,17 @@ so4 :: Int -> Int
 so4 k = 1+ abs ((head(listarandom (k) (1) )) `mod` (8)) 
 aleatorio4final :: Int -> Int
 aleatorio4final k 
-  |so4 k >= 5 =  1 + mod  (so4 k)  5
+  | so4 k >= 5 =  1 + mod  (so4 k)  5
   | otherwise =  -so4 k
+aleatorio4'final :: Int -> Int
+aleatorio4'final k 
+  | so4 k >= 5 =  -(1 + mod  (so4 k)  5)
+  | otherwise  =  -so4 k
+aleatorio4''final :: Int -> Int
+aleatorio4''final k 
+  | so4 k >= 5 =  1 + mod  (so4 k)  5
+  | otherwise = so4 k
+
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
