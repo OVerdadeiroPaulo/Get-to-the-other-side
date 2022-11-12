@@ -13,12 +13,23 @@ import LI12223
 jogoTerminou :: Jogo -> Bool
 jogoTerminou (Jogo (Jogador (a,b)) mapa@(Mapa l (lis@((terr, obs):xs)))) 
   | veobstaculonacoordenada mapa (a,b) == Carro = True
-  | a < 0 || a > l = True
-  | b < 0 || b >  length lis = True
-  | inicionovo terr == "Rio" && veobstaculonacoordenada mapa (a,b) == Nenhum = True
+  | a < 0 || a > (l-1) = True
+  | b < 0 || b >  (length lis-1) = True
+  | inicionovo4 terr == "Rio" && veobstaculonacoordenada mapa (a,b) == Nenhum = True
   | otherwise = False
 {-|auxiliar para comaparar terrenos-}
-inicionovo :: Terreno -> String
-inicionovo (Rio vel) = "Rio"
-inicionovo (Estrada  vel) = "Est" 
-inicionovo Relva =  "Rel"
+inicionovo4 :: Terreno -> String
+inicionovo4 (Rio vel) = "Rio"
+inicionovo4 (Estrada  vel) = "Est" 
+inicionovo4 Relva =  "Rel"
+mapaRioCai = Mapa 1 ([(Rio 2, [Tronco]),(Rio 2, [Nenhum])])
+mapaCarroAtropela = Mapa 1 ([(Estrada  2, [Nenhum]),(Estrada  2, [Carro])])
+mapaSaiDoMapa = Mapa 1 ([(Relva, [Nenhum])])
+
+
+jogoAfoga = Jogo (Jogador (0,1)) mapaRioCai
+jogoAtropela = Jogo (Jogador (0,1)) mapaCarroAtropela
+jogosaidomapaYmaior= Jogo (Jogador (0,1)) mapaSaiDoMapa
+jogosaidomapaYmenor= Jogo (Jogador (0,(-1))) mapaSaiDoMapa
+jogosaidomapaXmaior= Jogo (Jogador (1,0)) mapaSaiDoMapa
+jogosaidomapaXmenor= Jogo (Jogador ((-1),0)) mapaSaiDoMapa

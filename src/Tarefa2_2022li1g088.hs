@@ -12,18 +12,18 @@ import LI12223
 import Tarefa1_2022li1g088
 import System.Random
 import LI12223 (Mapa, Terreno)
-import Tarefa1_2022li1g088 (inicio)
-import Data.List (elemIndex)
+
 import Data.String (String)
+
 obsnaonenhum2 :: Terreno -> Obstaculo
 obsnaonenhum2 (Rio vel) = Tronco
 obsnaonenhum2 (Estrada vel) = Carro
 obsnaonenhum2 (Relva) = Arvore
 
-inicionovo :: Terreno -> String
-inicionovo (Rio vel) = "Rio"
-inicionovo (Estrada  vel) = "Est" 
-inicionovo Relva =  "Rel"
+inicionovo2 :: Terreno -> String
+inicionovo2 (Rio vel) = "Rio"
+inicionovo2 (Estrada  vel) = "Est" 
+inicionovo2 Relva =  "Rel"
 {-|Funcao estendemapa, que adiciona uma linha ao mapa -}
 estendeMapa :: Mapa -> Int -> Mapa
 estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
@@ -100,7 +100,7 @@ isrioFIM mapa = isRio2 1 mapa
 isRio2 :: Int -> Mapa -> Bool
 isRio2 _ (Mapa _ []) = False
 isRio2 4 (Mapa _ ((te,obs):xs)) = True 
-isRio2 n (Mapa l ((te,obs):xs)) | inicio te == "Rio" = isRio2 (n+1)  (Mapa l (xs))
+isRio2 n (Mapa l ((te,obs):xs)) | inicionovo2 te == "Rio" = isRio2 (n+1)  (Mapa l (xs))
                                 | otherwise = False
 
 {-| Funcao que verifica se temos o numero limite de estradas-}
@@ -110,7 +110,7 @@ isestradaFIM mapa = isEstrada2 1 mapa
 isEstrada2 :: Int -> Mapa -> Bool
 isEstrada2 _ (Mapa _ []) = False
 isEstrada2 5 (Mapa _ ((te,obs): xs)) = True
-isEstrada2 n (Mapa l ((te,obs): xs)) | inicio te == "Est" = isEstrada2 (n+1) (Mapa l (xs))
+isEstrada2 n (Mapa l ((te,obs): xs)) | inicionovo2 te == "Est" = isEstrada2 (n+1) (Mapa l (xs))
                                      | otherwise = False
 
 {-| Funcao que verifica se temos o numero limite de Relva-}                                    
@@ -120,7 +120,7 @@ isrelvaFIM mapa = isRelva2 1 mapa
 isRelva2 :: Int -> Mapa -> Bool
 isRelva2 _ (Mapa _ []) = False 
 isRelva2 5 (Mapa _ ((te,obs):xs)) = True
-isRelva2 n (Mapa l ((te,obs):xs)) | inicio te == "Rel" = isRelva2 (n+1) (Mapa l (xs))
+isRelva2 n (Mapa l ((te,obs):xs)) | inicionovo2 te == "Rel" = isRelva2 (n+1) (Mapa l (xs))
                                   | otherwise = False
 
 
@@ -136,14 +136,14 @@ proximosObstaculosValidos :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
 proximosObstaculosValidos _ (Rio _, []) = [Nenhum,Tronco]
 proximosObstaculosValidos _ (Relva, []) = [Nenhum,Arvore]
 proximosObstaculosValidos _ (Estrada vel, []) = [Nenhum,Carro]
-proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]                        
-                                         |inicio te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Tronco (x:xs)) = [Tronco]                     
-                                         | inicio te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
-                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
-                                         | inicio te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
-                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+proximosObstaculosValidos n (te, (x:xs)) | inicionovo2 te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]                        
+                                         |inicionovo2 te == "Rio" && tipobs (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Tronco (x:xs)) = [Tronco]                     
+                                         | inicionovo2 te == "Rio" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum,Tronco]                     
+                                         | inicionovo2 te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
+                                         | inicionovo2 te == "Rel" && tipobs (te, (x:xs)) && n > length (x:xs) = [Nenhum, Arvore]
+                                         | inicionovo2 te == "Est" && tipobs (te, (x:xs)) && 
                                          n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
-                                         | inicio te == "Est" && tipobs (te, (x:xs)) && 
+                                         | inicionovo2 te == "Est" && tipobs (te, (x:xs)) && 
                                          n > length (x:xs) = [Nenhum, Carro]
                                          | otherwise = []
 
@@ -151,9 +151,9 @@ proximosObstaculosValidos n (te, (x:xs)) | inicio te == "Rio" && tipobs (te, (x:
 tipobs :: (Terreno,[Obstaculo]) -> Bool
 tipobs (_, []) = True
 tipobs (te, (x:xs))
-  | inicio te == "Rel" && x == Arvore || x == Nenhum = tipobs (te, xs) 
-  | inicio te == "Rio" && x == Tronco || x == Nenhum = tipobs (te, xs)
-  | inicio te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
+  | inicionovo2 te == "Rel" && x == Arvore || x == Nenhum = tipobs (te, xs) 
+  | inicionovo2 te == "Rio" && x == Tronco || x == Nenhum = tipobs (te, xs)
+  | inicionovo2 te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
   | otherwise = False
 
 tipobscurto :: (Terreno,[Obstaculo]) -> Bool

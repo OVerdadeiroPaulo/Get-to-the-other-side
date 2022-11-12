@@ -80,9 +80,11 @@ giratodos (Relva, (x:xs)) = (Relva, (x:xs))
  {-|funcao que da a volta ao mapa usanso giratodos e gira como auxiliares-}
 daavolta :: Mapa -> Mapa
 daavolta (Mapa l (((terr, (x:xs)):ys))) =  (Mapa l ((giratodos(terr, (x:xs)): map giratodos ys)))
-
-mapatest = Mapa 3 ([(Rio 1, [Nenhum ,Tronco,Nenhum]),(Rio (-1), [Tronco,Nenhum,Tronco]),(Rio 1, [Nenhum,Tronco,Nenhum])])
-mapaarvore = Mapa 2 ([(Relva, [Arvore,Nenhum]),(Relva, [Nenhum,Nenhum]),(Relva, [Nenhum,Arvore])])
-omapatest = Mapa 2 ([(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Tronco,Tronco,Tronco,Nenhum,Carro,Tronco]),(Rio 2, [Nenhum,Carro]),(Rio 2, [Nenhum,Tronco]),(Rio 2, [Tronco,Tronco]),(Rio 2, [Nenhum,Carro]),(Estrada 2, [Nenhum,Carro])])
+mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
+mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
+mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
 jogo1 :: Jogo
 jogo1 = (Jogo (Jogador (0,1)))  mapaarvore
+jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
+jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
+jogoTronco = (Jogo (Jogador (0,1)) mapaRioTronco) 
