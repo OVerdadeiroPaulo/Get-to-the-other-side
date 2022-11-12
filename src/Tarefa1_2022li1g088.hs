@@ -68,11 +68,12 @@ tipodeobs (Mapa larg (((terr, (xs)):ys)))
 {-|Funcao que valida que rios contiguos tem velocidade oposta, devolvendo False se uma velocidade multiplicada pela outra for maior que 0 ou igual e True caso seja inferior a zero para todos os pares de rios. Devolve true tambem se aplicada a um terreno que nao seja Rio-}
 
 riospostos :: Mapa -> Bool
+riospostos (Mapa larg ([(terr,x)])) = True
 riospostos (Mapa larg ([])) = True
 riospostos (Mapa larg (((Rio vel1, obst):(Rio vel2, obs):xs)))
-  | vel1 * vel2 < 0 = True
-  | otherwise = riospostos (Mapa larg ((xs)))
-riospostos _ = True
+  | vel1 * vel2 >= 0 = False
+  | otherwise = riospostos (Mapa larg ((Rio vel2, obs):xs))
+riospostos  (Mapa larg ((terr1, obst): (terr, obs):xs)) = riospostos (Mapa larg ((terr, obs):xs))
 {-|Funcao que valida o comprimento dos obstaculos(troncos) -}
 
 
