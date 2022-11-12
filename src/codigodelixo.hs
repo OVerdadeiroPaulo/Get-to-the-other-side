@@ -114,3 +114,6 @@ tipodeauxANTIGA (Mapa l (((terr, (x:xs)):ys)))
   | otherwise = tipodeauxANTIGA (Mapa l ([(terr, (xs))]))
 
 funcao= map (>5)( (map length (map (head == Tronco)(agrupaobs [Nenhum,Tronco,Tronco,Tronco,Tronco,Tronco,Tronco]))))
+{-funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
+outra x = not (elem True( map (possivel) (agrupaobs  x)))
+possivel x = length x>5 && head x == Tronco -}
