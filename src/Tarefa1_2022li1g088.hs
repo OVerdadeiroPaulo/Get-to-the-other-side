@@ -17,7 +17,7 @@ mapaValido mapa@(Mapa _ (((_, listadeobs):xs)))
   | vervariosvazios mapa && vernrobstaculos mapa && tipodeobs mapa && riospostos mapa && obsemlinha mapa && terrenoscontiguos mapa = True
   | otherwise = False
 
-
+{-Nada alterado-}
 {-|Funcao auxiliar que verifica que tem algum espaço com Nenhum obstaculo numa linha, que deVolve True quando encontra um nenhum e False se chegar ao fim da lista de obstaculos sem encontrar nenhum-}
 vervazios :: (Terreno,[Obstaculo]) -> Bool
 vervazios (terr,[]) = False
