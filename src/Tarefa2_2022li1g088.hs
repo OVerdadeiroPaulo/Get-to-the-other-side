@@ -46,8 +46,7 @@ obs28 l (te2, b) a | l == (length b) = b
 
 
 {-|Funcao que cria um numero aleatorio entre 0 a 100-}
-unlist::[a] -> a
-unlist (x:xs) =  x
+
 randomIntsL :: Int -> Int -> [Int]
 randomIntsL seed len = take len (randoms (mkStdGen seed))
 aleatoriode0a100 :: Int -> Int
