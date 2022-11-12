@@ -23,7 +23,7 @@ estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
                                  where te2 = ter28 a (Mapa l ((te,obs):xs)) 
                                        obs2 = obs28 l (te2, []) a
                               
-
+{-Nada alterado-}
 {-|Funcao que escolhe um Terreno aleatorio-}                                  
 ter28:: Int -> Mapa -> Terreno
 ter28 a te' | aleatoriofinal a == 1 = head (proximosTerrenosValidos te') vel a 
