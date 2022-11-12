@@ -93,9 +93,6 @@ agrupaobs (x:xs)
   | otherwise = [x] : a
      where a = agrupaobs xs
      
-{-funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
-outra x = not (elem True( map (possivel) (agrupaobs  x)))
-possivel x = length x>5 && head x == Tronco -}
 {-|funcao que valida o comprimento dos obstaculos(carros) -}
 veoscarros :: (Terreno, [Obstaculo]) -> Bool
 veoscarros (a, []) = True
@@ -112,6 +109,11 @@ obsemlinha (Mapa l ([])) = True
 obsemlinha (Mapa l (((terr, obs):xs))) 
  | not (veoscarros (terr, obs) ) || not(veostroncos (terr, obs) )= False
  | otherwise = obsemlinha (Mapa l ((xs))) 
+
+{-funcoes nao usadas que usam o mapa para ver os Troncos, devido a complexidade preferi usar a outra opçao
+outra x = not (elem True( map (possivel) (agrupaobs  x)))
+possivel x = length x>5 && head x == Tronco -}
+
 
 
 

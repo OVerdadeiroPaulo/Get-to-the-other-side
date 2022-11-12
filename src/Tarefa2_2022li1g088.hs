@@ -15,11 +15,10 @@ import LI12223 (Mapa, Terreno)
 import Tarefa1_2022li1g088 (inicio)
 import Data.List (elemIndex)
 import Data.String (String)
-import Lixo (obsnaonenhum)
-obsnaonenhum :: Terreno -> Obstaculo
-obsnaonenhum (Rio vel) = Tronco
-obsnaonenhum (Estrada vel) = Carro
-obsnaonenhum (Relva) = Arvore
+obsnaonenhum2 :: Terreno -> Obstaculo
+obsnaonenhum2 (Rio vel) = Tronco
+obsnaonenhum2 (Estrada vel) = Carro
+obsnaonenhum2 (Relva) = Arvore
 
 inicionovo :: Terreno -> String
 inicionovo (Rio vel) = "Rio"
@@ -53,12 +52,12 @@ aleatoriode0a100 :: Int -> Int
 aleatoriode0a100 k =1+ abs ((head(randomIntsL (k) (1) )) `mod` (100))
 aleatoriofinal :: Int -> Int
 aleatoriofinal k= 1+ abs ((head(randomIntsL (k) (1) )) `mod` (3))
-aleatorio4men4aux :: Int -> Int
-aleatorio4men4aux k = 1+ abs ((head(randomIntsL (k) (1) )) `mod` (8)) 
+so4 :: Int -> Int
+so4 k = 1+ abs ((head(randomIntsL (k) (1) )) `mod` (8)) 
 aleatorio4final :: Int -> Int
 aleatorio4final k 
-  |aleatorio4men4aux >= 5 = aleatorio4men4aux / 2
-  | otherwise = -aleatorio4men4aux
+  |so4 k >= 5 =  1 + mod  (so4 k)  5
+  | otherwise =  -so4 k
 {-| Funcao que verifica os proximos terrenos validos-}
 proximosTerrenosValidos :: Mapa -> [Terreno]
 proximosTerrenosValidos (Mapa _ []) = [Rio 0, Estrada 0, Relva] 
@@ -110,9 +109,9 @@ isRelva2 n (Mapa l ((te,obs):xs)) | inicio te == "Rel" = isRelva2 (n+1) (Mapa l 
 
 
 proximosObstaculosValidoscurto :: Int -> (Terreno, [Obstaculo]) -> [Obstaculo]
-proximosObstaculosValidoscurto _ (terr, []) = [Nenhum, (obsnaonenhum terr)]
+proximosObstaculosValidoscurto _ (terr, []) = [Nenhum, (obsnaonenhum2 terr)]
 proximosObstaculosValidoscurto n (te, (x:xs)) |  tipobscurto (te, (x:xs)) && (n-1) == length (x:xs) && not (elem Nenhum (x:xs)) = [Nenhum]
-                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) = [Nenhum,obsnaonenhum te]                     
+                                         |  tipobscurto (te, (x:xs)) && n > length (x:xs) = [Nenhum,obsnaonenhum2 te]                     
                                          |  tipobscurto (te, (x:xs)) && n > length (x:xs) && not ( elem Nenhum (x:xs)) = [Nenhum]
                                          | otherwise = []
 
@@ -144,7 +143,7 @@ tipobs (te, (x:xs))
 tipobscurto :: (Terreno,[Obstaculo]) -> Bool
 tipobscurto (_, []) = True
 tipobscurto (te, (x:xs))
-  |x == obsnaonenhum te  || x == Nenhum = tipobscurto (te, xs)
+  |x == obsnaonenhum2 te  || x == Nenhum = tipobscurto (te, xs)
   | otherwise = False
 
 
