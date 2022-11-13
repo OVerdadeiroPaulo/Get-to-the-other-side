@@ -78,13 +78,6 @@ tipobscurto (te, (x:xs))
 
 
 
-
-
-
-
-
-
-
 tipodeobs :: Mapa -> Bool
 tipodeobs (Mapa larg ([]))= True
 tipodeobs (Mapa larg (((terr, (xs)):ys))) 
@@ -171,3 +164,22 @@ obstseguidos (Mapa l (((terr, (o:bs)):xs)))
   | inicionovo terr == "Rio" && veosdois (o:bs) 5 == True = obstseguidos (Mapa l ((xs)))
   | inicionovo terr == "Rio" && veosdois (o:bs) 5 ==  False = False
   | inicionovo terr == "Relva" = True
+
+
+
+
+exemplodeacumulador :: [Obstaculo] -> Int -> Bool
+exemplodeacumulador [] k = True
+exemplodeacumulador k 5 = False
+exemplodeacumulador (x:xs) acc 
+  | x == Arvore = exemplodeacumulador (xs ++ (x:xs)) (acc+1)
+  |otherwise = exemplodeacumulador (xs ++(x:xs)) 0
+
+veobstaculonacoordenada1 :: Mapa -> Coordenadas -> Obstaculo
+veobstaculonacoordenada1 (Mapa l (((terr, [x]):ys))) (a,b) = x
+veobstaculonacoordenada1 (Mapa l ([(x,y)])) (a,b) = last y
+veobstaculonacoordenada1 (Mapa l (((terr, (x:xs)):ys))) (a,b) 
+  | a == 0 && b == 0 = x
+  | b== 0 && a /= 0 = veobstaculonacoordenada1 (Mapa l (((terr, (xs)):ys))) (a-1,b)
+  | a == 0 && b /= 0 = veobstaculonacoordenada1 (Mapa l ((ys))) (a, b-1)
+  | a /= 0 && b /= 0 = veobstaculonacoordenada1 (Mapa l ((ys))) (a-1, b-1)
