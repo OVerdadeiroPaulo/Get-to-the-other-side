@@ -29,3 +29,56 @@ testes14 = TestCase (assertEqual "for estendeMapa Mapa 2 [(Rio (-2),[Tronco,Nenh
 testes15 = TestCase (assertEqual "for estendeMapa Mapa 2 [(Rio (-1),[Nenhum,Tronco]),(Rio 1,[Tronco,Nenhum]),(Rio (-1),[Nenhum,Tronco]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Estrada 1,[Carro,Nenhum]),(Estrada 2,[Nenhum,Carro]),(Estrada 3,[Carro,Nenhum])]" Mapa 2 [(Rio (-1),[Nenhum,Tronco]),(Rio 1,[Tronco,Nenhum]),(Rio (-1),[Nenhum,Tronco]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Estrada 1,[Carro,Nenhum]),(Estrada 2,[Nenhum,Carro]),(Estrada 3,[Carro,Nenhum])] (estendeMapa (Mapa 2 [(Rio 1,[Tronco,Nenhum]),(Rio (-1), [Nenhum,Tronco]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Estrada 1,[Carro,Nenhum]),(Estrada 2,[Nenhum,Carro]),(Estrada 3,[Carro,Nenhum])]) 54
 )) 
 todos = TestList [teste1,teste2,teste3,teste4,teste5,teste6,teste7,teste8,teste9,teste10,teste11,teste12,teste13,teste14,teste15]
+
+
+teste16 = TestCase (assertEqual ""  ())
+teste17 = TestCase (assertEqual ""  ())
+teste18 = TestCase (assertEqual ""  ())
+teste19 = TestCase (assertEqual ""  ())
+teste20 = TestCase (assertEqual ""  ())
+teste21 = TestCase (assertEqual ""  ())
+teste22 = TestCase (assertEqual ""  ())
+teste23 = TestCase (assertEqual ""  ())
+teste24 = TestCase (assertEqual ""  ())
+teste25 = TestCase (assertEqual ""  ())
+todos2 = TestList [teste16,teste17,teste18,teste19,teste20,teste21,teste22,teste23,teste24,teste25]
+
+
+
+teste26 = TestCase (assertEqual ""  ())
+teste27 = TestCase (assertEqual ""  ())
+teste28 = TestCase (assertEqual ""  ())
+teste29 = TestCase (assertEqual ""  ())
+teste30 = TestCase (assertEqual ""  ())
+teste31 = TestCase (assertEqual ""  ())
+todos3 = TestCase [teste26,teste27,teste28,teste29,test30,teste31]
+
+teste32 = TestCase (assertEqual ""  ())
+teste33 = TestCase (assertEqual ""  ())
+teste34 = TestCase (assertEqual ""  ())
+teste35 = TestCase (assertEqual ""  ())
+teste36 = TestCase (assertEqual ""  ())
+teste37 = TestCase (assertEqual ""  ())
+todos4 = [teste32,teste33,teste34,teste35,teste36,teste37]
+
+
+
+teste38 = TestCase (assertEqual ""  ())
+teste39 = TestCase (assertEqual ""  ())
+teste40 = TestCase (assertEqual ""  ())
+teste41 = TestCase (assertEqual ""  ())
+teste42 = TestCase (assertEqual ""  ())
+teste43 = TestCase (assertEqual ""  ())
+teste44 = TestCase (assertEqual ""  ())
+teste45 = TestCase (assertEqual ""  ())
+teste46 = TestCase (assertEqual ""  ())
+todos5 =[teste38,teste39,teste40,teste41,teste42,teste43,teste44,teste45,teste46]
+
+
+
+teste47 = TestCase (assertEqual ""  ())
+teste48 = TestCase (assertEqual ""  ())
+teste49 = TestCase (assertEqual ""  ())
+teste50 = TestCase (assertEqual ""  ())
+todos6 = [teste47,teste48,teste49,teste50]
+
