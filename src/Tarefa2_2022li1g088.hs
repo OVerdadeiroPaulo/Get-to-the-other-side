@@ -174,5 +174,29 @@ tipobs (te, (x:xs))
   | otherwise = False
 
 
-mapatest22 = Mapa 2 ([(Rio 2, [Nenhum,Tronco]),(Rio (-2), [Nenhum,Tronco]),(Estrada 2, [Nenhum,Carro])])
-
+-- | Mapa que devolve Mapa 4 [(Rio 3,[Nenhum,Nenhum,Nenhum,Tronco]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro])]
+estendeMapatest1 = Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])] 18
+-- | Teste de estencao de Mapa com 5 relvas seguidas (estendeMapa)
+estendeMapatest2 = Mapa 2 [(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Relva,[Arvore,Nenhum]),(Estrada 1,[Carro,Nenhum]),(Estrada 2,[Nenhum,Carro]),(Estrada 3,[Carro,Nenhum])] 3
+-- | Teste de estencao de Mapa com 5 Estradas seguidas (estendeMapa)
+estendeMapatest3 = Mapa 2 [(Estrada (-2),[Nenhum,Carro]),(Estrada 1,[Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Estrada 3,[Carro,Nenhum])] 15
+-- | Teste de estencao de Mapa com 4 Rios seguidos (estendeMapa)
+estendeMapatest4 = Mapa 3 [(Rio (-2), [Tronco,Nenhum,Tronco]),(Rio 3, [Tronco,Nenhum,Tronco]),(Rio (-1), [Tronco,Nenhum,Nenhum]),(Rio 3, [Tronco,Tronco,Nenhum])] 9
+-- | Teste random para estender um mapa comum (estendeMapa)
+estendeMapatest5 = Mapa 3 [(Rio (-2), [Tronco,Nenhum,Tronco]),(Rio 3, [Tronco,Nenhum,Tronco]),(Rio (-1), [Tronco,Nenhum,Nenhum]),(Relva, [Arvore,Nenhum,Arvore])] 67
+-- | Teste para ver os possiveis Terrenos possiveis de uma lista vazio 
+proximosTerrenosValidostest1 = Mapa 4 []
+-- | Teste para ver os possiveis Terrenos validos de uma lista com 4 Rios seguidos  
+proximosTerrenosValidostest2 = Mapa 3 [(Rio (-1), [Tronco,Nenhum,Tronco]),(Rio 2, [Tronco,Nenhum,Tronco]),(Rio (-2), [Tronco,Nenhum,Nenhum]),(Rio 4, [Tronco,Tronco,Nenhum])] 
+-- | Teste para ver os possiveis Terrenos validos de uma lista com 5 Estradas seguidas   
+proximosTerrenosValidostest3 = Mapa 2 [(Estrada (-2),[Nenhum,Carro]),(Estrada 1,[Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Estrada 3,[Carro,Nenhum])] 
+-- | Testes para ver os possiveis Terrenos validos de uma lista com 5 Relvas seguidas
+proximosTerrenosValidostest4 = Mapa 3 [(Relva,[Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Nenhum]),(Relva,[Arvore,Nenhum,Arvore]),(Relva,[Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Arvore]),(Estrada 1,[Carro,Nenhum,Carro]),(Estrada 2,[Carro,Nenhum,Carro]),(Estrada 3,[Nenhum,Carro,Nenhum])] 
+-- | Testes para ver os possiveis Terrenos validos de uma lista aleatoria
+proximosTerrenosValidostest5 = Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]
+-- | Testes para ver os possiveis Terrenos validos de uma lista invalida 
+proximosTerrenosValidostest6 = Mapa 3 [(Rio (-4), [Tronco,Nenhum,Tronco]),(Rio 3, [Tronco,Nenhum,Tronco]),(Rio (-1), [Tronco,Nenhum,Carro]),(Relva, [Arvore,Nenhum,Carro])]
+-- | Testes para ver os possiveis obstaculos de uma lista random de Rios
+proximosObstaculosValidos1 = 5 (Rio 4,[Tronco,Nenhum,Tronco,Nenhum])
+-- | Teste para ver os possiveis obstaculos de uma lista vazia 
+proximosObstaculosValidos2 = 3 (Estrada 3,[])
