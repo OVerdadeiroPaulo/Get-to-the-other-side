@@ -11,7 +11,7 @@ module Tarefa1_2022li1g088 where
 import LI12223
 import Data.List (groupBy)
 import Control.Arrow (Arrow(first))
-import Lixo (obsemlinha)
+--import Lixo (obsemlinha)
 {-|Funcao principal que determina a validez de um mapa devolvendo True para um mapa válido e False para um mapa valido sendo que um mapa só é válido se todas as auxiliares devolverem True-}
 mapaValido :: Mapa -> Bool
 mapaValido mapa@(Mapa _ (((_, listadeobs):xs))) 
