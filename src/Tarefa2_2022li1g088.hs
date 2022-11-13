@@ -197,6 +197,10 @@ proximosTerrenosValidostest5 = Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),
 -- | Testes para ver os possiveis Terrenos validos de uma lista invalida 
 proximosTerrenosValidostest6 = Mapa 3 [(Rio (-4), [Tronco,Nenhum,Tronco]),(Rio 3, [Tronco,Nenhum,Tronco]),(Rio (-1), [Tronco,Nenhum,Carro]),(Relva, [Arvore,Nenhum,Carro])]
 -- | Testes para ver os possiveis obstaculos de uma lista random de Rios
-proximosObstaculosValidos1 = 5 (Rio 4,[Tronco,Nenhum,Tronco,Nenhum])
+proximosObstaculosValidos1 = Rio 4,[Tronco,Nenhum,Tronco,Nenhum]
 -- | Teste para ver os possiveis obstaculos de uma lista vazia 
-proximosObstaculosValidos2 = 3 (Estrada 3,[])
+proximosObstaculosValidos2 = Estrada 3,[]
+-- | Teste para ver os possiveis obstaculos de uma lista  sem nenhuns faltando somente 1 para completar a lista 
+proximosObstaculosValidos3 = Relva,[Tronco,Tronco,Tronco]
+-- | Testes para ver os possiveis obstaculos numa lista so de nenhuns faltando 1 para completar a lista 
+proximosObstaculosValidos4 = Rio 4,[Nenhum,Nenhum] 
