@@ -76,8 +76,10 @@ obsemlinha (Mapa l []) = True
 obsemlinha (Mapa l (((terr, obs):xs))) 
  | contador obs == True = obsemlinha (Mapa l ((xs))) 
  | otherwise = False
+{-|devolve False se encorntrar Obstaculos seguidos acima de um numero n , ou false se nao existirem-}
 contador :: [Obstaculo] -> Bool
 contador x = not (elem True( map (auxcontador) (agrupaobs  (x ++ x))))
+{-|auxiliar para contador que define n para cada obstaculo-}
 auxcontador x = (length x>5 && head x == Tronco )|| (length x>3 && head x == Carro )
 {-|Funcao que valida se ha 4 ou 5 terrenos contiguos dependendo do tipo de terreno devolvendo False se encontrar mais que 5 estradas ou relvas  ou mais que 4 rios seguidos. e false se chegar ao fim da lista sem isso acontecer-}
 terrenoscontiguos :: Mapa -> Bool
