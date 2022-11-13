@@ -201,6 +201,6 @@ proximosObstaculosValidos1 = (Rio 4,[Tronco,Nenhum,Tronco,Nenhum])
 -- | Teste para ver os possiveis obstaculos de uma lista vazia 
 proximosObstaculosValidos2 = (Estrada 3,[])
 -- | Teste para ver os possiveis obstaculos de uma lista  sem nenhuns faltando somente 1 para completar a lista 
-proximosObstaculosValidos3 = (Relva,[Tronco,Tronco,Tronco])
+proximosObstaculosValidos3 = (Relva,[Arvore,Arvore,Arvore])
 -- | Testes para ver os possiveis obstaculos numa lista so de nenhuns faltando 1 para completar a lista 
 proximosObstaculosValidos4 = (Rio 4,[Nenhum,Nenhum]) 
