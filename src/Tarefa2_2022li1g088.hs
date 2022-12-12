@@ -22,7 +22,7 @@ import Data.String (String)
 
 Funcao que pega num Mapa com um conjunto de linhas e adiciona mais uma linha aleatoria por cima da linha existente. Usando as suas funcoes auxiliares ela cria uma linha nova com um terreno aleatorio dos proximosTerrenospossiveis e faz uma lista de obstaculos com somente os proximosObstaculos possiveis dessa lista tendo em conta o Terreno-}
 estendeMapa :: Mapa -> Int -> Mapa
-estendeMapa (Mapa l ((te,obs):xs)) a = Mapa l ((te2,obs2):(te,obs):xs)
+estendeMapa (Mapa l ((te,obs):xs)) a = (Mapa l ((te2,obs2):(te,obs):xs))
                                  where te2 = ter29 a (te,obs) (ter28 a (Mapa l ((te,obs):xs))) 
                                        obs2 = obs28 l (te2, []) a
                            
@@ -56,7 +56,7 @@ obs28 :: Int -> (Terreno,[Obstaculo]) -> Int -> [Obstaculo]
 obs28 l (te2, b) a | l == (length b) = b
                    | otherwise = let obst = proximosObstaculosValidos l (te2, b)
                                      obs3 = obs3' obst a 
-                                  in obs28 l (te2, b ++ [obs3] ) a 
+                                  in obs28 l (te2, b ++ [obs3] ) (a+1) 
 {-|Funcao obs3'
 
 Esta Funcao auxiliar da obs28 e responsavel por selecionar aleatoriamente um dos Obstaculo para concatunar na obs28 para gerar a lista de obstaculos, para a nova linha gerada. Ela pega numa lista de obstaculos possiveis e com base no resultado ela seleciona a head ou o last da lista de obstaculospossiveis-}
@@ -172,6 +172,7 @@ tipobs (te, (x:xs))
   | inicionovo te == "Rio" && x == Tronco || x == Nenhum = tipobs (te, xs)
   | inicionovo te == "Est" && x == Carro  || x == Nenhum = tipobs (te, xs)
   | otherwise = False
+
 
 
 -- | Mapa que devolve Mapa 4 [(Rio 3,[Nenhum,Nenhum,Nenhum,Tronco]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro])]
