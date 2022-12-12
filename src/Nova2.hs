@@ -26,17 +26,10 @@ type Imagens = [Picture]
 
 {-| Menu que aparece quando entras no jogo -}
 data MenuPrincipal = Jogar -- ^ Opcao para ir directamente ao jogo no nivel Facil ja predifinido 
-                   | Dificuldades_1 -- ^ Opcao para ir ao Menu das dificuldades de jogo
                    | Instrucoes_1 -- ^ Opcao para ver as instrucoes e objectivos do jogo 
                    | Sair_1 -- ^ Opcao para sair do jogo 
                   deriving (Eq)
 
-{-| Menu onde escolhes o nivel de dificuldade no jogo -}
-data Dificuldade = Facil -- ^ Opcao para jogar em um nivel de dificuldade facil
-                 | Media -- ^ Opcao para jogar em um nivel de dificuldade medio 
-                 | Dificil -- ^ Opcao para jogar no nivel de dificuldade mais dificil 
-                 | Menu1 -- ^ opcao para voltar ao menu principal
-                deriving (Eq) 
 
 {-| Menu de Pausa, onde o jogo fica parado e o jogador pode escolher continuar o jogo ou voltar ao menu principal -}
 data Pausa = Continuar_1 -- ^ Opcao para continuar o jogo pendente  
@@ -44,72 +37,59 @@ data Pausa = Continuar_1 -- ^ Opcao para continuar o jogo pendente
 
 {-| Menu que aparece quando perdes o jogo -}
 data MenuMorte = Reniciar -- ^ Opcao para reniciar o jogo na mesma dificuldade
-               | MudarDificuldade -- ^ Opcao onde podes mudar a dificuldade do jogo 
                | Menu_3 -- ^ Opcao para Voltar ao menu principal
 
 {-| Menu Principal quando o jogador tem um jogo pendente -}
 data MenuPausa = Continuar_2 -- ^ Opcao para continuar o jogo pendente 
                | NovoJogo -- ^ Opcao para comecar um novo jogo e esquecer o pendente 
-               | Dificuldades_2 -- ^ Opcao para entrar no menu das dificuldades e abrir um jogo com uma  nova dificuldade
                | Instrucoes_2 -- ^ Opcao para rever as instrucoes do jogo 
                | Sair_2 -- ^ Opcao para sair e encerrar o jogo 
 
 {-| Menu de todas as paginas onde podemos nos encontrar no jogo, tendo em conta pausas de jogos ja a decorrer -}
 data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos opcoes do menu principal logo que abrimos o jogo
-             | PaginaPerdeuJogo MenuMorte Dificuldade -- ^ A pagina perdeu jogo mostranos opcoes do menu morte, tendo em conta a dicifuldade em que o jogador perdeu, para assim caso o jogador deseje reniciar ele possa reniciar no mesmo nivel
-             | PaginaPausa Pausa Dificuldade -- ^ A pagina pausa mostranos as opcoes do menu pausa, e a dificuldade do jogo 
-             | PaginaDificuldade Dificuldade Bool Dificuldade -- ^ A pagina dificuldades mostra opcoes de dificudade, tendo em conta se o menu anterior e um menu pausa ou principal
-             | PaginaInstrucoes Bool Dificuldade -- ^ A pagina instrucoes mostra as instrucoes do jogo tendo em conta se o menu anterior era o menu pausa ou o menu principal 
-             | PaginaMenuPausa MenuPausa Dificuldade -- ^ A pagina menu pausa mostranos as opcoes do menu pausa e a dificuldade em que o jogador esta 
-             | PaginaJogar Dificuldade -- ^ A pagina jogar mostra que o jogador esta a jogar e a dificuldade em que joga
+             | PaginaPerdeuJogo MenuMorte-- ^ A pagina perdeu jogo mostranos opcoes do menu morte
+             | PaginaPausa Pausa -- ^ A pagina pausa mostranos as opcoes do menu pausa 
+             | PaginaInstrucoes Bool-- ^ Apresenta as instrucoes 
+             | PaginaMenuPausa Bool MenuPausa -- ^ A pagina menu pausa mostranos as opcoes do menu pausa  
+             | PaginaJogar -- ^ A pagina jogar mostra que o jogador esta a jogar 
 
 
 estadoInicial :: Mundo 
 estadoInicial = (PaginaPrincipal Jogar, jogar, imagens)
+--(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
 
 desenhaMundo :: Mundo -> Pinture
 --PaginaPrincipal 
 desenhaMundo (PaginaPrincipal Jogar, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
-desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
 desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
 desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (PaginaPerdeuJogo Reniciar, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (PaginaPerdeuJogo Menu_3, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
 --PaginaPausa
-desenhaMundo (Pausa Continuar_1 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (Pausa Menu_2 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
---PaginaDificuldade
-desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
-desenhaMundo (PaginaDificuldade Media b d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
-desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
-desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
+desenhaMundo (Pausa Continuar_1, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (Pausa Menu_2, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
 --paginaInstrucoes 
-desenhaMundo (PaginaInstrucoes b d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
+desenhaMundo (PaginaInstrucoes b, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
 --PaginaMenuPausa 
-desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
-desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
-desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
+desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
+desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)]
 --PaginaJogar 
-desenhaMundo (PaginaJogar d, jogo, imagens)
- | d == Facil = scale 0.0 0.0 $ Pictures world28 
- | d == Medio = scale 0.0 0.0 $ Pictures world28 
- | d == Facil = scale 0.0 0.0 $ Pictures world28 
+desenhaMundo (PaginaJogar, jogo, imagens) = scale 0.0 0.0 $ Pictures world28 
  where 
-     world28 = desenhamapa ++ [desenhajogador]
-     desenhamapa = criarMapa p o (getMapa (PaginaJogar d, jogo, imagens)) imagens
-     desenhajogador = criarJogador (getJogador (PaginaJogar d, jogo, imagens)) imagens 
+     world28 = desenhamapa {-++ [desenhajogador]-}
+     desenhamapa = criarMapa p o (getMapa (PaginaJogar, jogo, imagens)) imagens
+     {-desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens)) imagens-} 
 
 {-| Extrair o Mapa-}
 getMapa :: Mundo -> Mapa 
 getMapa (_, Jogo j m, _) = m 
 
 {-| Extrair o Jogador-}
-getJogador :: Mundo -> Jogador
-getJogador (_, jogo j m, _) = j
+--getJogador :: Mundo -> Jogador
+--getJogador (_, jogo j m, _) = j
 
 {-| Valor do x onde o Mapa vai comecar-}
 p :: Float 
@@ -121,18 +101,19 @@ c = 0.0
 
 {-| Valor do lado da imagem, usado para contruir as figuras seguintes uma apos a outra e usado para controir as linhas uma assima da outra se se sobreporem-}
 l :: Float 
-l = 64.0 
+l = 0.0 
 
 {-| Funcao desenhaLinha
 
 Funcao auxiliar que desenha uma linha do mapa -}
 
 desenhaLinha :: Float -> Float -> Mapa -> Imagens -> [Picture]
-desenhaLinha x y ((Mapa 0 ((te,obs):xs)) imagens = [] 
+desenhaLinha x y ((Mapa 0 ((te,obs):xs)) imagens = []
 desenhaLinha x y ((Mapa la ((te,obs):xs)) imagens = terreno : linha 
                             where terreno = desenhaTer x y te imagens
                                   linha = desenhaLinha (x+l) y ((Mapa (la-1) ((te,obs):xs))
 desenhaLinha _ _ _ _ = []
+
 
 -- desenhaLinha :: Float -> Float -> Int -> (Terreno,[Obstaculo]) -> Imagens -> [Picture]
 -- desenhaLinha x y 0 (terreno,z) imagens = [] 
@@ -172,77 +153,54 @@ criarMapa _ _ _ _ = []
 {-| Criar Jogador
 
 AINDA TENHO DUVIDAS NESTA FUNCAO-}
-criarJogador :: Jogador -> Imagens -> Picture
-criarJogador (Jogador (x,y)) imagens = Translate x y (image !! 0)
+--criarJogador :: Jogador -> Imagens -> Picture
+--criarJogador (Jogador (x,y)) imagens = Translate x y (image !! 0)
 
 event :: Event -> Mundo -> Mundo 
 -- Pagina Principal 
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Dificuldades_1, jogo, imagens) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Dificuldades_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, Jogo j m, imagens) = (PaginaJogar Facil, Jogo j m, imagens) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaDificuldade Facil false Facil, joga, imagens) 
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaInstrucoes false Facil, jogo, imagens) 
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = error "Jogo Terminou"
--- Pagina Dificuldade
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaDificuldade Menu1 b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaDificuldade Facil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaDificuldade Media b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) = (PaginaDificuldade Dificil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaDificuldade Media b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaDificuldade Dificil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaDificuldade Menu1 b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) = (PaginaDificuldade Facil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) | b == True (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-                                                                                                 | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens)
 -- Pagina controlos  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-                                                                                      | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
+                                                                                 | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
                                                                                    | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-                                                                                      | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
+                                                                                    | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
 -- Pagina Pausa  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens) = (PaginaPausa Menu_2 d, Jogo j m, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens) = (PaginaPausa Continuar_1 , Jogo j m, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens) = (PaginaPausa Continuar_1 , Jogo j m, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens) = (PaginaPausa Continuar_1, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens) = (PaginaPausa Continuar_1, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1, jogo, imagens) = (PaginaJogar, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
 -- Pagina MenuPausa 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaMenuPausa Sair_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaMenuPausa NovoJogo d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaMenuPausa NovoJogo d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaMenuPausa Sair_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaJogar Facil, Jogo j d, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaDificuldade Facil True d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaInstrucoes True d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = error "Terminou Jogo"
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaMenuPausa Sair_2, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaMenuPausa NovoJogo, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = (PaginaMenuPausa Instrucoes_2, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaMenuPausa NovoJogo, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaMenuPausa Instrucoes_2, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaMenuPausa Sair_2, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaJogar, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaJogar, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaInstrucoes True, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = error "Terminou Jogo"
 -- Pagina Perdeu jogo
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaPerdeuJogo Reniciar d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPerdeuJogo Reniciar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaDificuldade Facil False d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaPerdeuJogo Menu_3, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPerdeuJogo Reniciar, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaPerdeuJogo Menu_3, jogo, imagens)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPerdeuJogo Reniciar, jogo, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaJogar, Jogo j m, imagens)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens)
 -- Pagina Jogar 
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Cima-}jogo, imagens)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Baixo-}jogo, imagens)
@@ -255,7 +213,7 @@ event _ s = s
 
 Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e gera um mapa com uma nova linha na frente preservando assim o mesmo tamanho -}
 deslizaJogo :: Float -> Jogo -> Jogo 
-deslizaJogo a (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs))) = (Jogo (Jogador(x, y + 1)) (Mapa l (init ((te,obs):xs))) (round a))
+deslizaJogo a (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs))) = (Jogo (Jogador(x, y - l)) (Mapa l (init ((te,obs):xs))) (round a))
 
 {-| Funcao Window 
 
@@ -281,6 +239,5 @@ main = do
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
          let imagens = [galinha, rio, relva, estrada, banner]
-         let estadoinicial = (PaginaJogar Facil, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
-         
+                  
          play window cor fr estadoInicial desenhaMundo event deslizajogo

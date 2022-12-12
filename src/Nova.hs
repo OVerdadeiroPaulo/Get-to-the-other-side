@@ -66,7 +66,8 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
 
 estadoInicial :: Mundo 
 estadoInicial = (PaginaPrincipal Jogar, jogar, imagens)
-
+-- estadoinicial = (PaginaJogar Facil, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
+         
 desenhaMundo :: Mundo -> Pinture
 --PaginaPrincipal 
 desenhaMundo (PaginaPrincipal Jogar, jogo, imagens) = Picture [Scale 0.0 0.0 (imagens !! 00)] 
@@ -255,7 +256,7 @@ event _ s = s
 
 Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e gera um mapa com uma nova linha na frente preservando assim o mesmo tamanho -}
 deslizaJogo :: Float -> Jogo -> Jogo 
-deslizaJogo a (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs))) = (Jogo (Jogador(x, y + 1)) (Mapa l (init ((te,obs):xs))) (round a))
+deslizaJogo a (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs))) = (Jogo (Jogador(x, y - l)) (Mapa l (init ((te,obs):xs))) (round a))
 
 {-| Funcao Window 
 
@@ -281,6 +282,5 @@ main = do
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
          let imagens = [galinha, rio, relva, estrada, banner]
-         let estadoinicial = (PaginaJogar Facil, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
          
          play window cor fr estadoInicial desenhaMundo event deslizajogo
