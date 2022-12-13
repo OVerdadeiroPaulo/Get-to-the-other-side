@@ -75,10 +75,10 @@ gira n l@(x:xs)
 giratodos ::Jogador  -> Jogada-> (Terreno, [Obstaculo])->  (Terreno , [Obstaculo])
 giratodos jog gada (Rio vel, x:xs)  = (Rio vel ,gira vel (x:xs)) 
 giratodos  jog@(Jogador (a,b)) jogada par@(Estrada vel, x:xs)
-  | jogada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 = par 
-  | jogada == (Move Esquerda) && (veobslinhaCoord par (a-1,b) == Carro) && vel>=0= par
+  | jogada == (Move Direita) && (veobslinhaCoord par (a-1,b) == Carro) = par 
+  | jogada == (Move Esquerda) && (veobslinhaCoord par (a+1,b) == Carro) = par
   | veobslinhaCoord par (a,b) == Carro = (Estrada vel, x:xs)
-  | vaicontra par jog = (Estrada vel ,gira (vaicontraint par jog ) (x:xs)) 
+  | contaNenhums par jog 0 <= abs vel = (Estrada vel ,gira ( sinal vel * contaNenhums (Estrada vel, x:xs)  jog 0) (x:xs)) 
   | otherwise =  (Estrada vel ,gira vel (x:xs))
 giratodos  jog gada (Relva, x:xs) = (Relva, x:xs)
  {-|funcao que da a volta ao mapa usanso giratodos e gira como auxiliares-}
@@ -91,26 +91,21 @@ veobslinhaCoord par@(terr,o:bs) (x,y)
   |x== 0 = o
   | otherwise = veobslinhaCoord (terr, bs) (x-1,y)
 
+flipmapa f x y z = map (f x y ) 
 
+contaNenhums :: (Terreno, [Obstaculo]) -> Jogador ->Int-> Int
+contaNenhums par@(_,[])(Jogador (x,y)) acc = abs (acc -1)
+contaNenhums par@(Estrada vel,o:bs) (Jogador (x,y)) acc
+  | null obs =abs (acc -1)
+  | Carro `notElem` (o:bs) = length (o:bs)
+  | head obs == Nenhum =  abs (acc + contaNenhums (Estrada vel,(tail obs)) (Jogador (x,y)) (acc+1))
+  | otherwise = abs (acc )
+    where obs = if vel >= 0 then drop (x)(o:bs++o:bs) else  drop (x) (reverse (o:bs++o:bs))
 
-
-vaicontra :: (Terreno, [Obstaculo]) -> Jogador  -> Bool
-vaicontra (Estrada vel,[]) (Jogador (x,y)) = False
-vaicontra par@(Estrada vel,o:bs) (Jogador (x,y))
- |veobslinhaCoord par (x,y) == Carro = True
- |vel == 0 = False
- |vel< 0 = vaicontra (Estrada (vel-1),drop (x)(o:bs)++o:bs) (Jogador (x,y))
- |vel> 0 = vaicontra (Estrada (vel-1),reverse $ (o:bs) ++ take (x+1)(o:bs)) (Jogador (x,y))
-
-
-vaicontraint :: (Terreno, [Obstaculo]) -> Jogador  -> Int
-vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel
-vaicontraint par@(Estrada vel,o:bs) (Jogador (x,y))
- |veobslinhaCoord par (x,y) == Carro = 0
- |vel == 0 = 0
- |vel< 0 = 1+ vaicontraint (Estrada ((abs vel)-1),drop (x)(o:bs)++o:bs) (Jogador (x,y)) 
- |vel> 0 =1+  vaicontraint (Estrada (abs vel-1),reverse $ (o:bs) ++ take (x+1)(o:bs)) (Jogador (x,y)) 
-
+vaicontra :: (Terreno, [Obstaculo]) -> Jogador -> Jogada -> (Terreno, [Obstaculo])
+vaicontra par@(Estrada vel, (o:bs)) (Jogador (x,y)) jogada
+  | jogada == (Move Direita) && (veobslinhaCoord par (x-1,y) == Carro) = par 
+  | jogada == (Move Esquerda) && (veobslinhaCoord par (x+1,y) == Carro) = par 
 
 
 
@@ -128,3 +123,12 @@ jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario)
 jogoTronco = (Jogo (Jogador (1,0)) mapaRioTronco) 
 jogoNormal = (Jogo (Jogador (0,1)) mapanormal) 
 
+giratodos ::Jogador  -> Jogada-> (Terreno, [Obstaculo])->  (Terreno , [Obstaculo])
+giratodos jog gada (Rio vel, x:xs)  = (Rio vel ,gira vel (x:xs)) 
+giratodos  jog@(Jogador (a,b)) jogada par@(Estrada vel, x:xs)
+  | jogada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 = par 
+  | jogada == (Move Esquerda) && (veobslinhaCoord par (a-1,b) == Carro) && vel>=0= par
+  | veobslinhaCoord par (a,b) == Carro = (Estrada vel, x:xs)
+  | contaNenhums par jog 0 <= abs vel = (Estrada vel ,gira ( sinal vel * contaNenhums (Estrada vel, x:xs)  jog 0) (x:xs)) 
+  | otherwise =  (Estrada vel ,gira vel (x:xs))
+giratodos  jog gada (Relva, x:xs) = (Relva, x:xs)

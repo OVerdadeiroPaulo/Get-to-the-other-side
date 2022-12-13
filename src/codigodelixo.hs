@@ -167,7 +167,14 @@ obstseguidos (Mapa l (((terr, (o:bs)):xs)))
 
 
 
-
+contaNenhums :: (Terreno, [Obstaculo]) -> Jogador ->Int-> Int
+contaNenhums par@(_,[])(Jogador (x,y)) acc = abs (acc -1)
+contaNenhums par@(Estrada vel,o:bs) (Jogador (x,y)) acc
+  | null obs =abs (acc -1)
+  | Carro `notElem` (o:bs) = length (o:bs)
+  | head obs == Nenhum =  abs (1 + contaNenhums (Estrada vel,(tail obs)) (Jogador (x,y)) (acc+1))
+  | otherwise = abs (acc -1)
+    where obs = if vel <= 0 then drop (x)(o:bs++o:bs) else   (reverse (drop (x+1) (o:bs++o:bs)))
 exemplodeacumulador :: [Obstaculo] -> Int -> Bool
 exemplodeacumulador [] k = True
 exemplodeacumulador k 5 = False
