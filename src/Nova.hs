@@ -284,3 +284,12 @@ main = do
          let imagens = [galinha, rio, relva, estrada, banner]
          
          play window cor fr estadoInicial desenhaMundo event deslizajogo
+
+
+
+
+
+
+
+{-     desenhaTerrenos = criarMapa p o (getLargura (PaginaJogar, Jogo jogador (Mapa l ((te,obs):xs)), imagens)) (getTerreno (PaginaJogar, Jogo jogador (Mapa l ((te,obs):xs)), imagens)) imagens
+-}

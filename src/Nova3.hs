@@ -54,11 +54,13 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
              | PaginaJogar -- ^ A pagina jogar mostra que o jogador esta a jogar 
 
 
-estadoInicial :: Imagens -> Mundo 
+estadoInicial ::Imagens -> Mundo 
 estadoInicial imagens = (PaginaJogar, jogo2, imagens)
+    
+--(PaginaJogar, jogo2, imagens)
 --(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
 
--- jogo1 = Jogo (Jogador (2,2)) (Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])])
+--jogo1 = Jogo (Jogador (2,2)) (Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])])
 
 jogo2= Jogo (Jogador (4,1)) (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])]) 
 
@@ -86,6 +88,7 @@ desenhaMundo (PaginaJogar, jogo, imagens) = Translate (-605) (-341) $ scale 2.65
      world28 = desenhaTerrenos {--++ [desenhajogador]--}
      desenhaTerrenos = criarMapa p o (getMapa (PaginaJogar, jogo, imagens)) imagens
      {--desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens)) imagens--} 
+
 
 
 {-| Extrair o Mapa-}
