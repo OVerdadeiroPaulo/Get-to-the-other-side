@@ -81,13 +81,19 @@ desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens) = Pictures [Scale 2.0 2.0
 desenhaMundo (PaginaJogar, jogo, imagens) = Translate (-605) (-341) $ scale 2.65 1.45 $ Pictures world28 
  where 
      world28 = desenhaTerrenos {--++ [desenhajogador]--}
-     desenhaTerrenos = criarMapa p o (getMapa (PaginaJogar, jogo, imagens)) imagens
+     desenhaTerrenos = criarMapa p o (getLargura(getMapa (PaginaJogar, jogo, imagens))) (getTerreno(getMapa (PaginaJogar, jogo, imagens))) imagens
      {--desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens)) imagens--} 
 
 
 {-| Extrair o Mapa-}
 getMapa :: Mundo -> Mapa 
 getMapa (_, Jogo j m, _) = m 
+
+getLargura :: Mapa -> Int 
+getLargura (Mapa l ((te,obs):xs)) = l
+
+getTerreno :: Mapa -> [(Terreno,[Obstaculo])] 
+getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
 
 {-| Extrair o Jogador-}
 --getJogador :: Mundo -> Jogador
@@ -109,12 +115,12 @@ lado = 60.0
 
 Funcao auxiliar que desenha uma linha do mapa -}
 
-desenhaLinha :: Float -> Float -> Mapa -> Imagens -> [Picture]
-desenhaLinha x y (Mapa 0 ((te,obs):xs)) imagens = []
-desenhaLinha x y (Mapa la ((te,obs):xs)) imagens = terreno : linha 
+desenhaLinha :: Float -> Float -> Int -> Terreno -> Imagens -> [Picture]
+desenhaLinha x y 0 te imagens = []
+desenhaLinha x y la te imagens = terreno : linha 
                             where terreno = desenhaTer x y te imagens
-                                  linha = desenhaLinha (x+lado) y (Mapa (la-1) ((te,obs):xs)) imagens
-desenhaLinha _ _ _ _ = []
+                                  linha = desenhaLinha (x + lado) y (la-1) te imagens
+desenhaLinha _ _ _ _ _ = []
 
 
 -- desenhaLinha :: Float -> Float -> Int -> (Terreno,[Obstaculo]) -> Imagens -> [Picture]
@@ -153,11 +159,11 @@ estrada28 = Color black $ rectangleSolid lado lado
 
 Esta Funcao cria o Mapa usando o desenhalinha como auxiliar -}
 
-criarMapa :: Float -> Float -> Mapa -> Imagens -> [Picture] 
-criarMapa x y (Mapa l ((te,obs):xs)) imagens = line ++ linhaseguinte 
-                                    where line = desenhaLinha x y (Mapa l ((te,obs):xs)) imagens 
-                                          linhaseguinte = criarMapa x (y + lado) (Mapa l (xs)) imagens 
-criarMapa _ _ _ _ = []
+criarMapa :: Float -> Float -> Int -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture] 
+criarMapa x y la ((te,obs):xs) imagens = line ++ linhaseguinte 
+                              where line = desenhaLinha x y la te imagens 
+                                    linhaseguinte = criarMapa x (y + lado) la (xs) imagens 
+criarMapa _ _ _ _ _ = []
 
 {-| Criar Jogador
 
