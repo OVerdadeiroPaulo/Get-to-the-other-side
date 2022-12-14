@@ -80,8 +80,9 @@ desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens) = Pictures [Scale 2.0 2.0
 --PaginaJogar 
 desenhaMundo (PaginaJogar, jogo, imagens) = Translate (-605) (-341) $ scale 2.65 1.45 $ Pictures world28 
  where 
-     world28 = desenhaTerrenos {--++ [desenhajogador]--}
-     desenhaTerrenos = criarMapa p o (getLargura(getMapa (PaginaJogar, jogo, imagens))) (getTerreno(getMapa (PaginaJogar, jogo, imagens))) imagens
+     world28 = desenhaTerrenos ++ desenhaObstaculos{--++ [desenhajogador]--}
+     desenhaTerrenos = criarTerreno p o (getLargura(getMapa (PaginaJogar, jogo, imagens))) (getTerreno(getMapa (PaginaJogar, jogo, imagens))) imagens
+     desenhaObstaculos = criarObstaculos p o (getTerreno(getMapa (PaginaJogar, jogo, imagens))) imagens 
      {--desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens)) imagens--} 
 
 
@@ -94,6 +95,7 @@ getLargura (Mapa l ((te,obs):xs)) = l
 
 getTerreno :: Mapa -> [(Terreno,[Obstaculo])] 
 getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
+
 
 {-| Extrair o Jogador-}
 --getJogador :: Mundo -> Jogador
@@ -115,29 +117,31 @@ lado = 60.0
 
 Funcao auxiliar que desenha uma linha do mapa -}
 
-desenhaLinha :: Float -> Float -> Int -> Terreno -> Imagens -> [Picture]
-desenhaLinha x y 0 te imagens = []
-desenhaLinha x y la te imagens = terreno : linha 
+desenhaLinhaTer :: Float -> Float -> Int -> Terreno -> Imagens -> [Picture]
+desenhaLinhaTer x y 0 te imagens = []
+desenhaLinhaTer x y la te imagens = terreno : linha 
                             where terreno = desenhaTer x y te imagens
-                                  linha = desenhaLinha (x + lado) y (la-1) te imagens
-desenhaLinha _ _ _ _ _ = []
+                                  linha = desenhaLinhaTer (x + lado) y (la-1) te imagens
+desenhaLinhaTer _ _ _ _ _ = []
 
 
--- desenhaLinha :: Float -> Float -> Int -> (Terreno,[Obstaculo]) -> Imagens -> [Picture]
--- desenhaLinha x y 0 (terreno,z) imagens = [] 
--- desenhaLinha x y 0 (terreno,z) imagens = terreno : linha 
---                             where terreno = desenhaTer x y terreno imagens
---                                   linha = desenhaLinha (x+l) y ((Mapa (la-1) ((te,obs):xs))
--- desenhaLinha _ _ _ _ = []
-
+desenhaLinhaObs :: Float -> Float -> [Obstaculo] -> Imagens -> [Picture]
+desenhaLinhaObs x y [] imagens = []
+desenhaLinhaObs x y (z:zs) imagens = obstaculos : linha
+                                 where obstaculos = desenhaObs x y z imagens 
+                                       linha = desenhaLinhaObs (x + lado) y zs imagens
+desenhaLinhaObs _ _ _ _ = []
 {-| Funcao desenhaTer 
 
 Com o valor x e y esta funcao cria uma picture com a imagem Terreno correspondente -}
 
 desenhaTer :: Float -> Float -> Terreno -> Imagens -> Picture 
 desenhaTer x y terreno imagens = Translate x y image 
-                    where image = render terreno imagens 
+                       where image = render terreno imagens 
 
+desenhaObs :: Float -> Float -> Obstaculo -> Imagens -> Picture
+desenhaObs x y obstaculo imagens = Translate x y image
+                         where image = render2 obstaculo imagens 
 {-| Funcao Render
 
 Esta funcao junta cada terreno a uma imagem ja definida -}
@@ -148,23 +152,43 @@ render terreno imagens
  | inicionovo terreno == "Rio" = (imagens !! 1)
  | inicionovo terreno == "Est" = (imagens !! 3)
 
+render2 :: Obstaculo -> Imagens -> Picture 
+render2 obstaculo imagens 
+ | obstaculo == Nenhum = (imagens !! 8)
+ | obstaculo == Tronco = (imagens !! 5)
+ | obstaculo == Arvore = (imagens !! 6)
+ | obstaculo == Carro = (imagens !! 7)
+
 rio28 :: Picture 
 rio28 = Color blue $ rectangleSolid lado lado  
 relva28 :: Picture 
 relva28 = Color green $ rectangleSolid lado lado  
 estrada28 :: Picture 
 estrada28 = Color black $ rectangleSolid lado lado 
+tronco28 :: Picture
+tronco28 = Color yellow $ rectangleSolid 30.0 50.0
+arvore28 :: Picture
+arvore28 = Color orange $ rectangleSolid 30.0 62.0
+carro28 :: Picture
+carro28 = Color white $ rectangleSolid 60.0 30.0
+nenhum28 :: Picture
+nenhum28 = Blank
 
 {-| Funcao criarMapa 
 
 Esta Funcao cria o Mapa usando o desenhalinha como auxiliar -}
 
-criarMapa :: Float -> Float -> Int -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture] 
-criarMapa x y la ((te,obs):xs) imagens = line ++ linhaseguinte 
-                              where line = desenhaLinha x y la te imagens 
-                                    linhaseguinte = criarMapa x (y + lado) la (xs) imagens 
-criarMapa _ _ _ _ _ = []
+criarTerreno :: Float -> Float -> Int -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture] 
+criarTerreno x y la ((te,obs):xs) imagens = line ++ linhaseguinte 
+                              where line = desenhaLinhaTer x y la te imagens 
+                                    linhaseguinte = criarTerreno x (y + lado) la (xs) imagens 
+criarTerreno _ _ _ _ _ = []
 
+criarObstaculos :: Float -> Float -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture]
+criarObstaculos x y ((z,w):zs) imagens = line ++ linhaseguinte
+                                 where line = desenhaLinhaObs x y w imagens
+                                       linhaseguinte = criarObstaculos x (y + lado) (zs) imagens 
+criarObstaculos _ _ _ _ = [] 
 {-| Criar Jogador
 
 AINDA TENHO DUVIDAS NESTA FUNCAO-}
@@ -255,6 +279,6 @@ main = do
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         let imagens = [galinha,scale 0.041 0.041 $ rio, relva28, estrada28, banner]
+         let imagens = [galinha,scale 0.041 0.041 $ rio, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28]
                   
          play window cor fr (estadoInicial imagens) desenhaMundo event reageTempo
