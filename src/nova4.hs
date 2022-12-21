@@ -55,15 +55,11 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
 
 
 estadoInicial :: Imagens -> Mundo 
-estadoInicial imagens = (PaginaJogar, jogo2, imagens)
+estadoInicial imagens = (PaginaJogar, jogo1, imagens)
 --(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
-
--- jogo1 = Jogo (Jogador (2,2)) (Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])])
-
-jogo2= Jogo (Jogador (4,1)) (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])]) 
+jogo1= Jogo (Jogador (4,1)) (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])]) 
 
 desenhaMundo :: Mundo -> Picture
-{-
 --PaginaPrincipal 
 desenhaMundo (PaginaPrincipal Jogar, jogo, imagens) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens) = Pictures [Scale 2.0 2.0 (imagens !! 4)] 
@@ -81,7 +77,6 @@ desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens) = Pictures [Scale 2.
 desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
 desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
 desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
--}
 --PaginaJogar 
 desenhaMundo (PaginaJogar, jogo, imagens) = Translate (-605) (-341) $ scale 2.65 1.45 $ Pictures world28 
  where 
@@ -91,21 +86,14 @@ desenhaMundo (PaginaJogar, jogo, imagens) = Translate (-605) (-341) $ scale 2.65
 
 
 {-| Extrair o Mapa-}
-getMapa :: Mundo -> Mapa
-getMapa (_, Jogo j m, _) = m
-
-
---getLargura :: Mundo -> Int 
---getLargura (_, Jogo j (Mapa l ((te,obs):xs)), _) = l
-
---getTerreno :: Mundo -> Terreno
---getTerreno (_, Jogo j (Mapa l ((te,obs):xs)), _) = te
+getMapa :: Mundo -> Mapa 
+getMapa (_, Jogo j m, _) = m 
 
 {-| Extrair o Jogador-}
 --getJogador :: Mundo -> Jogador
 --getJogador (_, jogo j m, _) = j
 
-{-| Valor do x onde o(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]) Mapa vai comecar-}
+{-| Valor do x onde o Mapa vai comecar-}
 p :: Float 
 p = 0.0
 
@@ -124,17 +112,9 @@ Funcao auxiliar que desenha uma linha do mapa -}
 desenhaLinha :: Float -> Float -> Mapa -> Imagens -> [Picture]
 desenhaLinha x y (Mapa 0 ((te,obs):xs)) imagens = []
 desenhaLinha x y (Mapa la ((te,obs):xs)) imagens = terreno : linha 
-                                          where terreno = desenhaTer x y te imagens
-                                                linha = desenhaLinha (x + lado) y (Mapa (la - 1) ((te,obs):xs)) imagens
+                            where terreno = desenhaTer x y te imagens
+                                  linha = desenhaLinha (x+lado) y (Mapa (la-1) ((te,obs):xs)) imagens
 desenhaLinha _ _ _ _ = []
-
-
--- desenhaLinhaobs :: Float -> Float -> Mapa -> Imagens -> [Picture]
--- desenhaLinhaobs x y (Mapa 0 ((te,obs):xs)) imagens = []
--- desenhaLinhaobs x y (Mapa la ((te,obs):xs)) imagens = terreno : linha 
---                             where obs = desenhaTer x y te imagens
---                                   linha = desenhaLinha (x + lado) y (Mapa (la-1) ((te,obs):xs)) imagens
--- desenhaLinhaobs _ _ _ _ = []
 
 
 -- desenhaLinha :: Float -> Float -> Int -> (Terreno,[Obstaculo]) -> Imagens -> [Picture]
@@ -168,24 +148,22 @@ relva28 :: Picture
 relva28 = Color green $ rectangleSolid lado lado  
 estrada28 :: Picture 
 estrada28 = Color black $ rectangleSolid lado lado 
+
 {-| Funcao criarMapa 
 
 Esta Funcao cria o Mapa usando o desenhalinha como auxiliar -}
 
 criarMapa :: Float -> Float -> Mapa -> Imagens -> [Picture] 
-criarMapa x y (Mapa l ((te,obs):xs)) imagens = line ++ linhaseguinte
-                                       where line = desenhaLinha x y (Mapa l ((te,obs):xs)) imagens 
-                                             linhaseguinte = criarMapa x (y + lado) (Mapa l ((te,obs):xs)) imagens 
+criarMapa x y (Mapa l ((te,obs):xs)) imagens = line ++ linhaseguinte 
+                                    where line = desenhaLinha x y (Mapa l ((te,obs):xs)) imagens 
+                                          linhaseguinte = criarMapa x (y + lado) (Mapa l (xs)) imagens 
 criarMapa _ _ _ _ = []
 
 {-| Criar Jogador
 
 AINDA TENHO DUVIDAS NESTA FUNCAO-}
--- criarJogador :: Jogador -> Imagens -> Picture
--- criarJogador (Jogador (x,y)) imagens = Translate playerx playery (imagens !! 0)
---       where
---             playerx = (round x) * 60
---             playery = (round y) * 60
+--criarJogador :: Jogador -> Imagens -> Picture
+--criarJogador (Jogador (x,y)) imagens = Translate x y (image !! 0)
 
 event :: Event -> Mundo -> Mundo 
 -- -- Pagina Principal 
@@ -238,16 +216,16 @@ event :: Event -> Mundo -> Mundo
 -- event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Esquerda-}jogo, imagens)
 -- event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Direita-}jogo, imagens)
 -- event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaPausa Continuar_1 d, jogo, imagens)
--- -- Caso qualquer outra coisa 
 event _ s = s
 
-{-| Funcao reage tempo 
+{-| Funcao deslizaJogo
 
 Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e gera um mapa com uma nova linha na frente preservando assim o mesmo tamanho -}
-reageTempo :: Float -> Mundo -> Mundo 
-reageTempo _ s = s
+--deslizaJogo :: Float -> Jogo -> Jogo 
 --deslizaJogo a (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs))) = (Jogo (Jogador(x, y - l)) (Mapa l (init ((te,obs):xs))) (round a))
 
+reageTempo :: Float -> Mundo -> Mundo 
+reageTempo _ s = s 
 {-| Funcao Window 
 
 Contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela-}
@@ -258,7 +236,7 @@ window = FullScreen
 
 Contem o numero de frames por segundo em que o nosso programa vai funcionar -}
 fr :: Int
-fr = 1
+fr = 50
 
 
 cor :: Color
