@@ -4,6 +4,7 @@ import Tarefa2_2022li1g088
 import Tarefa3_2022li1g088 
 import Tarefa4_2022li1g088 
 import LI12223
+import LI12223 (Direcao(Direita), Jogada (Parado))
 
 
 
@@ -24,3 +25,17 @@ h=  animaJogo jogo Parado
 ve (Mapa _ [(_, (o:bs))]) x = reverse (drop (x+1) ( (o:bs++o:bs)))
 mapa3 = Mapa 6 [(Estrada 3, [Carro, Nenhum, Carro, Nenhum, Nenhum, Nenhum])]
 parviwe (o:bs) x= (drop (x)(o:bs)++o:bs,reverse $ (o:bs) ++ take (x+1)(o:bs))
+
+rio = animaJogo jogo (Move Cima)
+  where mapa = Mapa 3 [(Relva, [Nenhum, Nenhum, Nenhum]),(Rio 1, [Nenhum, Tronco, Tronco]),(Relva, [Nenhum, Nenhum, Nenhum])]
+        jogador = Jogador (1, 1)
+        jogo = Jogo jogador mapa
+rao = animaJogo jogo (Move Direita)
+  where mapa = Mapa 3 [(Relva, [Nenhum, Nenhum, Nenhum]),(Rio 1, [Nenhum, Tronco, Tronco]),(Relva, [Nenhum, Nenhum, Nenhum])]
+        jogador = Jogador (1, 1)
+        jogo = Jogo jogador mapa
+
+reo = animaJogo jogo (Parado)
+  where mapa = Mapa 3 [(Relva, [Nenhum, Nenhum, Nenhum]),(Rio 1, [Nenhum, Tronco, Tronco]),(Relva, [Nenhum, Nenhum, Nenhum])]
+        jogador = Jogador (2, 1)
+        jogo = Jogo jogador mapa

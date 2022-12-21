@@ -57,10 +57,10 @@ veobstaculonacoordenada (Mapa l (((terr, obs):xs))) (a,b)
   | b < 0 = undefined
 {-|funcao que determina o comportamento de um jogador em cima de um tronco -}
 casotronco :: Jogador -> Mapa -> Jogador
-casotronco (Jogador cords) mapa@(Mapa l (((Rio vel, obs):xs)))
-  | veobstaculonacoordenada mapa cords == Tronco = Jogador (fst cords  + vel, snd cords )
+casotronco (Jogador cords) mapa@(Mapa l (((terr, obs):xs)))
+  | veobstaculonacoordenada mapa cords == Tronco = casotronco (Jogador (fst cords  + velocidade terr, snd cords )) (Mapa l ((xs)))
   | otherwise = Jogador cords
-casotronco jog map = jog
+casotronco jog mape = jog
 
 
 {-|funcao auxiliar para daavolta  que roda so uma linha de obstaculos-}
@@ -113,8 +113,9 @@ vaicontraint par@(Estrada vel,o:bs) (Jogador (x,y))
 
 
 
-
-
+velocidade (Rio vel) = vel
+velocidade (Estrada vel) = vel
+velocidade (Relva) = 0
 sinal x 
   | x < 0 = -1
   | x == 0 = 0
