@@ -20,22 +20,22 @@ animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo
 {-|funcao que nos diz a posicao para a qual o jogador se desloca s-}
 posicaoapos :: Jogador -> Jogada -> Mapa -> Coordenadas
 posicaoapos (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
-  | jogada == Move Cima = (fst coords, snd coords-1)
-  | jogada == Move Baixo = (fst coords, snd coords+1)
+  | jogada == Move Cima = (fst coords, snd coords -1)
+  | jogada == Move Baixo = (fst coords, snd coords +1)
   | jogada == Move Esquerda = (fst coords -1, snd coords)
   | jogada == Move Direita = (fst coords +1, snd coords)
   | jogada == Parado = coords
 {-| funcao para o movimento do jogador ja com os casos em que o movimento é impossivel-}  
 deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador 
 deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
-  | veobstaculonacoordenada mapa ordena == Arvore = Jogador coords
-  | jogada == Parado = Jogador coords
-  | (fst coords >= l && jogada == Move Direita) || (fst coords <= 0 &&  jogada == Move Esquerda) = Jogador coords
-  | jogada == Move Cima && snd coords == 0 = Jogador coords
-  | jogada == Move Cima = Jogador (fst coords, snd coords-1)
-  | jogada == Move Baixo = Jogador (fst coords, snd coords+1)
-  | jogada == Move Esquerda = Jogador (fst coords -1, snd coords)
-  | jogada == Move Direita = Jogador  (fst coords +1, snd coords)
+  | veobstaculonacoordenada mapa ordena == Arvore = (Jogador coords)
+  | jogada == Parado = (Jogador coords)
+  | (fst coords >= l && jogada == Move Direita) || (fst coords <= 0 &&  jogada == Move Esquerda) = (Jogador coords)
+  | jogada == Move Cima && snd coords == 0 = (Jogador coords)
+  | jogada == Move Cima = (Jogador (fst coords, snd coords +1))
+  | jogada == Move Baixo = (Jogador (fst coords, snd coords -1))
+  | jogada == Move Esquerda = (Jogador (fst coords -1, snd coords))
+  | jogada == Move Direita = (Jogador  (fst coords +1, snd coords))
       where  ordena = posicaoapos (Jogador coords) jogada mapa
 
 
