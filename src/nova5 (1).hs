@@ -57,7 +57,7 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
 estadoInicial :: Imagens -> Float -> Mundo 
 estadoInicial imagens tempo = (PaginaJogar, jogo1, imagens,tempo)
 --(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
-jogo1= Jogo (Jogador (4,8)) (Mapa 9 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore])]) 
+jogo1= Jogo (Jogador (4,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])]) 
 
 mapa1 = (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])])
 
@@ -80,14 +80,20 @@ desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens, tempo) = Pictures [Scal
 desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
 desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
 --PaginaJogar 
-desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-605) (341) $ scale 2.65 1.45 $ Pictures world28 
+desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
  where 
-     world28 = desenhaTerrenos ++ desenhaObstaculos ++ [desenhajogador]
+     world28 = desenhaTerrenos ++ desenhaObstaculos ++ [scoore] ++ [desenhajogador]
      desenhaTerrenos = criarTerreno p o (getLargura(getMapa (PaginaJogar, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo))) imagens
      desenhaObstaculos = criarObstaculos p o (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo))) imagens 
-     desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens, tempo)) imagens
+     desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens, tempo)) (getTempo (PaginaJogar, jogo, imagens, tempo)) imagens
+     scoore = mostrarTempo (getTempo(PaginaJogar, jogo, imagens, tempo)) 
 
 
+mostrarTempo:: Float -> Picture
+mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
+
+getTempo :: Mundo -> Float 
+getTempo (_, _, _, tempo) = tempo 
 {-| Extrair o Mapa-}
 getMapa :: Mundo -> Mapa 
 getMapa (_, Jogo j m, _, _) = m 
@@ -177,7 +183,11 @@ nenhum28 :: Picture
 nenhum28 = Blank
 galinha28 :: Picture
 galinha28 = Color white $ thickCircle 5.0 10.0
-
+galinha2 :: Picture
+galinha2 = Color black $ thickCircle 5.0 10.0
+galinha3 :: Picture
+galinha3 = Color cyan $ thickCircle 5.0 10.0
+ 
 {-| Funcao criarMapa 
 
 Esta Funcao cria o Mapa usando o desenhalinha como auxiliar -}
@@ -196,9 +206,13 @@ criarObstaculos _ _ _ _ = []
 
 {-| Criar Jogador -}
 
-criarJogador :: Jogador -> Imagens -> Picture
-criarJogador (Jogador (x,y)) imagens = Translate (saltaX x) (saltaY y) (imagens !! 0)
-                             
+-- criarJogador :: Jogador -> Imagens -> Picture
+-- criarJogador (Jogador (x,y)) imagens = Translate (saltaX x) (saltaY y) (imagens !! 0)
+                                                                     
+criarJogador :: Jogador -> Float-> Imagens -> Picture
+criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1)) 3) == 0 = Translate (saltaX x) (saltaY y) (imagens !! 0)
+                                       | (mod (round (t*1)) 3) == 1 = Translate (saltaX x) (saltaY y) (imagens !! 10)
+                                       | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)
                               
 saltaX :: Int -> Float 
 saltaX = (+p).(*lado).realToFrac
@@ -287,14 +301,8 @@ deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 2) == 0 = (Jogo (deslo
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
 novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, (deslizaJogo2 (round (t+z)) jogo), imagens, (t+z))
-
--- | jogoTerminou jogo == True = (PaginaPerdeuJogo Reniciar, jogo, imagens, t) 
---                                                       | otherwise = (PaginaJogar, (deslizaJogo2 (round (t+z)) jogo), imagens, (t+z))
-
- {--| jogoTerminou jogo = (PaginaPerdeuJogo Reniciar, jogo, imagens, t)--}
---                                                   | otherwise = (PaginaJogar, jogo, imagens)
---                                                      | otherwise = (PaginaJogar, (deslizaJogo (round (t+z)) jogo), imagens, (t+z))
 novoMundoReageTempo _ z = z
+
 
 {-| Funcao Window 
 
@@ -319,6 +327,6 @@ main = do
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28]
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3]
          let tempo = 0.0         
          play window cor fr (estadoInicial imagens tempo) desenhaMundo event novoMundoReageTempo
