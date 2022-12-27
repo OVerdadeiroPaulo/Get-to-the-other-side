@@ -22,7 +22,7 @@ import Data.String (String)
 
 Funcao que pega num Mapa com um conjunto de linhas e adiciona mais uma linha aleatoria por cima da linha existente. Usando as suas funcoes auxiliares ela cria uma linha nova com um terreno aleatorio dos proximosTerrenospossiveis e faz uma lista de obstaculos com somente os proximosObstaculos possiveis dessa lista tendo em conta o Terreno-}
 estendeMapa :: Mapa -> Int -> Mapa
-estendeMapa (Mapa l ((te,obs):xs)) a = (Mapa l ((te,obs):xs ++[(te2,obs2)]))
+estendeMapa (Mapa l ((te,obs):xs)) a = (Mapa l ((te2,obs2):(te,obs):xs))
                                  where te2 = ter29 a (te,obs) (ter28 a (Mapa l ((te,obs):xs))) 
                                        obs2 = obs28 l (te2, []) a
                            
