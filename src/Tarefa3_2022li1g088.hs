@@ -73,14 +73,14 @@ gira n l@(x:xs)
 {-| segunda funcao auxiliar para daavolta que usa pattern matching para separar o comportameto de Relva Estrada e Rio -}
 
 giratodos ::Jogador  -> Jogada-> (Terreno, [Obstaculo])->  (Terreno , [Obstaculo])
-giratodos jog gada (Rio vel, x:xs)  = (Rio vel ,gira vel (x:xs)) 
-giratodos  jog@(Jogador (a,b)) jogada par@(Estrada vel, x:xs)
+giratodos jog gada (Rio vel, (x:xs))  = (Rio vel ,gira vel (x:xs)) 
+giratodos  jog@(Jogador (a,b)) jogada par@(Estrada vel, (x:xs))
   | jogada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 = par 
   | jogada == (Move Esquerda) && (veobslinhaCoord par (a-1,b) == Carro) && vel>=0= par
-  | veobslinhaCoord par (a,b) == Carro = (Estrada vel, x:xs)
+  | veobslinhaCoord par (a,b) == Carro = (Estrada vel, (x:xs))
   | vaicontra par jog = (Estrada vel ,gira (vaicontraint par jog ) (x:xs)) 
   | otherwise =  (Estrada vel ,gira vel (x:xs))
-giratodos  jog gada (Relva, x:xs) = (Relva, x:xs)
+giratodos  jog gada (Relva, (x:xs)) = (Relva, (x:xs))
  {-|funcao que da a volta ao mapa usanso giratodos e gira como auxiliares-}
 daavolta ::Jogador -> Jogada-> Mapa ->  Mapa
 daavolta jog gada  (Mapa l (((terr, x:xs):ys))) =  Mapa l (giratodos jog gada (terr, x:xs) : map ( giratodos jog gada) ys) 

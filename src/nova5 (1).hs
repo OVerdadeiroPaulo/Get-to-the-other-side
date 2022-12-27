@@ -59,26 +59,27 @@ estadoInicial imagens tempo = (PaginaJogar, jogo1, imagens,tempo)
 --(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
 jogo1= Jogo (Jogador (4,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])]) 
 
-mapa1 = (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])])
+mapa1 = (Mapa 9 [(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Arvore,NenJogo (Jogador (4,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum])])
 
 desenhaMundo :: Mundo -> Picture
 --PaginaPrincipal 
-desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)] 
-desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)] 
+desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = fundoAnimado {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
+            where fundoAnimado = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
+desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaPausa
-desenhaMundo (PaginaPausa Continuar_1, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
-desenhaMundo (PaginaPausa Menu_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Continuar_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Menu_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --paginaInstrucoes 
-desenhaMundo (PaginaInstrucoes b, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)] 
+desenhaMundo (PaginaInstrucoes b, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaMenuPausa 
-desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)] 
-desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens, tempo) = Pictures [Scale 2.0 2.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaJogar 
 desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
  where 
@@ -91,6 +92,15 @@ desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-630) (370) $ scal
 
 mostrarTempo:: Float -> Picture
 mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
+
+imagefundo :: Float -> Imagens -> Picture 
+imagefundo t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
+                     | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
+                     | otherwise = (imagens !! 12)
+
+getImagens :: Mundo -> Imagens
+getImagens (_, _, i, _) = i
+                              
 
 getTempo :: Mundo -> Float 
 getTempo (_, _, _, tempo) = tempo 
@@ -187,6 +197,10 @@ galinha2 :: Picture
 galinha2 = Color black $ thickCircle 5.0 10.0
 galinha3 :: Picture
 galinha3 = Color cyan $ thickCircle 5.0 10.0
+banner1 :: Picture 
+banner1 = Color blue $ rectangleSolid 300.0 300.0  
+banner2 :: Picture 
+banner2 = Color green $ rectangleSolid 300.0 300.0  
  
 {-| Funcao criarMapa 
 
@@ -205,13 +219,10 @@ criarObstaculos x y ((z,w):zs) imagens = line ++ linhaseguinte
 criarObstaculos _ _ _ _ = [] 
 
 {-| Criar Jogador -}
-
--- criarJogador :: Jogador -> Imagens -> Picture
--- criarJogador (Jogador (x,y)) imagens = Translate (saltaX x) (saltaY y) (imagens !! 0)
                                                                      
 criarJogador :: Jogador -> Float-> Imagens -> Picture
-criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1)) 3) == 0 = Translate (saltaX x) (saltaY y) (imagens !! 0)
-                                       | (mod (round (t*1)) 3) == 1 = Translate (saltaX x) (saltaY y) (imagens !! 10)
+criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 0)
+                                       | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 10)
                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)
                               
 saltaX :: Int -> Float 
@@ -223,50 +234,49 @@ saltaY = (+o).(*(-lado)).realToFrac
 
 
 event :: Event -> Mundo -> Mundo 
--- -- Pagina Principal 
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, Jogo j m, imagens) = (PaginaJogar Facil, Jogo j m, imagens) 
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaInstrucoes false Facil, jogo, imagens) 
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = error "Jogo Terminou"
--- -- Pagina controlos  
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
---                                                                                  | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
---                                                                                    | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens)
---                                                                                     | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
+-- Pagina Principal 
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo) = (PaginaPrincipal Sair_1, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaPrincipal Sair_1, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, Jogo j m, imagens, tempo) = (PaginaJogar Facil, Jogo j m, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaInstrucoes false Facil, jogo, imagens, tempo) 
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = error "Jogo Terminou"
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
+--                                                                                         | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
+--                                                                                    | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
+--                                                                                     | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
 -- -- Pagina Pausa  
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens) = (PaginaPausa Continuar_1, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens) = (PaginaPausa Continuar_1, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1, jogo, imagens) = (PaginaJogar, jogo, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
--- -- Pagina MenuPausa 
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaMenuPausa Sair_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaMenuPausa NovoJogo, jogo, imagens)
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = (PaginaMenuPausa Instrucoes_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaMenuPausa NovoJogo, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaMenuPausa Instrucoes_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaMenuPausa Sair_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = (PaginaMenuPausa Continuar_2, jogo, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens) = (PaginaJogar, jogo, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens) = (PaginaJogar, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens) = (PaginaInstrucoes True, jogo, imagens)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1, jogo, imagens, tempo) = (PaginaJogar, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, imagens, tempo) = (PaginaMenuPausa True Continuar_2, jogo, imagens, tempo)
+-- -- -- Pagina MenuPausa 
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens, tempo) = (PaginaMenuPausa Sair_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens, tempo) = (PaginaMenuPausa NovoJogo, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens, tempo) = (PaginaMenuPausa Instrucoes_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens, tempo) = (PaginaMenuPausa NovoJogo, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens, tempo) = (PaginaMenuPausa Instrucoes_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens, tempo) = (PaginaMenuPausa Sair_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens, tempo) = (PaginaJogar, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens, tempo) = (PaginaJogar, jogo1, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2, jogo, imagens, tempo) = (PaginaInstrucoes True, jogo, imagens, tempo)
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2, jogo, imagens) = error "Terminou Jogo"
--- -- Pagina Perdeu jogo
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaPerdeuJogo Menu_3, jogo, imagens)
--- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPerdeuJogo Reniciar, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaPerdeuJogo Menu_3, jogo, imagens)
--- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPerdeuJogo Reniciar, jogo, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens) = (PaginaJogar, Jogo j m, imagens)
--- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens)
+-- -- -- Pagina Perdeu jogo
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = (PaginaJogar, Jogo j m, imagens, tempo)
+-- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo)
 -- -- Pagina Jogar 
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Cima) m) m, imagens, tempo)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Baixo) m) m, imagens, tempo)
@@ -293,14 +303,19 @@ Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e ge
 --                                                             | otherwise = (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs)))
 
 deslizaJogo2 :: Int -> Jogo -> Jogo 
-deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 2) == 0 = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                  | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
                                                                                                                           
--- deslizaJogo1 :: Int -> Jogo -> Jogo 
--- deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+deslizaJogo1 :: Int -> Jogo -> Jogo 
+deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
-novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, (deslizaJogo2 (round (t+z)) jogo), imagens, (t+z))
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
+-- novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) | (mod (round (t+z)) 2) == 1 =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z)) 
+--                                                           | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
+--novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (daavolta(getJogador(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) Parado (getMapa(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) )
+novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
+--novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, jogo, imagens, (t+z))
 novoMundoReageTempo _ z = z
 
 
@@ -314,9 +329,9 @@ window = FullScreen
 
 Contem o numero de frames por segundo em que o nosso programa vai funcionar -}
 fr :: Int
-fr = 1
+fr = 100
 
-
+{--change to blue, for other dificulties--}
 cor :: Color
 cor = cyan 
 
@@ -327,6 +342,6 @@ main = do
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3]
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2]
          let tempo = 0.0         
          play window cor fr (estadoInicial imagens tempo) desenhaMundo event novoMundoReageTempo
