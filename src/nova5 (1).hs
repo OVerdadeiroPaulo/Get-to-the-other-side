@@ -310,8 +310,8 @@ deslizaJogo1 :: Int -> Jogo -> Jogo
 deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
--- novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) | (mod (round (t+z)) 2) == 1 =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z)) 
+--novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (Jogo j (daavolta j Parado m))), imagens, (t+z)) 
 --                                                           | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (daavolta(getJogador(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) Parado (getMapa(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) )
 novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))

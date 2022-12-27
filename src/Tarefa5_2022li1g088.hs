@@ -20,6 +20,9 @@ import Graphics.Gloss.Interface.Pure.Game
 
 == codigo :
 @
+deslizaJogo :: Int -> Jogo -> Jogo 
+deslizaJogo a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+                                                | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
 @-}
 
 deslizaJogo :: Int -> Jogo -> Jogo 
