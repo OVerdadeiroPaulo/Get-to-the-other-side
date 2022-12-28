@@ -315,18 +315,8 @@ deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
 --deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) 
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,{--(deslizaJogo2 (round ((t+z)*200)) (Jogo j m))--}Jogo j m, imagens, (t+z),e) 
---                                                            
-
-
-
-
-
-
-
-
-
---novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
+--novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,(deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z),e)                                                             
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z),e)
 
 
 
@@ -372,7 +362,7 @@ main = do
          arvore2 <- loadBMP "arvore.bmp"
          tronco2 <- loadBMP "troncoinicio.bmp"
          carro2 <- loadBMP "mota.bmp"
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2, scale 0.12 0.10 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2,Translate 0 25 $ scale 0.12 0.12 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
          let tempo = 0.0 
          let jogada = (Parado)        
          play window cor fr (estadoInicial imagens tempo jogada) desenhaMundo event novoMundoReageTempo
