@@ -278,10 +278,10 @@ event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, image
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = (PaginaJogar, Jogo j m, imagens, tempo)
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo)
 -- -- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Cima) m) m, imagens, tempo,(Move Cima))
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Baixo) m) m, imagens, tempo,(Move Baixo))
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Esquerda) m) m, imagens, tempo,(Move Esquerda))
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Direita) m) m, imagens, tempo,(Move Direita))
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo,(Move Cima))
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo,(Move Baixo))
+event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo,(Move Esquerda))
+event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo,(Move Direita))
 event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar, jogo, imagens, tempo, jogada) = (PaginaPausa Continuar_1, jogo, imagens, tempo, Parado)
 -- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaJogar, animaJogo jogo (Move Cima), imagens, tempo)
 -- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaJogar, animaJogo jogo (Move Baixo), imagens, tempo)
@@ -303,7 +303,7 @@ Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e ge
 --                                                             | otherwise = (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs)))
 
 deslizaJogo2 :: Int -> Jogo -> Jogo 
-deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocafinal j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                  | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
                                                                                                            
                                                                                                       
@@ -312,7 +312,7 @@ deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
                                                
 
 --deslizaJogo1 :: Int -> Jogo -> Jogo 
---deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) 
+--deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocafinal j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) 
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
 --novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,(deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z),e)                                                             
