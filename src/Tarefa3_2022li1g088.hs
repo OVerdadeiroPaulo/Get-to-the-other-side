@@ -99,7 +99,7 @@ vaicontra (Estrada vel,[]) (Jogador (x,y)) = False
 vaicontra par@(Estrada vel,o:bs) (Jogador (x,y))
  |veobslinhaCoord par (x,y) == Carro = True
  |vel == 0 = False
- |vel< 0 = vaicontra (Estrada (vel-1),drop (x)(o:bs)++o:bs) (Jogador (x,y))
+ |vel< 0 = vaicontra (Estrada (abs vel-1),drop (x)(o:bs)++o:bs) (Jogador (x,y))
  |vel> 0 = vaicontra (Estrada (vel-1),reverse $ (o:bs) ++ take (x+1)(o:bs)) (Jogador (x,y))
 
 
@@ -129,3 +129,4 @@ jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario)
 jogoTronco = (Jogo (Jogador (1,0)) mapaRioTronco) 
 jogoNormal = (Jogo (Jogador (0,1)) mapanormal) 
 
+testedosilverio= (Jogo (Jogador (0,3)) (Mapa 2 [(Estrada (2),[Nenhum,Carro]),(Estrada 1,[Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Estrada 3,[Carro,Nenhum])]))
