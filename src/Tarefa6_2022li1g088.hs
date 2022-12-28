@@ -57,12 +57,32 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
              | PaginaMenuPausa MenuPausa Dificuldade -- ^ A pagina menu pausa mostranos as opcoes do menu pausa  
              | PaginaJogar Dificuldade  -- ^ A pagina jogar mostra que o jogador esta a jogar 
 
+
+{-| A funcao 'estdoInicial' guarda o estado inicial de jogo, a primeira coisa que sera apresentada ao user, quando abrir o programa.
+
+==codigo:
+@
+estadoInicial :: Imagens -> Float -> Jogada -> Mundo 
+estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
+@  
+-}
+
+estadoInicial :: Imagens -> Float -> Jogada -> Mundo 
+estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
+
+
+
+
 desenhaMundo :: Mundo -> Picture
 --PaginaPrincipal 
-desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = fundoAnimado {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
-            where fundoAnimado = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
-desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = fundoAnimado1 {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
+            where fundoAnimado1 = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
+desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens) = fundoAnimado2    {-Picture [Scale 1.0 1.0 (imagens !! 4)]-} 
+            where fundoAnimado2 = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
+desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = fundoAnimado3   {-Pictures [Scale 1.0 1.0 (imagens !! 4)]-} 
+            where fundoAnimado3 = imagefundo2 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
+desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = fundoAnimado4  {--Pictures [Scale 1.0 1.0 (imagens !! 4)]--}
+            where fundoAnimado4 = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
 --PaginaPerdeuJogo
 desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
@@ -177,18 +197,56 @@ getTerreno :: Mapa -> [(Terreno,[Obstaculo])]
 getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
 
 
-{-| Extrair o Jogador-}
+{-| A Funcao 'getJogador' extrai o 'Jogador' do 'Mundo'
+
+==codigo:
+@
+getJogador :: Mundo -> Jogador
+getJogador (_, Jogo j m, _, _) = j
+@
+-}
+
 getJogador :: Mundo -> Jogador
 getJogador (_, Jogo j m, _, _) = j
 
-{-| Valor do x onde o Mapa vai comecar-}
+{-| O 'p' guarda o valor do x onde o Mapa vai comecar
+
+==codigo:
+@
+p :: Float
+p = 0.0
+@
+-}
+
 p :: Float 
 p = 0.0
 
-{-| Valor do y onde o Mapa vai comecar-}
+{-|O 'o' guarda o Valor do y onde o Mapa vai comecar
+
+==codigo:
+@
+o :: Float
+o = 0.0
+@
+-}
+
 o :: Float 
 o = 0.0
 
-{-| Valor do lado da imagem, usado para contruir as figuras seguintes uma apos a outra e usado para controir as linhas uma assima da outra se se sobreporem-}
+{-| O 'lado' guarda o valor do lado da imagem, usado para contruir as figuras seguintes uma apos a outra e usado para controir as linhas uma assima da outra sem se sobreporem.
+
+==codigo:
+@
+lado :: Float
+lado = 60.0 
+@
+-}
+
 lado :: Float 
 lado = 60.0 
+
+
+
+
+
+jogo1= Jogo (Jogador (5,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])])

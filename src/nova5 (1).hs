@@ -321,8 +321,6 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, Jogo
 
 
 
-
-
 -- | (PaginaJogar, Jogo j m, imagens, t,e)
  --                                                           | otherwise = (PaginaJogar, (deslizaObs e (Jogo j m)), imagens, (t+z),e)
 --                                                             | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
