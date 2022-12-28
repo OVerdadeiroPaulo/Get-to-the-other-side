@@ -123,9 +123,10 @@ sinal x
 mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
 mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
 mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
-mapanormal = Mapa 2 [(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
+mapanormal = Mapa 3 [(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
 jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
 jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
 jogoTronco = (Jogo (Jogador (1,0)) mapaRioTronco) 
 jogoNormal = (Jogo (Jogador (0,1)) mapanormal) 
+
 
