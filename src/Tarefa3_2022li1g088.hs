@@ -57,9 +57,14 @@ veobstaculonacoordenada (Mapa l (((terr, obs):xs))) (a,b)
 {-|funcao que determina o comportamento de um jogador em cima de um tronco -}
 casotronco :: Jogador -> Mapa -> Jogador
 casotronco (Jogador cords) mapa@(Mapa l (((terr, obs):xs)))
-  | veobstaculonacoordenada mapa cords == Tronco = casotronco (Jogador (fst cords  + velocidade terr, snd cords )) (Mapa l ((xs)))
+  | veobstaculonacoordenada mapa cords == Tronco = casotronco (Jogador (fst cords  + velocidade terr2, snd cords )) (Mapa l ((xs)))
   | otherwise = Jogador cords
+   where (Mapa l ((terr2,(o:bs)):outs)) = velinha (Jogador cords) mapa
 casotronco jog mape = jog
+velinha :: Jogador -> Mapa -> Mapa
+velinha (Jogador (a,b)) (Mapa l ((terr,(x:xs)):ys)) 
+ | b == 0 = (Mapa l ((terr,(x:xs)):ys))
+ | otherwise = velinha (Jogador (a,b-1)) (Mapa l (ys)) 
 troncolinha :: Jogador-> (Terreno, [Obstaculo]) -> Jogador
 troncolinha (Jogador cords) l@(terr,(x:xs)) 
   | veobslinhaCoord l cords == Tronco = troncolinha (Jogador (fst cords  + velocidade terr, snd cords )) (terr,(x:xs))
