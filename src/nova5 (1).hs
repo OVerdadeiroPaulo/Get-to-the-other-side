@@ -1,7 +1,7 @@
 module Main where
 
 import LI12223
-import Tarefa1_2022li1g088
+import Tarefa1_2022li1g088 ( inicionovo )
 import Tarefa2_2022li1g088
 import Tarefa3_2022li1g088
 import Tarefa4_2022li1g088
@@ -311,14 +311,16 @@ deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Mov
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
 --novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (Jogo j (daavolta j Parado m))), imagens, (t+z)) 
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (daavJogo(Jogo j m))), imagens, (t+z))
+
 --                                                           | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (daavolta(getJogador(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) Parado (getMapa(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) )
 novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, jogo, imagens, (t+z))
 novoMundoReageTempo _ z = z
 
-
+daavJogo :: Jogo -> Jogo
+daavJogo (Jogo j m) =  Jogo j (daavolta j Parado m) 
 {-| Funcao Window 
 
 Contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela-}
