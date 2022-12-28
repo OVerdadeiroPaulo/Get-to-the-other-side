@@ -1,7 +1,7 @@
 module Main where
 
 import LI12223
-import Tarefa1_2022li1g088
+import Tarefa1_2022li1g088 ( inicionovo )
 import Tarefa2_2022li1g088
 import Tarefa3_2022li1g088
 import Tarefa4_2022li1g088
@@ -331,7 +331,8 @@ novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t,e) = (PaginaPrincipal
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, jogo, imagens, (t+z))
 novoMundoReageTempo _ z = z
 
-
+daavJogo :: Jogo -> Jogo
+daavJogo (Jogo j m) =  Jogo j (daavolta j Parado m) 
 {-| Funcao Window 
 
 Contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela-}
