@@ -90,7 +90,7 @@ desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-630) (370) $ scal
      desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens, tempo)) (getTempo (PaginaJogar, jogo, imagens, tempo)) imagens
      scoore = mostrarTempo (getTempo(PaginaJogar, jogo, imagens, tempo)) 
 
-{-A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
+{-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
 ==codigo:
 @
@@ -98,10 +98,11 @@ mostrarTempo:: Float -> Picture
 mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 @
 -}
+
 mostrarTempo:: Float -> Picture
 mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 
-{-A funcao 'imageFundo' faz alternar as imagens do background do jogo
+{-| A funcao 'imageFundo' faz alternar as imagens do background do jogo
 
 ==codigo:
 @
@@ -109,24 +110,68 @@ imagefundo :: Float -> Imagens -> Picture
 imagefundo t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
                      | otherwise = (imagens !! 12)
-@-}
+@
+-}
+
 imagefundo :: Float -> Imagens -> Picture 
 imagefundo t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
                      | otherwise = (imagens !! 12)
 
+{-| A funcao 'getImage' busca a imagem no 'Mundo'
+
+==codigo: 
+@
+getImagens :: Mundo -> Imagens
+getImagens (_, _, i, _) = i
+@
+-}
+
 getImagens :: Mundo -> Imagens
 getImagens (_, _, i, _) = i
                               
+{-| A funcao auxiliar 'getTempo' busca o tempo no 'Mundo'
+@
+getTempo :: Mundo -> Float 
+getTempo (_, _, _, tempo) = tempo
+@
+-}
 
 getTempo :: Mundo -> Float 
 getTempo (_, _, _, tempo) = tempo 
-{-| Extrair o Mapa-}
+
+{-| A funcao 'getMapa' extrai o Mapa do 'Jogo' que esta dentro do 'Mundo' 
+
+==codigo:
+@
+getMapa :: Mundo -> Mapa 
+getMapa (_, Jogo j m, _, _) = m
+@ 
+-}
+
 getMapa :: Mundo -> Mapa 
 getMapa (_, Jogo j m, _, _) = m 
 
+{-| A  funcao 'getLargura' busca a largura no 'Mapa'
+
+==codigo:
+@
 getLargura :: Mapa -> Int 
 getLargura (Mapa l ((te,obs):xs)) = l
+@
+-}
+
+getLargura :: Mapa -> Int 
+getLargura (Mapa l ((te,obs):xs)) = l
+
+{-| A funcao 'getTerreno' busca o '[(Terreno,[Obstaculo])]' no 'Mapa'
+
+==codigo:
+@
+getTerreno :: Mapa -> [(Terreno,[Obstaculo])] 
+getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
+@
+-}
 
 getTerreno :: Mapa -> [(Terreno,[Obstaculo])] 
 getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
