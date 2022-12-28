@@ -20,7 +20,7 @@ import Graphics.Gloss.Interface.Pure.Game
 --   Jogador Coordenadas
 --   deriving (Show, Read, Eq)
 
-type Mundo = (Paginas, Jogo, Imagens, Float)
+type Mundo = (Paginas, Jogo, Imagens, Float, Jogada)
 
 type Imagens = [Picture]
 
@@ -54,8 +54,8 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
              | PaginaJogar -- ^ A pagina jogar mostra que o jogador esta a jogar 
 
 
-estadoInicial :: Imagens -> Float -> Mundo 
-estadoInicial imagens tempo = (PaginaJogar, jogo1, imagens,tempo)
+estadoInicial :: Imagens -> Float -> Jogada -> Mundo 
+estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 --(PaginaJogar, (Jogo(Jogador (a,c))(Mapa 4 [(Rio (-1),[Nenhum,Tronco,Tronco,Tronco]),(Rio 4,[Tronco,Nenhum,Tronco,Nenhum]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum])]))
 jogo1= Jogo (Jogador (4,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])]) 
 
@@ -63,31 +63,31 @@ jogo1= Jogo (Jogador (4,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Ne
 
 desenhaMundo :: Mundo -> Picture
 --PaginaPrincipal 
-desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = fundoAnimado {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
-            where fundoAnimado = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
-desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo, jogada) = fundoAnimado {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
+            where fundoAnimado = imagefundo (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, jogada)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, jogada))
+desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaPausa
-desenhaMundo (PaginaPausa Continuar_1, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPausa Menu_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Continuar_1, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Menu_2, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --paginaInstrucoes 
-desenhaMundo (PaginaInstrucoes b, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaInstrucoes b, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaMenuPausa 
-desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Continuar_2, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaMenuPausa b NovoJogo, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Instrucoes_2, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa b Sair_2, jogo, imagens, tempo, jogada) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaJogar 
-desenhaMundo (PaginaJogar, jogo, imagens, tempo) = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
+desenhaMundo (PaginaJogar, jogo, imagens, tempo, jogada) = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
  where 
      world28 = desenhaTerrenos ++ desenhaObstaculos ++ [scoore] ++ [desenhajogador]
-     desenhaTerrenos = criarTerreno p o (getLargura(getMapa (PaginaJogar, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo))) imagens
-     desenhaObstaculos = criarObstaculos p o (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo))) imagens 
-     desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens, tempo)) (getTempo (PaginaJogar, jogo, imagens, tempo)) imagens
-     scoore = mostrarTempo (getTempo(PaginaJogar, jogo, imagens, tempo)) 
+     desenhaTerrenos = criarTerreno p o (getLargura(getMapa (PaginaJogar, jogo, imagens, tempo, jogada))) (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo, jogada))) imagens
+     desenhaObstaculos = criarObstaculos p o (getTerreno(getMapa (PaginaJogar, jogo, imagens, tempo, jogada))) imagens 
+     desenhajogador = criarJogador (getJogador (PaginaJogar, jogo, imagens, tempo, jogada)) (getTempo (PaginaJogar, jogo, imagens, tempo, jogada)) imagens
+     scoore = mostrarTempo (getTempo(PaginaJogar, jogo, imagens, tempo, jogada)) 
 
 
 mostrarTempo:: Float -> Picture
@@ -99,14 +99,14 @@ imagefundo t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
                      | otherwise = (imagens !! 12)
 
 getImagens :: Mundo -> Imagens
-getImagens (_, _, i, _) = i
+getImagens (_, _, i, _, _) = i
                               
 
 getTempo :: Mundo -> Float 
-getTempo (_, _, _, tempo) = tempo 
+getTempo (_, _, _, tempo, _) = tempo 
 {-| Extrair o Mapa-}
 getMapa :: Mundo -> Mapa 
-getMapa (_, Jogo j m, _, _) = m 
+getMapa (_, Jogo j m, _, _, _) = m 
 
 getLargura :: Mapa -> Int 
 getLargura (Mapa l ((te,obs):xs)) = l
@@ -117,7 +117,7 @@ getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
 
 {-| Extrair o Jogador-}
 getJogador :: Mundo -> Jogador
-getJogador (_, Jogo j m, _, _) = j
+getJogador (_, Jogo j m, _, _, _) = j
 
 {-| Valor do x onde o Mapa vai comecar-}
 p :: Float 
@@ -166,16 +166,16 @@ Esta funcao junta cada terreno a uma imagem ja definida -}
 
 render :: Terreno -> Imagens -> Picture 
 render terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 2)
- | inicionovo terreno == "Rio" = (imagens !! 1)
- | inicionovo terreno == "Est" = (imagens !! 3)
+ | inicionovo terreno == "Rel" = (imagens !! 13)
+ | inicionovo terreno == "Rio" = (imagens !! 15)
+ | inicionovo terreno == "Est" = (imagens !! 17)
 
 render2 :: Obstaculo -> Imagens -> Picture 
 render2 obstaculo imagens 
  | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 5)
- | obstaculo == Arvore = (imagens !! 6)
- | obstaculo == Carro = (imagens !! 7)
+ | obstaculo == Tronco = (imagens !! 16)
+ | obstaculo == Arvore = (imagens !! 14)
+ | obstaculo == Carro = (imagens !! 18)
 
 rio28 :: Picture 
 rio28 = Color blue $ rectangleSolid lado lado  
@@ -251,12 +251,12 @@ event :: Event -> Mundo -> Mundo
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
 --                                                                                     | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
 -- -- Pagina Pausa  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1, jogo, imagens, tempo) = (PaginaJogar, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, imagens, tempo) = (PaginaMenuPausa True Continuar_2, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo, jogada) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo, jogada)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo, jogada) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo, jogada)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1, Jogo j m, imagens, tempo, jogada) = (PaginaPausa Menu_2, Jogo j m, imagens, tempo, jogada)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2, Jogo j m, imagens, tempo, jogada) = (PaginaPausa Continuar_1, Jogo j m, imagens, tempo, jogada)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1, jogo, imagens, tempo, jogada) = (PaginaJogar, jogo, imagens, tempo, jogada)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, imagens, tempo, jogada) = (PaginaMenuPausa True Continuar_2, jogo, imagens, tempo, jogada)
 -- -- -- Pagina MenuPausa 
 -- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2, jogo, imagens, tempo) = (PaginaMenuPausa Sair_2, jogo, imagens, tempo)
 -- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2, jogo, imagens, tempo)
@@ -278,11 +278,11 @@ event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2, jogo, image
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar, jogo, imagens, tempo) = (PaginaJogar, Jogo j m, imagens, tempo)
 -- event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo)
 -- -- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Cima) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Baixo) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Esquerda) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo) = (PaginaJogar, Jogo (deslocajogador j (Move Direita) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaPausa Continuar_1, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Cima) m) m, imagens, tempo,(Move Cima))
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Baixo) m) m, imagens, tempo,(Move Baixo))
+event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Esquerda) m) m, imagens, tempo,(Move Esquerda))
+event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar, Jogo j m, imagens, tempo, jogada) = (PaginaJogar, Jogo (deslocajogador j (Move Direita) m) m, imagens, tempo,(Move Direita))
+event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar, jogo, imagens, tempo, jogada) = (PaginaPausa Continuar_1, jogo, imagens, tempo, Parado)
 -- event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaJogar, animaJogo jogo (Move Cima), imagens, tempo)
 -- event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaJogar, animaJogo jogo (Move Baixo), imagens, tempo)
 -- event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar, jogo, imagens, tempo) = (PaginaJogar, animaJogo jogo (Move Esquerda), imagens, tempo)
@@ -305,17 +305,39 @@ Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e ge
 deslizaJogo2 :: Int -> Jogo -> Jogo 
 deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                  | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
-                                                                                                                          
-deslizaJogo1 :: Int -> Jogo -> Jogo 
-deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+                                                                                                           
+                                                                                                      
+deslizaObs:: Jogada -> Jogo -> Jogo 
+deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
+                                               
+
+--deslizaJogo1 :: Int -> Jogo -> Jogo 
+--deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) 
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
---novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) =  (PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) (daavJogo(Jogo j m))), imagens, (t+z))
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,{--(deslizaJogo2 (round ((t+z)*200)) (Jogo j m))--}Jogo j m, imagens, (t+z),e) 
+--                                                            
 
---                                                           | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
+
+
+
+
+
+
+
+
+--novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z))
+
+
+
+
+
+
+-- | (PaginaJogar, Jogo j m, imagens, t,e)
+ --                                                           | otherwise = (PaginaJogar, (deslizaObs e (Jogo j m)), imagens, (t+z),e)
+--                                                             | otherwise = (PaginaJogar, Jogo j (daavolta j Parado m), imagens, (t+z))
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (daavolta(getJogador(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) Parado (getMapa(PaginaJogar, (deslizaJogo2 (round ((t+z)*200)) jogo), imagens, (t+z))) )
-novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
+novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t,e) = (PaginaPrincipal c, jogo, imagens, (t+z),e)
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, jogo, imagens, (t+z))
 novoMundoReageTempo _ z = z
 
@@ -344,6 +366,14 @@ main = do
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2]
-         let tempo = 0.0         
-         play window cor fr (estadoInicial imagens tempo) desenhaMundo event novoMundoReageTempo
+         galinha4 <- loadBMP "arvore.bmp"
+         rio2 <- loadBMP "rio.bmp"
+         estrada2 <-loadBMP "estrada.bmp"
+         relva2 <- loadBMP "relva.bmp"
+         arvore2 <- loadBMP "arvore.bmp"
+         tronco2 <- loadBMP "troncoinicio.bmp"
+         carro2 <- loadBMP "mota.bmp"
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2, scale 0.12 0.10 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
+         let tempo = 0.0 
+         let jogada = (Parado)        
+         play window cor fr (estadoInicial imagens tempo jogada) desenhaMundo event novoMundoReageTempo
