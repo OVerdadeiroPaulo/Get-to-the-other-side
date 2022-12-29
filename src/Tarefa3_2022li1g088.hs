@@ -14,28 +14,38 @@ import Data.Type.Equality (TestEquality(testEquality))
 import GHC.Real (underflowError)
 {-|Funcao principal que anima o jogo usando todas as outras como auxiliare-}
 animaJogo :: Jogo -> Jogada -> Jogo
-animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
---animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocajogador (casotronco(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Mapa l ((terr, x:xs):ys)))
+--animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
+
+animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocajogador (casotronco(Jogador (a,b)) mapa) jogada mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
+
+--animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada =
+--  let newJogador = casotronco (deslocajogador (Jogador (a,b)) jogada mapa) mapa
+--  in Jogo newJogador (daavolta newJogador jogada (Mapa l ((terr, x:xs):ys)))
+
+--animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( (deslocafinal(Jogador (a,b)) jogada mapa) )  (daavolta ( (deslocafinal(Jogador (a,b)) jogada mapa) )  jogada (Mapa l ((terr, x:xs):ys)))
+
 
 {-|funcao que nos diz a posicao para a qual o jogador se desloca s-}
+
 posicaoapos :: Jogador -> Jogada -> Mapa -> Coordenadas
 posicaoapos (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | jogada == Move Cima = (fst coords, snd coords -1)
   | jogada == Move Baixo = (fst coords, snd coords +1)
   | jogada == Move Esquerda = (fst coords -1, snd coords)
   | jogada == Move Direita = (fst coords +1, snd coords)
-  | jogada == Parado = coords
+  | jogada == Parado = (fst coords , snd coords)
 {-| funcao para o movimento do jogador ja com os casos em que o movimento é impossivel-}  
 deslocajogador :: Jogador -> Jogada -> Mapa -> Jogador 
 deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
-  | veobstaculonacoordenada mapa ordena == Arvore = (Jogador coords)
   | jogada == Parado = (Jogador coords)
+  | veobstaculonacoordenada mapa ordena == Arvore = (Jogador coords)
   | (fst coords >= l && jogada == Move Direita) || (fst coords <= 0 &&  jogada == Move Esquerda) = (Jogador coords)
   | jogada == Move Cima && snd coords == 0 = (Jogador coords)
   | jogada == Move Cima = (Jogador (fst coords, snd coords -1))
   | jogada == Move Baixo = (Jogador (fst coords, snd coords +1))
   | jogada == Move Esquerda = (Jogador (fst coords -1, snd coords))
   | jogada == Move Direita = (Jogador  (fst coords +1, snd coords))
+  | otherwise = (Jogador coords)
       where  ordena = posicaoapos (Jogador coords) jogada mapa
 deslocafinal jog jogada mapa = casotronco ( deslocajogador jog jogada mapa) mapa
 {-|funcao  auxiliar que ve o tipo de obstaculo numa dita coordenada de um terreno-}
@@ -60,14 +70,11 @@ casotronco (Jogador cords) mapa@(Mapa l (((terr, obs):xs)))
   | veobstaculonacoordenada mapa cords == Tronco =  (Jogador (fst cords  + velocidade terr2, snd cords )) 
    where (Mapa l ((terr2,(o:bs)):outs)) = velinha (Jogador cords) mapa
 casotronco jog mape = jog
+--auxiliar para casotronco 
 velinha :: Jogador -> Mapa -> Mapa
 velinha (Jogador (a,b)) (Mapa l ((terr,(x:xs)):ys)) 
  | b == 0 = (Mapa l ((terr,(x:xs)):ys))
  | otherwise = velinha (Jogador (a,b-1)) (Mapa l (ys)) 
-troncolinha :: Jogador-> (Terreno, [Obstaculo]) -> Jogador
-troncolinha (Jogador cords) l@(terr,(x:xs)) 
-  | veobslinhaCoord l cords == Tronco = troncolinha (Jogador (fst cords  + velocidade terr, snd cords )) (terr,(x:xs))
-  | otherwise = Jogador cords
 
 
 {-|funcao auxiliar para daavolta  que roda so uma linha de obstaculos-}
@@ -78,19 +85,24 @@ gira n l@(x:xs)
   | n < 0 = drop (abs n) l ++ take (abs n ) l
   | n == 0 = l
 {-| segunda funcao auxiliar para daavolta que usa pattern matching para separar o comportameto de Relva Estrada e Rio -}
+desmapa  (Mapa l (filling)) =  filling
+emmapa filling =  (Mapa 12 (filling))
+daavolta ::Jogador  -> Jogada-> (Mapa)->  Mapa
+daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ((par@(terr, x:xs):ys))) = 
+  case terr of 
+        Rio vel ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  jog gada (emmapa ys)))))
+        Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta jog gada (emmapa ys)))))
+        Estrada vel 
+            | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta jog gada (emmapa ys))))) 
+            | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta jog gada (emmapa ys))))) 
+            | veobslinhaCoord par (a,b) == Carro  -> (Mapa l (((terr ,(x:xs)) : (  turn jog gada ( ys))))) 
+            | vaicontra (terr, x:xs) jog -> (Mapa l (((terr ,gira (vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  jog gada (emmapa ys)))))
+            | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  jog gada (emmapa ys)))))
+            | otherwise  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  jog gada (emmapa ys)))))
+             where turn jog gada ((terr, (x:xs)):ys)  =( (terr ,gira (velocidade terr) (x:xs)):  (turn jog gada) ys)
+                   turn _ _ [] = []
 
-giratodos ::Jogador  -> Jogada-> (Terreno, [Obstaculo])->  (Terreno , [Obstaculo])
-giratodos jog gada (Rio vel, (x:xs))  = (Rio vel ,gira vel (x:xs)) 
-giratodos  jog@(Jogador (a,b)) jogada par@(Estrada vel, (x:xs))
-  | jogada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 = par 
-  | jogada == (Move Esquerda) && (veobslinhaCoord par (a-1,b) == Carro) && vel>=0= par
-  | veobslinhaCoord par (a,b) == Carro = (Estrada vel, (x:xs))
-  | vaicontra par jog = (Estrada vel ,gira (vaicontraint par jog ) (x:xs)) 
-  | otherwise =  (Estrada vel ,gira vel (x:xs))
-giratodos  jog gada (Relva, (x:xs)) = (Relva, (x:xs))
- {-|funcao que da a volta ao mapa usanso giratodos e gira como auxiliares-}
-daavolta ::Jogador -> Jogada-> Mapa ->  Mapa
-daavolta jog gada  (Mapa l (((terr, x:xs):ys))) =  Mapa l (giratodos jog gada (terr, x:xs) : map ( giratodos jog gada) ys) 
+
 
 -- toma em atenchao a velocidade e usa a para animajogo com vel 1 se a vel+y> y2>y 
 veobslinhaCoord ::  (Terreno, [Obstaculo]) -> Coordenadas -> Obstaculo
@@ -130,12 +142,31 @@ sinal x
 mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
 mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
 mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
-mapanormal = Mapa 3 [(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
+mapanormal = Mapa 2 [(Relva, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
 jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
 jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
 jogoTronco = (Jogo (Jogador (1,0)) mapaRioTronco) 
 jogoNormal :: Jogo
 jogoNormal = (Jogo (Jogador (0,1)) mapanormal) 
+jogo2= Jogo (Jogador (6,8)) (Mapa 12 [(Estrada (2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])]) 
 
-testedosilverio= (Jogo (Jogador (0,3)) (Mapa 2 [(Estrada ( 1),[Nenhum,Carro]),(Estrada 1,[Carro,Nenhum]),(Estrada (-1),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Estrada (-2),[Nenhum,Carro]),(Relva,[Arvore,Nenhum]),(Relva,[Nenhum,Arvore]),(Estrada 3,[Carro,Nenhum])]))
-silvertest = (Mapa 4 [(Estrada (-1),[Tronco,Tronco,Tronco,Nenhum]),(Rio 1,[Nenhum,Tronco,Nenhum,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore]),(Relva,[Arvore,Arvore,Arvore,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Nenhum])])
+jogo3= Jogo (Jogador (5,8)) (Mapa 12 [(Estrada (2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])]) 
+teste1 = animaJogo jogo3 Parado
+teste2 = animaJogo jogo2 Parado
+teste3 = animaJogo jogo3 (Move Direita)
+
+
+
+ --       Relva -> (Mapa l (((Relva vel ,gira vel (
+{-daavolta jog gada (Rio vel, (x:xs))  = (Rio vel ,gira vel (x:xs)) 
+daavolta  jog@(Jogador (a,b)) jogada par@(Estrada vel, (x:xs))
+  | jogada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 = par 
+  | jogada == (Move Esquerda) && (veobslinhaCoord par (a-1,b) == Carro) && vel>=0= par
+  | veobslinhaCoord par (a,b) == Carro = (Estrada vel, (x:xs))
+  | vaicontra par jog = (Estrada vel ,gira (vaicontraint par jog ) (x:xs)) 
+  | jogada == Parado = (Estrada vel, gira vel (x:xs))
+  | otherwise =  (Estrada vel ,gira vel (x:xs))
+daavolta  jog gada (Relva, (x:xs)) = (Relva,  (x:xs))-}
+ {-|funcao que da a volta ao mapa usanso daavolta e gira como auxiliares-}
+--olddaavolta ::Jogador -> Jogada-> Mapa ->  Mapa
+--olddaavolta jog gada  (Mapa l (((terr, x:xs):ys))) = (Mapa l ( map ( daavolta jog gada) ((terr, x:xs):ys))) 
