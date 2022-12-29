@@ -1,4 +1,5 @@
-{-module      : Tarefa3_2022li1g088
+{- |
+Module      : Tarefa5_2022li1g088
 Description : Funcao para fazer o mapa deslizar continuamente 
 Copyright   : Paulo Alexandre Neves Moreira  <a64459 @alunos.uminho.pt>
               Silvério Mário Samuel <a101536@alunos.uminho.pt>
@@ -6,7 +7,7 @@ Copyright   : Paulo Alexandre Neves Moreira  <a64459 @alunos.uminho.pt>
 Módulo para a realização da Tarefa 5 do projeto de LI1 em 2022/23.
 -}
 
-module Main where
+module Tarefa5_2022li1g088 where
 
 import LI12223
 import Tarefa1_2022li1g088
