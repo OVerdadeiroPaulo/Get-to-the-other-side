@@ -73,7 +73,7 @@ estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 -}
 
 estadoInicial :: Imagens -> Float -> Mundo 
-estadoInicial imagens tempo = (PaginaJogar Facil, jogo1, imagens,tempo)
+estadoInicial imagens tempo = (PaginaJogar Dificil, jogo1, imagens, tempo)
 
 
 
@@ -119,27 +119,27 @@ desenhaMundo (PaginaJogar d, jogo, imagens, tempo) | d == Facil = Translate (-63
                                                    | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
                                                    | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
  where 
-     world28 = desenhaTerrenos1 ++ desenhaObstaculos1 ++ [tempoDeJogo1] ++[scoore1] ++ [desenhajogador1] -- ^ Mundo da dificuldade Facil 
+     world28 = desenhaTerrenos1 ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] ++ [desenhajogador1] -- ^ Mundo da dificuldade Facil 
      desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) imagens
      desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) imagens 
      desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo)) imagens
      tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo))
      scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo)) 
     
-     world29 = desenhaTerrenos2 ++ desenhaObstaculos2 ++ [tempoDeJogo2] ++ [scoore2] ++ [desenhajogador2] -- ^ Mundo da dificuldade Media
+     world29 = desenhaTerrenos2 ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] ++ [desenhajogador2] -- ^ Mundo da dificuldade Media
      desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo))) imagens
      desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo))) imagens 
      desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo)) (getTempo (PaginaJogar Media, jogo, imagens, tempo)) imagens
      tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo))
      scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo))
     
-     world30 = desenhaTerrenos3 ++ desenhaObstaculos3 ++ [tempoDeJogo3] ++ [scoore3] ++ [desenhajogador3] -- ^ Mundo da dificuldade Dificil
+     world30 = desenhaTerrenos3 ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] ++ [desenhajogador3] -- ^ Mundo da dificuldade Dificil
      desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) imagens
      desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) imagens 
      desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo)) imagens
      tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo))
      scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo))
-
+     placar = mostrarPlacar 
 {-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
 == Codigo:
@@ -150,7 +150,7 @@ mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 -}
 
 mostrarTempo :: Float -> Picture
-mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
+mostrarTempo t =  Translate 620 (-80) $ scale 0.2 0.2 $ color red $ Text (show $ round t)
 
 {-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
@@ -162,7 +162,19 @@ mostrarScoore t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 -}
 
 mostrarScoore :: Float -> Picture
-mostrarScoore t =  Translate 630 (-160) $ scale 0.2 0.2 $ Text (show $ round (t*100))
+mostrarScoore t =  Translate 620 (-160) $ scale 0.2 0.2 $ color white $ Text (show $ round (t*124))
+
+{-| A funcao 'mostraPlacar' mostra o tempo no jogo
+
+== Codigo:
+@
+mostrarPlacar :: Float -> Picture
+mostrarPlacar t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
+@
+-}
+
+mostrarPlacar :: Picture
+mostrarPlacar =  Translate 650 (-110) $ color black $ rectangleSolid 100.0 150.0
 
 {-| A funcao 'imageFundo1' faz alternar as imagens do background do jogo
 
