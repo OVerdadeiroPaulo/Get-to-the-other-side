@@ -316,7 +316,7 @@ deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
 --novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,(deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z),e)                                                             
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, Jogo j (daavolta j e m), imagens, (t+z),e)
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z),e)
 
 
 
