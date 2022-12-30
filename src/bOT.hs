@@ -31,3 +31,10 @@ navigate jogo = do
 
 
 
+daavolta :: Jogador -> Jogada -> Mapa -> Mapa
+daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l (((terr, x:xs):ys)))
+  | (x:xs) !! a == Carro && b == 0 =
+      let newMapa = daavolta jog gada (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys))))))))
+      in Mapa l (((terr ,(x:xs)) :(desmapa newMapa)))
+  | otherwise = mapa
+

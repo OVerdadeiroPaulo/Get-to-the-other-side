@@ -24,7 +24,7 @@ h=  animaJogo jogo Parado
         n= Nenhum
 ve (Mapa _ [(_, (o:bs))]) x = reverse (drop (x+1) ( (o:bs++o:bs)))
 mapa3 = Mapa 6 [(Estrada 3, [Carro, Nenhum, Carro, Nenhum, Nenhum, Nenhum])]
-parviwe (o:bs) x= (drop (x)(o:bs)++o:bs,reverse $ (o:bs) ++ take (x+1)(o:bs))
+parviwe (o:bs) x= (drop (x)(o:bs++o:bs),reverse $ (o:bs) ++ take (x+1)(o:bs))
 
 rio = animaJogo jogo (Move Cima)
   where mapa = Mapa 3 [(Relva, [Nenhum, Nenhum, Nenhum]),(Rio 1, [Nenhum, Tronco, Tronco]),(Relva, [Nenhum, Nenhum, Nenhum])]

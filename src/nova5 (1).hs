@@ -316,7 +316,7 @@ deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
                                                            
 novoMundoReageTempo :: Float -> Mundo -> Mundo 
 --novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar,(deslizaJogo2 (round ((t+z)*200)) (Jogo j m)), imagens, (t+z),e)                                                             
-novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, animaJogo (Jogo j m) Parado, imagens, (t+z),e)
+novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, daavJogo (Jogo j m) e, imagens, (t+z),e)
 
 
 
@@ -331,8 +331,8 @@ novoMundoReageTempo z (PaginaPrincipal c, jogo, imagens, t,e) = (PaginaPrincipal
 --novoMundoReageTempo z (PaginaJogar, jogo, imagens, t) = (PaginaJogar, jogo, imagens, (t+z))
 novoMundoReageTempo _ z = z
 
-daavJogo :: Jogo -> Jogo
-daavJogo (Jogo j m) =  Jogo j (daavolta j Parado m) 
+daavJogo :: Jogo -> Jogada-> Jogo
+daavJogo (Jogo j m) e =  Jogo j (daavolta j e m) 
 {-| Funcao Window 
 
 Contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela-}
@@ -348,7 +348,6 @@ fr = 1
 {--change to blue, for other dificulties--}
 cor :: Color
 cor = cyan 
-
 main :: IO ()
 main = do 
          galinha <- loadBMP "Chicken_JE2_BE2.bmp"
