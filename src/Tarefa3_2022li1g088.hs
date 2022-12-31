@@ -66,7 +66,7 @@ veobstaculonacoordenada (Mapa l [f]) (a,b) = veobstaculonalinha f (a,b)
 veobstaculonacoordenada (Mapa l (((terr, obs):xs))) (a,b)
   | b == 0 = veobstaculonalinha (terr,obs) (a,b)
   | b > 0 = veobstaculonacoordenada (Mapa l xs)  (a,b-1)
-  | b < 0 = undefined
+  | b < 0 = Nenhum
 {-|funcao que determina o comportamento de um jogador em cima de um tronco -}
 casotronco :: Jogador -> Mapa -> Jogador
 casotronco (Jogador cords) mapa@(Mapa l (((terr, obs):xs)))

@@ -1077,7 +1077,7 @@ main = do
          arvore2 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
          tronco2 <- loadBMP "./bmps/ESTILO1/tronco.bmp"
          carro2 <- loadBMP carroselect
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2,Translate 0 25 $ scale 0.12 0.12 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.24 $  relva2, scale 0.12 0.24 $ arvore2,scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ tronco2,scale 0.12 0.24 $  estrada2,scale 0.12 0.24 $ carro2]
          let tempo = 0.0 
          let jogada = (Parado)        
          play window cor fr (estadoInicial imagens tempo) desenhaMundo event reageTempo

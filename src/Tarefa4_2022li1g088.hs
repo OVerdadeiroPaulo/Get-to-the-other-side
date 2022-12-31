@@ -16,6 +16,7 @@ jogoTerminou (Jogo (Jogador (a,b)) mapa@(Mapa l (lis@((terr, obs):xs))))
   | a < 0 || a > (l-1) = True
   | b < 0 || b >  (length lis-1) = True
   | inicionovo4 terr == "Rio" && veobstaculonacoordenada mapa (a,b) == Nenhum = True
+  | inicionovo4 terr == "Rel" = False
   | otherwise = False
 {-|auxiliar para comaparar terrenos-}
 inicionovo4 :: Terreno -> String
