@@ -19,11 +19,11 @@ import Tarefa1_2022li1g088 (inicionovo)
 animaJogo :: Jogo -> Jogada -> Jogo
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
 
-animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocajogador (casotronco(Jogador (a,b)) mapa) jogada mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
+--animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocajogador (casotronco(Jogador (a,b)) mapa) jogada mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
 
---animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada =
---  let newJogador = casotronco (deslocajogador (Jogador (a,b)) jogada mapa) mapa
---  in Jogo newJogador (daavolta newJogador jogada (Mapa l ((terr, x:xs):ys)))
+animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada =
+  let newJogador = casotronco (deslocajogador (Jogador (a,b)) jogada mapa) mapa
+  in Jogo newJogador (daavolta newJogador jogada (Mapa l ((terr, x:xs):ys)))
 
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( (deslocafinal(Jogador (a,b)) jogada mapa) )  (daavolta ( (deslocafinal(Jogador (a,b)) jogada mapa) )  jogada (Mapa l ((terr, x:xs):ys)))
 

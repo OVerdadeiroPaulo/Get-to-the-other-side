@@ -1051,11 +1051,11 @@ cor :: Color
 cor = black
 @ 
 -}
-
+estilo = "1"
 cor :: Color
 cor = black
 
-
+carroselect = "./bmps/ESTILO"++estilo++"/carro.bmp"
 {-| Funcao 'main' e a funcao que contem todos os 'bmps' do jogo, e executa a funcao play, que vai carregar para o ecra todos os menus, e jogos, para que o user possa interagir com o programa
 
 ==codigo:
@@ -1069,14 +1069,14 @@ main = do
          rio <- loadBMP "water-surface-texture-1928713.bmp"
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
          estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
-         banner <- loadBMP "Banner_Video_Cover.bmp"
+         banner <- loadBMP "./bmps/banner.bmp"
          galinha4 <- loadBMP "arvore.bmp"
-         rio2 <- loadBMP "rio.bmp"
-         estrada2 <-loadBMP "estrada.bmp"
-         relva2 <- loadBMP "relva.bmp"
-         arvore2 <- loadBMP "arvore.bmp"
-         tronco2 <- loadBMP "troncoinicio.bmp"
-         carro2 <- loadBMP "mota.bmp"
+         rio2 <- loadBMP "./bmps/ESTILO1/rio.bmp"
+         estrada2 <-loadBMP "./bmps/ESTILO1/estrada.bmp"
+         relva2 <- loadBMP "./bmps/ESTILO1/relva.bmp"
+         arvore2 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
+         tronco2 <- loadBMP "./bmps/ESTILO1/tronco.bmp"
+         carro2 <- loadBMP carroselect
          let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2,Translate 0 25 $ scale 0.12 0.12 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
          let tempo = 0.0 
          let jogada = (Parado)        

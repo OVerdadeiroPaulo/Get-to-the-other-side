@@ -201,7 +201,7 @@ banner1 :: Picture
 banner1 = Color blue $ rectangleSolid 300.0 300.0  
 banner2 :: Picture 
 banner2 = Color green $ rectangleSolid 300.0 300.0  
- 
+
 {-| Funcao criarMapa 
 
 Esta Funcao cria o Mapa usando o desenhalinha como auxiliar -}
@@ -351,17 +351,16 @@ main = do
          galinha <- loadBMP "Chicken_JE2_BE2.bmp"
          rio <- loadBMP "water-surface-texture-1928713.bmp"
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
-         estrada <- loadBMP "./bmps/ESTILO2/estrada2.bmp"
+         estrada <- loadBMP "./bmps/ESTILO1/estrada.bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         galinha4 <- loadBMP "./bmps/ESTILO2/arvore2.bmp"
-         rio2 <- loadBMP "./bmps/ESTILO2/rio2.bmp"
-         estrada2 <-loadBMP "estrada.bmp"
-         relva2 <- loadBMP "./bmps/ESTILO2/relva2.bmp"
-         arvore2 <- loadBMP "./bmps/ESTILO2/arvore2.bmp"
-         tronco2 <- loadBMP "./bmps/ESTILO2/tronco2.bmp"
-         carro2 <- loadBMP "./bmps/ESTILO2/carro2.bmp"
+         galinha4 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
+         rio2 <- loadBMP "./bmps/ESTILO1/rio.bmp"
+         estrada2 <-loadBMP "./bmps/ESTILO1/estrada.bmp"
+         relva2 <- loadBMP "./bmps/ESTILO1/relva.bmp"
+         arvore2 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
+         tronco2 <- loadBMP "./bmps/ESTILO1/tronco.bmp"
+         carro2 <- loadBMP "./bmps/ESTILO1/carro.bmp"
          let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.24 $  relva2,Translate 0 25 $ scale 0.12 0.24 $ arvore2,scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ tronco2,scale 0.12 0.24 $  estrada2,scale 0.12 0.24 $ carro2]
          let tempo = 0.0 
          let jogada = (Parado)        
          play window cor fr (estadoInicial imagens tempo jogada) desenhaMundo event novoMundoReageTempo
-12
