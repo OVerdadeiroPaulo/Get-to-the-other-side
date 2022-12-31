@@ -351,16 +351,17 @@ main = do
          galinha <- loadBMP "Chicken_JE2_BE2.bmp"
          rio <- loadBMP "water-surface-texture-1928713.bmp"
          relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
-         estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
+         estrada <- loadBMP "./bmps/ESTILO2/estrada2.bmp"
          banner <- loadBMP "Banner_Video_Cover.bmp"
-         galinha4 <- loadBMP "arvore.bmp"
-         rio2 <- loadBMP "rio.bmp"
+         galinha4 <- loadBMP "./bmps/ESTILO2/arvore2.bmp"
+         rio2 <- loadBMP "./bmps/ESTILO2/rio2.bmp"
          estrada2 <-loadBMP "estrada.bmp"
-         relva2 <- loadBMP "relva.bmp"
-         arvore2 <- loadBMP "arvore.bmp"
-         tronco2 <- loadBMP "troncoinicio.bmp"
-         carro2 <- loadBMP "mota.bmp"
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.12 $  relva2,Translate 0 25 $ scale 0.12 0.12 $ arvore2,scale 0.12 0.12 $ rio2, scale 0.12 0.12 $ tronco2,scale 0.12 0.12 $  estrada2,scale 0.12 0.12 $ carro2]
+         relva2 <- loadBMP "./bmps/ESTILO2/relva2.bmp"
+         arvore2 <- loadBMP "./bmps/ESTILO2/arvore2.bmp"
+         tronco2 <- loadBMP "./bmps/ESTILO2/tronco2.bmp"
+         carro2 <- loadBMP "./bmps/ESTILO2/carro2.bmp"
+         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.24 $  relva2,Translate 0 25 $ scale 0.12 0.24 $ arvore2,scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ tronco2,scale 0.12 0.24 $  estrada2,scale 0.12 0.24 $ carro2]
          let tempo = 0.0 
          let jogada = (Parado)        
          play window cor fr (estadoInicial imagens tempo jogada) desenhaMundo event novoMundoReageTempo
+12
