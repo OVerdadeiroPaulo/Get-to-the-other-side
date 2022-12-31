@@ -19,10 +19,10 @@ import Tarefa1_2022li1g088 (inicionovo)
 animaJogo :: Jogo -> Jogada -> Jogo
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
 
---animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocajogador (casotronco(Jogador (a,b)) mapa) jogada mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
+--animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( deslocafinal((Jogador (a,b)) ) jogada mapa)  (daavolta (deslocafinal(Jogador (a,b))  jogada mapa) jogada (Mapa l ((terr, x:xs):ys)))
 
 animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada =
-  let newJogador = casotronco (deslocajogador (Jogador (a,b)) jogada mapa) mapa
+  let newJogador =  ( deslocafinal((Jogador (a,b)) ) jogada mapa)
   in Jogo newJogador (daavolta newJogador jogada (Mapa l ((terr, x:xs):ys)))
 
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo ( (deslocafinal(Jogador (a,b)) jogada mapa) )  (daavolta ( (deslocafinal(Jogador (a,b)) jogada mapa) )  jogada (Mapa l ((terr, x:xs):ys)))
@@ -50,7 +50,7 @@ deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | jogada == Move Direita = (Jogador  (fst coords +1, snd coords))
   | otherwise = (Jogador coords)
       where  ordena = posicaoapos (Jogador coords) jogada mapa
-deslocafinal jog jogada mapa = casotronco ( deslocajogador jog jogada mapa) mapa
+deslocafinal jog jogada mapa =  ( casotronco (deslocajogador jog jogada mapa)  mapa) 
 {-|funcao  auxiliar que ve o tipo de obstaculo numa dita coordenada de um terreno-}
 
 veobstaculonalinha :: (Terreno,[Obstaculo]) ->Coordenadas -> Obstaculo
@@ -104,8 +104,7 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) =
             | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ys)))))
             -- gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b+1))  gada (emmapa ys))))) 
             -- gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b+1))  gada (emmapa ys))))) 
-            -- (x:xs) !! a == Carro && b == 0 -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
-            | vaicontra (terr, x:xs) (Jogador (a,b+1)) && b == 0  -> (Mapa l (((terr ,gira (vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ys)))))
+            | vaicontra (terr, x:xs) (Jogador (a,b)) && b == 0  -> (Mapa l (((terr ,gira (sinal vel * vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             -- gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b+1))  gada (emmapa ys)))))
             | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
@@ -130,47 +129,27 @@ indice x (li:sta)
 
 -- toma em atenchao a velocidade e usa a para animajogo com vel 1 se a vel+y> y2>y 
 veobslinhaCoord ::  (Terreno, [Obstaculo]) -> Coordenadas -> Obstaculo
+veobslinhaCoord (_ ,[]) _ = Nenhum
 veobslinhaCoord par@(terr,o:bs) (x,y) 
   |x== 0 = o
   | otherwise = veobslinhaCoord (terr, bs) (x-1,y)
 
 
 
-{-vaicontra :: (Terreno, [Obstaculo]) -> Jogador  -> Bool
-vaicontra (Estrada vel,[]) (Jogador (x,y)) = False
-vaicontra par@(Estrada vel,o:bs) (Jogador (x,y))
- |veobslinhaCoord par (x,y) == Carro = True
- |vel == 0 = False
- |vel< 0 = vaicontra (Estrada (abs vel-1),drop (x)(o:bs)++o:bs) (Jogador (x,y))
- |vel> 0 = vaicontra (Estrada (abs vel-1),reverse $ (o:bs) ++ take (x+1)(o:bs)) (Jogador (x,y))
--}
 
 
-vaicontra :: (Terreno, [Obstaculo]) -> Jogador  -> Bool
-vaicontra (Estrada vel,[]) (Jogador (x,y)) = False
-vaicontra par@(Estrada vel,o:bs) (Jogador (x,y))
- | pos == Carro || neg== Carro = True
- | vel == 0 = False
- | vel > 0 = vecarro (va) (vel)
- | vel < 0 = vecarro (iva) ( abs (vel))
-   where pos:va = reverse $ (o:bs) ++ take (x+1)(o:bs)
-         neg:iva = drop (x)(o:bs++o:bs)
-vecarro :: (Eq t, Num t) => [Obstaculo] -> t -> Bool
-vecarro [] _ = False
-vecarro _ 0 = False
-vecarro  (x:xs) v
-  | x == Carro = True
-  | otherwise = vecarro xs (v-1)
-
-vaicontraint :: (Terreno, [Obstaculo]) -> Jogador  -> Int
+vaicontra par@(Estrada vel,_) jog = abs (vaicontraint par jog ) <= abs vel
+vaicontraint :: (Terreno, [Obstaculo]) -> Jogador -> Int
 vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel
-vaicontraint par@(Estrada vel,o:bs) (Jogador (x,y))
- |veobslinhaCoord par (x,y) == Carro = 0
- |vel == 0 = 0
- |vel< 0 = sinal vel * (1+ vaicontraint (Estrada ((abs vel)-1),drop (x)(o:bs)++o:bs) (Jogador (x,y))) 
- |vel> 0 =1+  vaicontraint (Estrada (abs vel-1),reverse $ (o:bs) ++ take (x+1)(o:bs)) (Jogador (x,y)) 
-
-
+vaicontraint par@(Estrada vel, (x:xs)) jog@(Jogador (a,b)) = batenova (Estrada vel,(ou:tra)) (Jogador (a+(length (x:xs)),b))
+ where (no:va )= drop (length (x:xs) -abs vel)(x:xs) ++x:xs ++ (take (abs vel) (x:xs))
+       ou:tra = x:xs++x:xs++x:xs
+batenova :: (Terreno, [Obstaculo]) -> Jogador -> Int
+batenova (Estrada vel,[]) (Jogador (x,y))= vel
+batenova par@(Estrada vel, (x:xs)) jog@(Jogador (a,b))
+  | veobslinhaCoord par (a,b) == Carro = 0
+  | vel > 0 = 1+ batenova (Estrada vel , ( x:xs)) (Jogador (a-1,b))
+  | vel < 0 = 1+ batenova (Estrada vel , (( x:xs))) (Jogador (a+1,b))
 
 velocidade (Rio vel) = vel
 velocidade (Estrada vel) = vel
