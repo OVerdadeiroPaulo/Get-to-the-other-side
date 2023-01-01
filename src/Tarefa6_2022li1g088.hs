@@ -73,7 +73,7 @@ estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 -}
 
 estadoInicial :: Imagens -> Float -> Direcao -> Mundo 
-estadoInicial imagens tempo direccao = (PaginaJogar Dificil, jogo1, imagens, tempo, direccao)
+estadoInicial imagens tempo direccao = (PaginaJogar Facil, jogo1, imagens, tempo, direccao)
 
 
 
@@ -1023,7 +1023,8 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 -}
 
 reageTempo :: Float -> Mundo -> Mundo 
-reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
+reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr)
+                                                           | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
 reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
 reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr) = (PaginaJogar Dificil, (deslizaJogo (round(t+z)) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
 reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr) = (PaginaPrincipal c, jogo, imagens, (t+z),dr)
@@ -1105,9 +1106,9 @@ main = do
          galinha3_1 <- loadBMP "Chicken_JE2_BE2.bmp"
          galinha3_2 <- loadBMP "Chicken_JE2_BE2.bmp"
          galinha3_3 <- loadBMP "Chicken_JE2_BE2.bmp" 
-         rio3 <- loadBMP "./bmps/ESTILO2/rio.bmp"
-         relva3 <- loadBMP "./bmps/ESTILO2/relva.bmp"
-         estrada3 <- loadBMP "./bmps/ESTILO2/estrada.bmp"
+         rio3 <- loadBMP "./bmps/ESTILO3/rio.bmp"
+         relva3 <- loadBMP "./bmps/ESTILO3/relva.bmp"
+         estrada3 <- loadBMP "./bmps/ESTILO3/estrada.bmp"
          arvore3 <- loadBMP "./bmps/ESTILO3/arvore.bmp"
          tronco3 <- loadBMP "./bmps/ESTILO3/tronco.bmp"
          carro3 <- loadBMP carroselect3
@@ -1155,11 +1156,45 @@ main = do
          galinha_1Esquerda_3of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
          galinha_1Esquerda_4of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
          galinha_1Esquerda_5of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_1of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_2of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_3of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_4of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_5of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_6of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_7of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_8of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_9of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_10of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_11of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_12of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_13of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_14of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_15of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_16of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_17of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_18of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_19of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_20of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_21of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_22of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_23of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_24of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_25of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_26of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_27of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_28of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_29of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_30of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_31of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_32of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_33of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_34of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_35of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_36of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_37of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_38of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_39of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_21of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_22of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_23of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_24of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_25of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
          galinha_2Frente_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
          galinha_2Frente_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
          galinha_2Frente_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
