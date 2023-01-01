@@ -2,7 +2,18 @@ module Testes2 where
 import LI12223 
 import Tarefa3_2022li1g088 
 
+roda :: Jogador-> Jogada -> [(Terreno, [Obstaculo])] -> [(Terreno, [Obstaculo])]
+roda _ _ [] = []
+roda jog@(Jogador (a,b)) gada (li:nhas) = rodaum jog gada li : roda jog gada nhas
 
+rodaum jog@(Jogador (a,b)) gada li
+  | inicionovo ( fst li )== "Est"  &&  veobslinhaCoord li (a,b) == Carro  =  (fst li , gira (velocidade $ fst li) (snd li) )
+  | inicionovo ( fst li) == "Est" &&  gada == (Move Esquerda) && ( veobslinhaCoord li  (a-1,b) == Carro) && (velocidade (fst li) )>=0 = li
+  | inicionovo ( fst li) == "Est" &&  gada == (Move Direita) && ( veobslinhaCoord li  (a+1,b) == Carro) && (velocidade (fst li) )>=0 = li
+  | inicionovo ( fst li) == "Est" && vaicontra (li) jog= (fst li ,gira (vaicontraint (li)  jog ) (snd li))
+  | inicionovo ( fst li) == "Rio" = (fst li, gira (velocidade (fst li)) (snd li) ) 
+  | inicionovo ( fst li) == "Rel" = li
+  | otherwise = li
 --vaicontraint :: (Terreno, [Obstaculo]) -> Jogador  -> Int
 --vaicontraint (Estrada 0, _) = 0
 --vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel

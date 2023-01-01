@@ -87,11 +87,12 @@ gira n l@(x:xs)
   |n > 0 = drop (length l - n) l ++ take (length l -n) l
   | n < 0 = drop (abs n) l ++ take (abs n ) l
   | n == 0 = l
-{-| segunda funcao auxiliar para daavolta que usa pattern matching para separar o comportameto de Relva Estrada e Rio -}
+{-funao que converte um mapa nas linhas que o compoem-}
 desmapa  (Mapa l (filling)) =  filling
+{-funcao que faz o oposto da anterio para facilitar o uso de funcoes-}
 emmapa filling =  (Mapa 12 (filling))
 
-
+{-funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
 daavolta ::Jogador  -> Jogada-> (Mapa)->  Mapa
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ([])) = (Mapa l ([]))
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) = 
@@ -102,25 +103,14 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) =
            where k = 0
         Estrada vel 
             | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ys)))))
-            -- gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b+1))  gada (emmapa ys))))) 
-            -- gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b+1))  gada (emmapa ys))))) 
+            | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
+            | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | vaicontra (terr, x:xs) (Jogador (a,b)) && b == 0  -> (Mapa l (((terr ,gira (sinal vel * vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
-            -- gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b+1))  gada (emmapa ys)))))
+            | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b+1))  gada (emmapa ys)))))
             | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
                    k=0 
-roda :: Jogador-> Jogada -> [(Terreno, [Obstaculo])] -> [(Terreno, [Obstaculo])]
-roda _ _ [] = []
-roda jog@(Jogador (a,b)) gada (li:nhas) = rodaum jog gada li : roda jog gada nhas
-
-rodaum jog@(Jogador (a,b)) gada li
-  | inicionovo ( fst li )== "Est"  &&  veobslinhaCoord li (a,b) == Carro  =  (fst li , gira (velocidade $ fst li) (snd li) )
-  | inicionovo ( fst li) == "Est" &&  gada == (Move Esquerda) && ( veobslinhaCoord li  (a-1,b) == Carro) && (velocidade (fst li) )>=0 = li
-  | inicionovo ( fst li) == "Est" &&  gada == (Move Direita) && ( veobslinhaCoord li  (a+1,b) == Carro) && (velocidade (fst li) )>=0 = li
-  | inicionovo ( fst li) == "Est" && vaicontra (li) jog= (fst li ,gira (vaicontraint (li)  jog ) (snd li))
-  | inicionovo ( fst li) == "Rio" = (fst li, gira (velocidade (fst li)) (snd li) ) 
-  | inicionovo ( fst li) == "Rel" = li
-  | otherwise = li
+{-auxiliar que devolve o indice de um elemento da lista-}
 indice _ [] = -1
 indice x (li:sta) 
   | x== li = 1
@@ -137,20 +127,24 @@ veobslinhaCoord par@(terr,o:bs) (x,y)
 
 
 
-
+{-aucxiliar para daavolta que detecta colisoes-}
 vaicontra par@(Estrada vel,_) jog = abs (vaicontraint par jog ) <= abs vel
+{-aucxiliar para daavolta que detecta a distancia para o proxima carro -}
+
 vaicontraint :: (Terreno, [Obstaculo]) -> Jogador -> Int
 vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel
 vaicontraint par@(Estrada vel, (x:xs)) jog@(Jogador (a,b)) = batenova (Estrada vel,(ou:tra)) (Jogador (a+(length (x:xs)),b))
  where (no:va )= drop (length (x:xs) -abs vel)(x:xs) ++x:xs ++ (take (abs vel) (x:xs))
        ou:tra = x:xs++x:xs++x:xs
+
+{-funcoa auxiliar para vaicontraint-}       
 batenova :: (Terreno, [Obstaculo]) -> Jogador -> Int
 batenova (Estrada vel,[]) (Jogador (x,y))= vel
 batenova par@(Estrada vel, (x:xs)) jog@(Jogador (a,b))
   | veobslinhaCoord par (a,b) == Carro = 0
   | vel > 0 = 1+ batenova (Estrada vel , ( x:xs)) (Jogador (a-1,b))
   | vel < 0 = 1+ batenova (Estrada vel , (( x:xs))) (Jogador (a+1,b))
-
+{-auxiliar que devolve a velocidade de um terreno em casos sem pattern matching-}
 velocidade (Rio vel) = vel
 velocidade (Estrada vel) = vel
 velocidade (Relva) = 0
