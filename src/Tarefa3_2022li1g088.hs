@@ -88,12 +88,12 @@ gira n l@(x:xs)
   |n > 0 = drop (length l - n) l ++ take (length l -n) l
   | n < 0 = drop (abs n) l ++ take (abs n ) l
   | n == 0 = l
-{-funao que converte um mapa nas linhas que o compoem-}
+{-|funao que converte um mapa nas linhas que o compoem-}
 desmapa  (Mapa l (filling)) =  filling
-{-funcao que faz o oposto da anterio para facilitar o uso de funcoes-}
+{-|funcao que faz o oposto da anterio para facilitar o uso de funcoes-}
 emmapa filling =  (Mapa 12 (filling))
 
-{-funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
+{-|funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
 daavolta ::Jogador  -> Jogada-> (Mapa)->  Mapa
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ([])) = (Mapa l ([]))
 
@@ -116,14 +116,14 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) =
              where ori:ginal = lista
                    limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
 
-{-auxiliar que devolve o indice de um elemento da lista-}
+{-|auxiliar que devolve o indice de um elemento da lista-}
 indice _ [] = -1
 indice x (li:sta) 
   | x== li = 1
   | otherwise = 1+ indice x sta
 
 
--- toma em atenchao a velocidade e usa a para animajogo com vel 1 se a vel+y> y2>y 
+{-| ve o obastaculo numa so linha numa certa coordenada -}
 veobslinhaCoord ::  (Terreno, [Obstaculo]) -> Coordenadas -> Obstaculo
 veobslinhaCoord (_ ,[]) _ = Nenhum
 veobslinhaCoord par@(terr,o:bs) (x,y) 
@@ -133,9 +133,9 @@ veobslinhaCoord par@(terr,o:bs) (x,y)
 
 
 
-{-aucxiliar para daavolta que detecta colisoes-}
+{-|auxiliar para daavolta que detecta colisoes-}
 vaicontra par@(Estrada vel,_) jog = abs (vaicontraint par jog ) <= abs vel
-{-aucxiliar para daavolta que detecta a distancia para o proxima carro -}
+{-|auxiliar para daavolta que detecta a distancia para o proxima carro -}
 
 vaicontraint :: (Terreno, [Obstaculo]) -> Jogador -> Int
 vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel
@@ -143,7 +143,7 @@ vaicontraint par@(Estrada vel, (x:xs)) jog@(Jogador (a,b)) = batenova (Estrada v
  where (no:va )= drop (length (x:xs) -abs vel)(x:xs) ++x:xs ++ (take (abs vel) (x:xs))
        ou:tra = x:xs++x:xs++x:xs
 
-{-funcoa auxiliar para vaicontraint-}       
+{-|funcoa auxiliar para vaicontraint-}       
 batenova :: (Terreno, [Obstaculo]) -> Jogador -> Int
 batenova (Estrada vel,[]) (Jogador (x,y))= vel
 batenova par@(Estrada vel, (x:xs)) jog@(Jogador (a,b))
