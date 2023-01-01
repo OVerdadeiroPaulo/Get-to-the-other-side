@@ -12,11 +12,11 @@ import LI12223
 {-|Funcao que nos diz que o jogo terminou devolvendo True quando alguma das seguinte condiçoes é cumprida :(o Jogador sai dos limites do mapa,o Jogador ocupa as mesmas coordenadas que um Carro, ou o Jogador está num Rio na agua) -}
 jogoTerminou :: Jogo -> Bool
 jogoTerminou (Jogo (Jogador (a,b)) mapa@(Mapa l (lis@((terr, obs):xs)))) 
-  | inicionovo4 terr == "Rel" = False
+  | inicionovo4 (fst (lis!!b) ) == "Rel" = False
   | veobstaculonacoordenada mapa (a,b) == Carro = True
   | a < 0 || a > (l-1) = True
   | b < 0 || b >  (length lis-1) = True
-  | inicionovo4 terr == "Rio" && veobstaculonacoordenada mapa (a,b) == Nenhum = True
+  | inicionovo4 (fst (lis!!b) )  == "Rio" && veobstaculonacoordenada mapa (a,b) == Nenhum = True
   | otherwise = False
 {-|auxiliar para comaparar terrenos-}
 inicionovo4 :: Terreno -> String

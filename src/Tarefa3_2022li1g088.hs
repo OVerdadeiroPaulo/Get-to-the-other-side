@@ -58,7 +58,7 @@ veobstaculonalinha (terr,[s]) (a,b) = s
 veobstaculonalinha (terr,x:xs)  (a,b)
   |a == 0 = x 
   |a > 0 = veobstaculonalinha (terr,xs) (a-1,b)
-  |a< 0 = undefined
+  |a< 0 = x
 {-|funcao  que ve o tipo de obstaculo numa dita coordenada de um  Mapa usada para animar o mapa ou para ver onde estao as arvores, será tambem usada na tarefa 4-}
 
 veobstaculonacoordenada :: Mapa -> Coordenadas -> Obstaculo
@@ -102,11 +102,11 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) =
         Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b-1))  gada (emmapa ys)))))
            where k = 0
         Estrada vel 
-            | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ys)))))
+            | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | vaicontra (terr, x:xs) (Jogador (a,b)) && b == 0  -> (Mapa l (((terr ,gira (sinal vel * vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
-            | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b+1))  gada (emmapa ys)))))
+            | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
                    k=0 
