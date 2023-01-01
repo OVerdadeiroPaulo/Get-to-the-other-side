@@ -15,6 +15,7 @@ import GHC.Real (underflowError)
 import Data.ByteString (elemIndex)
 import Data.Maybe (fromMaybe)
 import Tarefa1_2022li1g088 (inicionovo)
+import LI12223 (Direcao(Esquerda, Cima, Baixo))
 {-|Funcao principal que anima o jogo usando todas as outras como auxiliare-}
 animaJogo :: Jogo -> Jogada -> Jogo
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
@@ -95,12 +96,15 @@ emmapa filling =  (Mapa 12 (filling))
 {-funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
 daavolta ::Jogador  -> Jogada-> (Mapa)->  Mapa
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ([])) = (Mapa l ([]))
+
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) = 
   case terr of 
         Rio vel ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1)) gada (emmapa ys)))))
-           where k= 0 
+           where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
         Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b-1))  gada (emmapa ys)))))
-           where k = 0
+           where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
         Estrada vel 
             | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
@@ -110,7 +114,8 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) =
            -- | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
-                   k=0 
+                   limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
 {-auxiliar que devolve o indice de um elemento da lista-}
 indice _ [] = -1
 indice x (li:sta) 
@@ -155,7 +160,7 @@ sinal x
   | x > 0 = 1
 mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
 mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
-mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
+mapaunitario = Mapa 1 [(Rio  2, [Nenhum])]
 mapanormal = Mapa 2 [(Relva, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
 jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
 jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
