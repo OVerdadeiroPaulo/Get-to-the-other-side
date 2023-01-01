@@ -19,7 +19,7 @@ import Tarefa5_2022li1g088
 import Graphics.Gloss
 import Graphics.Gloss.Interface.Pure.Game
 
-type Mundo = (Paginas, Jogo, Imagens, Float)
+type Mundo = (Paginas, Jogo, Imagens, Float, Direcao)
 
 type Imagens = [Picture]
 
@@ -72,8 +72,8 @@ estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 @  
 -}
 
-estadoInicial :: Imagens -> Float -> Mundo 
-estadoInicial imagens tempo = (PaginaPrincipal Dificuldades_1, jogo1, imagens, tempo)
+estadoInicial :: Imagens -> Float -> Direcao -> Mundo 
+estadoInicial imagens tempo direccao = (PaginaJogar Dificil, jogo1, imagens, tempo, direccao)
 
 
 
@@ -86,59 +86,59 @@ estadoInicial imagens tempo = (PaginaPrincipal Dificuldades_1, jogo1, imagens, t
 -}
 desenhaMundo :: Mundo -> Picture
 --PaginaPrincipal 
-desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo) = fundoAnimado1 {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
-            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
-desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) = fundoAnimado2    {-Picture [Scale 1.0 1.0 (imagens !! 4)]-} 
-            where fundoAnimado2 = imagefundo2 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
-desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = fundoAnimado3   {-Pictures [Scale 1.0 1.0 (imagens !! 4)]-} 
-            where fundoAnimado3 = imagefundo3 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
-desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo) = fundoAnimado4  {--Pictures [Scale 1.0 1.0 (imagens !! 4)]--}
-            where fundoAnimado4 = imagefundo4 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo))
+desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = fundoAnimado1 {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
+            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
+desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = fundoAnimado2    {-Picture [Scale 1.0 1.0 (imagens !! 4)]-} 
+            where fundoAnimado2 = imagefundo2 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
+desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = fundoAnimado3   {-Pictures [Scale 1.0 1.0 (imagens !! 4)]-} 
+            where fundoAnimado3 = imagefundo3 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
+desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = fundoAnimado4  {--Pictures [Scale 1.0 1.0 (imagens !! 4)]--}
+            where fundoAnimado4 = imagefundo4 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens,tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaPausa
-desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaDificuldade
-desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --paginaInstrucoes 
-desenhaMundo (PaginaInstrucoes b d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaMenuPaus
-desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaJogar 
-desenhaMundo (PaginaJogar d, jogo, imagens, tempo) | d == Facil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
+desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao) | d == Facil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
                                                    | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
                                                    | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
  where 
      world28 = desenhaTerrenos1 ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] ++ [desenhajogador1] -- ^ Mundo da dificuldade Facil 
-     desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) imagens
-     desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo))) imagens 
-     desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo)) imagens
-     tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo))
-     scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo)) 
+     desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) imagens
+     desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) imagens 
+     desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
+     tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao))
+     scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao)) 
     
      world29 = desenhaTerrenos2 ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] ++ [desenhajogador2] -- ^ Mundo da dificuldade Media
-     desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo))) imagens
-     desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo))) imagens 
-     desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo)) (getTempo (PaginaJogar Media, jogo, imagens, tempo)) imagens
-     tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo))
-     scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo))
+     desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) imagens
+     desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) imagens 
+     desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Media, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
+     tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao))
+     scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao))
     
      world30 = desenhaTerrenos3 ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] ++ [desenhajogador3] -- ^ Mundo da dificuldade Dificil
-     desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) imagens
-     desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo))) imagens 
-     desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo)) imagens
-     tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo))
-     scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo))
+     desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) imagens
+     desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) imagens 
+     desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
+     tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao))
+     scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao))
      placar = mostrarPlacar 
 {-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
@@ -253,7 +253,7 @@ getImagens (_, _, i, _) = i
 -}
 
 getImagens :: Mundo -> Imagens
-getImagens (_, _, i, _) = i
+getImagens (_, _, i, _, _) = i
                               
 {-| A funcao auxiliar 'getTempo' busca o tempo no 'Mundo'
 @
@@ -263,7 +263,7 @@ getTempo (_, _, _, tempo) = tempo
 -}
 
 getTempo :: Mundo -> Float 
-getTempo (_, _, _, tempo) = tempo 
+getTempo (_, _, _, tempo, _) = tempo 
 
 {-| A funcao 'getMapa' extrai o Mapa do 'Jogo' que esta dentro do 'Mundo' 
 
@@ -275,7 +275,7 @@ getMapa (_, Jogo j m, _, _) = m
 -}
 
 getMapa :: Mundo -> Mapa 
-getMapa (_, Jogo j m, _, _) = m 
+getMapa (_, Jogo j m, _, _, _) = m 
 
 {-| A  funcao 'getLargura' busca a largura no 'Mapa'
 
@@ -312,7 +312,19 @@ getJogador (_, Jogo j m, _, _) = j
 -}
 
 getJogador :: Mundo -> Jogador
-getJogador (_, Jogo j m, _, _) = j
+getJogador (_, Jogo j m, _, _, _) = j
+
+{-| A Funcao 'getDireccao' extrai o 'Jogador' do 'Mundo'
+
+== Codigo:
+@
+getDireccao :: Mundo -> Jogador
+getDireccao (_, _, _, _, _) = j
+@
+-}
+
+getDireccao :: Mundo -> Direcao
+getDireccao (_, _, _, _, dr) = dr
 
 {-| O 'p' guarda o valor do x onde o Mapa vai comecar
 
@@ -793,10 +805,56 @@ criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tran
 @ 
 -}
                                                                      
-criarJogador1 :: Jogador -> Float-> Imagens -> Picture
-criarJogador1 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                        | (mod (round (t*1000)) 300) < 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)                         
+
+criarJogador1 :: Jogador -> Float-> Imagens -> Direcao -> Picture
+criarJogador1 (Jogador (x,y)) t imagens Cima |(mod (round (t*22222)) 40) < 1 = Translate (saltaX x) (saltaY y) (imagens !! 34)
+                                             | (mod (round (t*22222)) 40) < 2 = Translate (saltaX x) (saltaY y) (imagens !! 35)
+                                             | (mod (round (t*22222)) 40) < 3 = Translate (saltaX x) (saltaY y) (imagens !! 36)
+                                             | (mod (round (t*22222)) 40) < 4 = Translate (saltaX x) (saltaY y) (imagens !! 37)
+                                             | (mod (round (t*22222)) 40) < 5 = Translate (saltaX x) (saltaY y) (imagens !! 38)
+                                             | (mod (round (t*22222)) 40) < 6 = Translate (saltaX x) (saltaY y) (imagens !! 39)
+                                             | (mod (round (t*22222)) 40) < 7 = Translate (saltaX x) (saltaY y) (imagens !! 40)
+                                             | (mod (round (t*22222)) 40) < 8 = Translate (saltaX x) (saltaY y) (imagens !! 41)
+                                             | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens !! 42)
+                                             | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens !! 43)
+                                             | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens !! 44)
+                                             | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens !! 45)
+                                             | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens !! 46)
+                                             | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens !! 47)
+                                             | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens !! 48)
+                                             | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens !! 49)
+                                             | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens !! 50)
+                                             | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens !! 51)
+                                             | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens !! 52)
+                                             | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens !! 53)
+                                             | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens !! 54)
+                                             | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens !! 55)
+                                             | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens !! 56)
+                                             | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens !! 57)
+                                             | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens !! 58)
+                                             | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens !! 59)
+                                             | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens !! 60)
+                                             | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens !! 61)
+                                             | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens !! 62)
+                                             | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens !! 63)
+                                             | (mod (round (t*22222)) 40) < 31 = Translate (saltaX x) (saltaY y) (imagens !! 64)
+                                             | (mod (round (t*22222)) 40) < 32 = Translate (saltaX x) (saltaY y) (imagens !! 65)
+                                             | (mod (round (t*22222)) 40) < 33 = Translate (saltaX x) (saltaY y) (imagens !! 66)
+                                             | (mod (round (t*22222)) 40) < 34 = Translate (saltaX x) (saltaY y) (imagens !! 67)
+                                             | (mod (round (t*22222)) 40) < 35 = Translate (saltaX x) (saltaY y) (imagens !! 68)
+                                             | (mod (round (t*22222)) 40) < 36 = Translate (saltaX x) (saltaY y) (imagens !! 69)
+                                             | (mod (round (t*22222)) 40) < 37 = Translate (saltaX x) (saltaY y) (imagens !! 70)
+                                             | (mod (round (t*22222)) 40) < 38 = Translate (saltaX x) (saltaY y) (imagens !! 71)
+                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 34)
+criarJogador1 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
+criarJogador1 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
+criarJogador1 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)                        
 
 {-| Funcao 'criarJogador2' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Media'.
 
@@ -809,11 +867,19 @@ criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 @ 
 -}
                                                                      
-criarJogador2 :: Jogador -> Float-> Imagens -> Picture
-criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)
-
+criarJogador2 :: Jogador -> Float-> Imagens -> Direcao -> Picture
+criarJogador2 (Jogador (x,y)) t imagens Cima |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                             | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31)
+criarJogador2 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
+criarJogador2 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
+criarJogador2 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33) 
 {-| Funcao 'criarJogador3' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Dificil'.
 
 ==codigo:
@@ -825,10 +891,19 @@ criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 @ 
 -}
                                                                      
-criarJogador3 :: Jogador -> Float-> Imagens -> Picture
-criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)
+criarJogador3 :: Jogador -> Float-> Imagens -> Direcao -> Picture
+criarJogador3 (Jogador (x,y)) t imagens Cima |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                             | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31)
+criarJogador3 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
+criarJogador3 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
+criarJogador3 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
+                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33) 
 
 
 {-| Funcoes auxiliares que controlam o movimento do jogador no mapa, feitas com as medidas perfeitas para o jogador ficar sempre no centro do Mapa
@@ -857,82 +932,82 @@ saltaY = (+o).(*(-lado)).realToFrac
 -}
 event :: Event -> Mundo -> Mundo 
 -- Pagina Principal 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo) = (PaginaPrincipal Sair_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaPrincipal Sair_1, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo) = (PaginaJogar Facil, jogo1, imagens, tempo) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo) = (PaginaDificuldade Facil False Facil, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo) = (PaginaInstrucoes False Facil, jogo, imagens, tempo) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo) = error "Jogo Terminou"
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaJogar Facil, jogo1, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil False Facil, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaInstrucoes False Facil, jogo, imagens, tempo, direccao) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = error "Jogo Terminou"
 -- Pagina Dificuldade
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo) = (PaginaDificuldade Facil b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo) = (PaginaDificuldade Media b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo) = (PaginaDificuldade Media b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo) = (PaginaDificuldade Facil b d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo)
-                                                                                                    | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
+                                                                                                    | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao)
 -- Pagina controlos  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
-                                                                                          | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
-                                                                                            | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
-                                                                                             | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+                                                                                          | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+                                                                                            | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+                                                                                             | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
 -- Pagina Pausa  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
 -- Pagina MenuPausa 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo) = (PaginaJogar d, jogo1 , imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo) = (PaginaDificuldade Facil True d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo) = (PaginaInstrucoes True d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo) = error "Terminou Jogo"
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo1 , imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil True d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaInstrucoes True d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = error "Terminou Jogo"
 -- Pagina Perdeu jogo
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo) = (PaginaJogar d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo) = (PaginaDificuldade Facil False d, jogo, imagens, tempo)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo) = (PaginaPrincipal Jogar, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil False d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)
 -- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo) = (PaginaJogar d, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo)           
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo) = (PaginaJogar d, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo) = (PaginaJogar d, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo) = (PaginaJogar d, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo)
-event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo, Cima)           
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo, Baixo)
+event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo, Esquerda)
+event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo, Direita)
+event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao)
 event _ s = s
 
 getJogo :: Mundo -> Jogo 
-getJogo (_,j,_,_)= j 
+getJogo (_, j, _, _, _)= j 
 
 animajogo1 :: Jogo -> Int -> Jogo
 animajogo1 j a | (mod a 3000) < 1 = animaJogo j Parado
@@ -948,10 +1023,10 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 -}
 
 reageTempo :: Float -> Mundo -> Mundo 
-reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*200) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
-reageTempo z (PaginaJogar Media, Jogo j m, imagens, t) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
-reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*400) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
-reageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
+reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
+reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
+reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr) = (PaginaJogar Dificil, (deslizaJogo (round(t+z)) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
+reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr) = (PaginaPrincipal c, jogo, imagens, (t+z),dr)
 reageTempo _ z = z
 
 {-| Variavel 'window', contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela, para maior e melhor interaccao com o jogo
@@ -1036,11 +1111,94 @@ main = do
          arvore3 <- loadBMP "./bmps/ESTILO3/arvore.bmp"
          tronco3 <- loadBMP "./bmps/ESTILO3/tronco.bmp"
          carro3 <- loadBMP carroselect3
+         galinha_1Frente_1of39 <-  loadBMP "./bmps/ESTILO1/andar/0001.bmp"
+         galinha_1Frente_2of39 <-  loadBMP "./bmps/ESTILO1/andar/0002.bmp"
+         galinha_1Frente_3of39 <-  loadBMP "./bmps/ESTILO1/andar/0003.bmp"
+         galinha_1Frente_4of39 <-  loadBMP "./bmps/ESTILO1/andar/0004.bmp"
+         galinha_1Frente_5of39 <-  loadBMP "./bmps/ESTILO1/andar/0005.bmp"
+         galinha_1Frente_6of39 <-  loadBMP "./bmps/ESTILO1/andar/0006.bmp"
+         galinha_1Frente_7of39 <-  loadBMP "./bmps/ESTILO1/andar/0007.bmp"
+         galinha_1Frente_8of39 <-  loadBMP "./bmps/ESTILO1/andar/0008.bmp"
+         galinha_1Frente_9of39 <-  loadBMP "./bmps/ESTILO1/andar/0009.bmp"
+         galinha_1Frente_10of39 <- loadBMP  "./bmps/ESTILO1/andar/0010.bmp"
+         galinha_1Frente_11of39 <- loadBMP  "./bmps/ESTILO1/andar/0011.bmp"
+         galinha_1Frente_12of39 <- loadBMP  "./bmps/ESTILO1/andar/0012.bmp"
+         galinha_1Frente_13of39 <- loadBMP  "./bmps/ESTILO1/andar/0013.bmp"
+         galinha_1Frente_14of39 <- loadBMP  "./bmps/ESTILO1/andar/0014.bmp"
+         galinha_1Frente_15of39 <- loadBMP  "./bmps/ESTILO1/andar/0015.bmp"
+         galinha_1Frente_16of39 <- loadBMP  "./bmps/ESTILO1/andar/0016.bmp"
+         galinha_1Frente_17of39 <- loadBMP  "./bmps/ESTILO1/andar/0017.bmp"
+         galinha_1Frente_18of39 <- loadBMP  "./bmps/ESTILO1/andar/0018.bmp"
+         galinha_1Frente_19of39 <- loadBMP  "./bmps/ESTILO1/andar/0019.bmp"
+         galinha_1Frente_20of39 <- loadBMP  "./bmps/ESTILO1/andar/0020.bmp"
+         galinha_1Frente_21of39 <- loadBMP  "./bmps/ESTILO1/andar/0021.bmp"
+         galinha_1Frente_22of39 <- loadBMP  "./bmps/ESTILO1/andar/0022.bmp"
+         galinha_1Frente_23of39 <- loadBMP  "./bmps/ESTILO1/andar/0023.bmp"
+         galinha_1Frente_24of39 <- loadBMP  "./bmps/ESTILO1/andar/0024.bmp"
+         galinha_1Frente_25of39 <- loadBMP  "./bmps/ESTILO1/andar/0025.bmp"
+         galinha_1Frente_26of39 <- loadBMP  "./bmps/ESTILO1/andar/0026.bmp"
+         galinha_1Frente_27of39 <- loadBMP  "./bmps/ESTILO1/andar/0027.bmp"
+         galinha_1Frente_28of39 <- loadBMP  "./bmps/ESTILO1/andar/0028.bmp"
+         galinha_1Frente_29of39 <- loadBMP  "./bmps/ESTILO1/andar/0029.bmp"
+         galinha_1Frente_30of39 <- loadBMP  "./bmps/ESTILO1/andar/0030.bmp"
+         galinha_1Frente_31of39 <- loadBMP  "./bmps/ESTILO1/andar/0031.bmp"
+         galinha_1Frente_32of39 <- loadBMP  "./bmps/ESTILO1/andar/0032.bmp"
+         galinha_1Frente_33of39 <- loadBMP  "./bmps/ESTILO1/andar/0033.bmp"
+         galinha_1Frente_34of39 <- loadBMP  "./bmps/ESTILO1/andar/0034.bmp"
+         galinha_1Frente_35of39 <- loadBMP  "./bmps/ESTILO1/andar/0035.bmp"
+         galinha_1Frente_36of39 <- loadBMP  "./bmps/ESTILO1/andar/0036.bmp"
+         galinha_1Frente_37of39 <- loadBMP  "./bmps/ESTILO1/andar/0037.bmp"
+         galinha_1Frente_38of39 <- loadBMP  "./bmps/ESTILO1/andar/0038.bmp"
+         galinha_1Frente_39of39 <- loadBMP  "./bmps/ESTILO1/andar/0039.bmp"
+         galinha_1Esquerda_1of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_2of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_3of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_4of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_5of5 <- loadBMP  "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_1of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_2of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_3of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_4of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Direita_5of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Frente_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Frente_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Frente_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Frente_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Frente_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Esquerda_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Esquerda_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Esquerda_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Esquerda_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Esquerda_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Direita_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Direita_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Direita_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Direita_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_2Direita_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Frente_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Frente_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Frente_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Frente_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Frente_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Esquerda_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Esquerda_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Esquerda_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Esquerda_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Esquerda_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Direita_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Direita_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Direita_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Direita_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_3Direita_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+
+
+
          
-         let imagens = [galinha1_1,galinha1_2,galinha1_3, scale 0.12 0.24 $ rio1, scale 0.12 0.24 $ relva1, scale 0.12 0.24 $ estrada1,galinha2_1,galinha2_2,galinha2_3, scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ estrada2, scale 0.12 0.24 $ relva2, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore2, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco2, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro2,galinha3_1,galinha3_2,galinha3_3, scale 0.12 0.24 $ rio3, scale 0.12 0.24 $ relva3, scale 0.12 0.24 $ estrada3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro1, Translate 0.0 90.0 $ scale 0.12 0.24 $ arvore1, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore3, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco1, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco3, banner1_1, banner1_2, banner1_3, nenhum28, Translate 0.0 25.0 galinha28, Translate 0.0 25.0 galinha2, Translate 0.0 25.0 galinha3,banner1]
+         let imagens = [galinha1_1,galinha1_2,galinha1_3, scale 0.12 0.24 $ rio1, scale 0.12 0.24 $ relva1, scale 0.12 0.24 $ estrada1,galinha2_1,galinha2_2,galinha2_3, scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ estrada2, scale 0.12 0.24 $ relva2, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore2, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco2, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro2,galinha3_1,galinha3_2,galinha3_3, scale 0.12 0.24 $ rio3, scale 0.12 0.24 $ relva3, scale 0.12 0.24 $ estrada3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro1, Translate 0.0 90.0 $ scale 0.12 0.24 $ arvore1, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore3, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco1, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco3, banner1_1, banner1_2, banner1_3, nenhum28, Translate 0.0 25.0 galinha28, Translate 0.0 25.0 galinha2, Translate 0.0 25.0 galinha3, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_2of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_12of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_13of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_17of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_22of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_27of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_37of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_39of39]
          let tempo = 0.0 
-         let jogada = (Parado)        
-         play window cor fr (estadoInicial imagens tempo) desenhaMundo event reageTempo
+         let jogada = (Parado)  
+         let direccao = Cima      
+         play window cor fr (estadoInicial imagens tempo direccao) desenhaMundo event reageTempo
 
 rio28 :: Picture 
 rio28 = Color blue $ rectangleSolid lado lado  
