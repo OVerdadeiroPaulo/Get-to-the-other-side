@@ -303,14 +303,16 @@ Esta funcao com a estendeMapa como auxiliar, retira a ultima linha do mapa, e ge
 --                                                             | otherwise = (Jogo (Jogador(x, y)) (Mapa l ((te,obs):xs)))
 
 deslizaJogo2 :: Int -> Jogo -> Jogo 
-deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 1  = (Jogo (deslocafinal j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
+deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 10  = (Jogo (deslocafinal j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                  | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
                                                                                                            
                                                                                                       
 deslizaObs:: Jogada -> Jogo -> Jogo 
 deslizaObs a (Jogo j m@(Mapa l ((te,obs):xs))) = Jogo j (daavolta j a m)
                                                
-
+--reageTempo z (PaginaJogar Media, Jogo j m, imagens, t) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*200) (animaJogo (Jogo j m) Parado)), imagens, (t+z))
+--reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t) = (PaginaJogar Dificil, (deslizaJogo ((round(t+z))*200) (animaJogo (Jogo j m) Parado)), imagens, (t+z))
+--reageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
 --deslizaJogo1 :: Int -> Jogo -> Jogo 
 --deslizaJogo1 a (Jogo j m@(Mapa l ((te,obs):xs))) =  (Jogo (deslocafinal j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) 
                                                            
@@ -341,7 +343,7 @@ window = FullScreen
 
 Contem o numero de frames por segundo em que o nosso programa vai funcionar -}
 fr :: Int
-fr = 1
+fr = 3
 
 {--change to blue, for other dificulties--}
 cor :: Color

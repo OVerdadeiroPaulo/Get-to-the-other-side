@@ -73,7 +73,7 @@ estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 -}
 
 estadoInicial :: Imagens -> Float -> Mundo 
-estadoInicial imagens tempo = (PaginaJogar Dificil, jogo1, imagens, tempo)
+estadoInicial imagens tempo = (PaginaPrincipal Dificuldades_1, jogo1, imagens, tempo)
 
 
 
@@ -188,9 +188,9 @@ imagefundo1 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
 -}
 
 imagefundo1 :: Float -> Imagens -> Picture 
-imagefundo1 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
-                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
-                      | otherwise = (imagens !! 12)
+imagefundo1 t imagens | (mod (round (t*10)) 30) < 10 = (imagens !! 34)
+                      | (mod (round (t*10)) 30) > 20 = (imagens !! 27)
+                      | otherwise = (imagens !! 34)
 
 {-| A funcao 'imageFundo2' faz alternar as imagens do background do jogo
 
@@ -202,11 +202,14 @@ imagefundo2 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
                       | otherwise = (imagens !! 12)
 @
 -}
-
 imagefundo2 :: Float -> Imagens -> Picture 
-imagefundo2 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
-                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
-                      | otherwise = (imagens !! 12)
+imagefundo2 t imagens | (mod (round (t)) 3) < 0 = (imagens !! 34)
+                      | (mod (round (t)) 3) < 1 = (imagens !! 28)
+                      | otherwise = (imagens !! 34)
+-- imagefundo2 :: Float -> Imagens -> Picture 
+-- imagefundo2 t imagens | (mod (round (t*1000)) 3000) < 1000 = (imagens !! 34)
+--                       | (mod (round (t*1000)) 3000) > 2000 = (imagens !! 28)
+--                       | otherwise = (imagens !! 34)
 
 {-| A funcao 'imageFundo3' faz alternar as imagens do background do jogo
 
@@ -220,9 +223,9 @@ imagefundo3 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
 -}
 
 imagefundo3 :: Float -> Imagens -> Picture 
-imagefundo3 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
-                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
-                      | otherwise = (imagens !! 12)
+imagefundo3 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 27)
+                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 28)
+                      | otherwise = (imagens !! 29)
 
 {-| A funcao 'imageFundo4' faz alternar as imagens do background do jogo
 
@@ -236,9 +239,9 @@ imagefundo4 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
 -}
 
 imagefundo4 :: Float -> Imagens -> Picture 
-imagefundo4 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
-                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 11)
-                      | otherwise = (imagens !! 12)                      
+imagefundo4 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 27)
+                      | (mod (round (t*1000)) 300) > 200 = (imagens !! 28)
+                      | otherwise = (imagens !! 29)                      
 
 {-| A funcao 'getImage' busca a imagem no 'Mundo'
 
@@ -562,17 +565,17 @@ desenhaObs3 x y obstaculo imagens = Translate x y image
 @
 renderTer1 :: Terreno -> Imagens -> Picture 
 renderTer1 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 4)
+ | inicionovo terreno == "Rio" = (imagens !! 3)
+ | inicionovo terreno == "Est" = (imagens !! 5)
 @
 -}
 
 renderTer1 :: Terreno -> Imagens -> Picture 
 renderTer1 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 4)
+ | inicionovo terreno == "Rio" = (imagens !! 3)
+ | inicionovo terreno == "Est" = (imagens !! 5)
  
 {-| Funcao 'renderTer2' e a funcao auxiliar da funcao 'desenhaTer2' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Media' 
 
@@ -580,17 +583,17 @@ renderTer1 terreno imagens
 @
 renderTer2 :: Terreno -> Imagens -> Picture 
 renderTer2 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 11)
+ | inicionovo terreno == "Rio" = (imagens !! 9)
+ | inicionovo terreno == "Est" = (imagens !! 10)
 @
 -}
 
 renderTer2 :: Terreno -> Imagens -> Picture 
 renderTer2 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 11)
+ | inicionovo terreno == "Rio" = (imagens !! 9)
+ | inicionovo terreno == "Est" = (imagens !! 10)
 
 {-| Funcao 'renderTer3' e a funcao auxiliar da funcao 'desenhaTer3' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Dificil' 
 
@@ -598,17 +601,17 @@ renderTer2 terreno imagens
 @
 renderTer3 :: Terreno -> Imagens -> Picture 
 renderTer3 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 19)
+ | inicionovo terreno == "Rio" = (imagens !! 18)
+ | inicionovo terreno == "Est" = (imagens !! 20)
 @
 -}
 
 renderTer3 :: Terreno -> Imagens -> Picture 
 renderTer3 terreno imagens
- | inicionovo terreno == "Rel" = (imagens !! 13)
- | inicionovo terreno == "Rio" = (imagens !! 15)
- | inicionovo terreno == "Est" = (imagens !! 17)
+ | inicionovo terreno == "Rel" = (imagens !! 19)
+ | inicionovo terreno == "Rio" = (imagens !! 18)
+ | inicionovo terreno == "Est" = (imagens !! 20)
 
 {-| Funcao 'renderObs1' e a funcao auxiliar da funcao 'desenhaObs1', esta funcao junta cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Facil'
 
@@ -616,19 +619,19 @@ renderTer3 terreno imagens
 @
 renderObs1 :: Obstaculo -> Imagens -> Picture 
 renderObs1 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 25)
+ | obstaculo == Arvore = (imagens !! 23)
+ | obstaculo == Carro = (imagens !! 22)
 @
 -}
 
 renderObs1 :: Obstaculo -> Imagens -> Picture 
 renderObs1 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 25)
+ | obstaculo == Arvore = (imagens !! 23)
+ | obstaculo == Carro = (imagens !! 22)
 
 {-| Funcao 'renderObs2' e a funcao auxiliar da funcao 'desenhaObs2', esta funcao junta cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Media'
 
@@ -636,19 +639,19 @@ renderObs1 obstaculo imagens
 @
 renderObs2 :: Obstaculo -> Imagens -> Picture 
 renderObs2 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 13)
+ | obstaculo == Arvore = (imagens !! 12)
+ | obstaculo == Carro = (imagens !! 14)
 @
 -}
 
 renderObs2 :: Obstaculo -> Imagens -> Picture 
 renderObs2 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 13)
+ | obstaculo == Arvore = (imagens !! 12)
+ | obstaculo == Carro = (imagens !! 14)
 
 {-| Funcao 'renderObs3' e a funcao auxiliar da funcao 'desenhaObs3', esta funcao junta cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Media'
 
@@ -656,19 +659,19 @@ renderObs2 obstaculo imagens
 @
 renderObs3 :: Obstaculo -> Imagens -> Picture 
 renderObs3 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 26)
+ | obstaculo == Arvore = (imagens !! 24)
+ | obstaculo == Carro = (imagens !! 21)
 @
 -}
 
 renderObs3 :: Obstaculo -> Imagens -> Picture 
 renderObs3 obstaculo imagens 
- | obstaculo == Nenhum = (imagens !! 8)
- | obstaculo == Tronco = (imagens !! 16)
- | obstaculo == Arvore = (imagens !! 14)
- | obstaculo == Carro = (imagens !! 18)
+ | obstaculo == Nenhum = (imagens !! 30)
+ | obstaculo == Tronco = (imagens !! 26)
+ | obstaculo == Arvore = (imagens !! 24)
+ | obstaculo == Carro = (imagens !! 21)
 
 {-| Funcao 'criarTerreno1' esta funcao cria o Mapa usando o 'desenhalinhaTer1' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Terrenos' desejados para a dificuldade 'Facil'
 
@@ -791,9 +794,9 @@ criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tran
 -}
                                                                      
 criarJogador1 :: Jogador -> Float-> Imagens -> Picture
-criarJogador1 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 0)
-                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 10)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)                         
+criarJogador1 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                        | (mod (round (t*1000)) 300) < 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)                         
 
 {-| Funcao 'criarJogador2' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Media'.
 
@@ -807,9 +810,9 @@ criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 -}
                                                                      
 criarJogador2 :: Jogador -> Float-> Imagens -> Picture
-criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 0)
-                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 10)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)
+criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)
 
 {-| Funcao 'criarJogador3' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Dificil'.
 
@@ -823,87 +826,12 @@ criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 -}
                                                                      
 criarJogador3 :: Jogador -> Float-> Imagens -> Picture
-criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 0)
-                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 10)
-                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)
+criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
+                                        | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
+                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)
 
 
 {-| Funcoes auxiliares que controlam o movimento do jogador no mapa, feitas com as medidas perfeitas para o jogador ficar sempre no centro do Mapa
-event :: Event -> Mundo -> Mundo 
--- Pagina Principal 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Dificuldades_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens) = (PaginaPrincipal Dificuldades_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaPrincipal Instrucoes_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaPrincipal Sair_1, jogo, imagens) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, Jogo j m, imagens) = (PaginaJogar Facil, Jogo j m, imagens) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens) = (PaginaDificuldade Facil false Facil, joga, imagens) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens) = (PaginaInstrucoes false Facil, jogo, imagens) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens) = error "Jogo Terminou"
--- Pagina Dificuldade
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaDificuldade Menu1 b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaDificuldade Facil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaDificuldade Media b d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) = (PaginaDificuldade Dificil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaDificuldade Media b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaDificuldade Dificil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaDificuldade Menu1 b d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) = (PaginaDificuldade Facil b d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens) | b == True (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-                                                                                                 | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens)
--- Pagina controlos  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-                                                                                      | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-                                                                                   | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-                                                                                      | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens)
--- Pagina Pausa  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens) = (PaginaPausa Menu_2 d, Jogo j m, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens) = (PaginaPausa Continuar_1 , Jogo j m, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens) = (PaginaPausa Menu_2, Jogo j m, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens) = (PaginaPausa Continuar_1 , Jogo j m, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
--- Pagina MenuPausa 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaMenuPausa Sair_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaMenuPausa NovoJogo d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaMenuPausa NovoJogo d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaMenuPausa Sair_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = (PaginaMenuPausa Continuar_2 d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens) = (PaginaJogar Facil, Jogo j d, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens) = (PaginaDificuldade Facil True d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens) = (PaginaInstrucoes True d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens) = error "Terminou Jogo"
--- Pagina Perdeu jogo
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaPerdeuJogo Reniciar d, jogo, imagens)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPerdeuJogo Reniciar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens) = (PaginaJogar d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens) = (PaginaDificuldade Facil False d, jogo, imagens)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens) = (PaginaPrincipal Jogar, jogo, imagens)
--- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Cima-}jogo, imagens)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Baixo-}jogo, imagens)
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Esquerda-}jogo, imagens)
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaJogar d, {-Funcao que move o Jogador para Direita-}jogo, imagens)
-event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens) = (PaginaPausa Continuar_1 d, jogo, imagens)
-event _ s = s
 
 ==codigo:
 @
@@ -1003,6 +931,12 @@ event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagen
 event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo)
 event _ s = s
 
+getJogo :: Mundo -> Jogo 
+getJogo (_,j,_,_)= j 
+
+animajogo1 :: Jogo -> Int -> Jogo
+animajogo1 j a | (mod a 3000) < 1 = animaJogo j Parado
+               | otherwise = j
 
 {-| A funcao 'reageTempo' registra a passagem do tempo e atualiza o mapa com a ajuda das auxiliares 'deslizaJogo' para deslizar o jogo e a 'animaJogo' para mover os 'Obstaculos' como 'Troncos' e 'Carros'
 
@@ -1014,9 +948,9 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 -}
 
 reageTempo :: Float -> Mundo -> Mundo 
-reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*200) (animaJogo (Jogo j m) Parado)), imagens, (t+z))
-reageTempo z (PaginaJogar Media, Jogo j m, imagens, t) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*200) (animaJogo (Jogo j m) Parado)), imagens, (t+z))
-reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t) = (PaginaJogar Dificil, (deslizaJogo ((round(t+z))*200) (animaJogo (Jogo j m) Parado)), imagens, (t+z))
+reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*200) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
+reageTempo z (PaginaJogar Media, Jogo j m, imagens, t) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
+reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t) = (PaginaJogar Facil, (deslizaJogo ((round(t+z))*400) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z))
 reageTempo z (PaginaPrincipal c, jogo, imagens, t) = (PaginaPrincipal c, jogo, imagens, (t+z))
 reageTempo _ z = z
 
@@ -1041,7 +975,7 @@ fr = 1
 -}
 
 fr :: Int
-fr = 1
+fr = 2
 
 {-| Variavel 'cor' contem a cor do background do nosso programa
 
@@ -1051,11 +985,18 @@ cor :: Color
 cor = black
 @ 
 -}
-estilo = "1"
 cor :: Color
 cor = black
 
-carroselect = "./bmps/ESTILO"++estilo++"/carro.bmp"
+
+carroselect1 = "./bmps/ESTILO"++estilo1++"/carro.bmp"
+carroselect2 = "./bmps/ESTILO"++estilo2++"/carro.bmp"
+carroselect3 = "./bmps/ESTILO"++estilo3++"/carro.bmp"
+estilo1 = "1"
+estilo2 = "2"
+estilo3 = "3"
+
+
 {-| Funcao 'main' e a funcao que contem todos os 'bmps' do jogo, e executa a funcao play, que vai carregar para o ecra todos os menus, e jogos, para que o user possa interagir com o programa
 
 ==codigo:
@@ -1064,20 +1005,39 @@ carroselect = "./bmps/ESTILO"++estilo++"/carro.bmp"
 @
 -}
 main :: IO ()
-main = do 
-         galinha <- loadBMP "Chicken_JE2_BE2.bmp"
-         rio <- loadBMP "water-surface-texture-1928713.bmp"
-         relva <- loadBMP "textura-da-grama-verde-textura-do-relvado-96665200.bmp"
-         estrada <- loadBMP "textura-da-estrada-com-linhas-10054832(1).bmp"
-         banner <- loadBMP "./bmps/banner.bmp"
-         galinha4 <- loadBMP "arvore.bmp"
-         rio2 <- loadBMP "./bmps/ESTILO1/rio.bmp"
-         estrada2 <-loadBMP "./bmps/ESTILO1/estrada.bmp"
-         relva2 <- loadBMP "./bmps/ESTILO1/relva.bmp"
-         arvore2 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
-         tronco2 <- loadBMP "./bmps/ESTILO1/tronco.bmp"
-         carro2 <- loadBMP carroselect
-         let imagens = [galinha28,{--scale 0.041 0.041 $ --}rio28, relva28, estrada28, banner, tronco28, arvore28, carro28, nenhum28,galinha2,galinha3,banner1,banner2,scale 0.12 0.24 $  relva2, scale 0.12 0.24 $ arvore2,scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ tronco2,scale 0.12 0.24 $  estrada2,scale (0.12) 0.24 $ carro2]
+main = do
+         banner1_1 <- loadBMP "./bmps/banner.bmp"
+         banner1_2 <- loadBMP "./bmps/banner.bmp" 
+         banner1_3 <- loadBMP "./bmps/banner.bmp"
+         galinha1_1 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha1_2 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha1_3 <- loadBMP "Chicken_JE2_BE2.bmp"
+         rio1 <- loadBMP "bmps/ESTILO1/rio.bmp"
+         relva1 <- loadBMP "./bmps/ESTILO1/relva.bmp"
+         estrada1 <- loadBMP "./bmps/ESTILO1/estrada.bmp"
+         arvore1 <- loadBMP "./bmps/ESTILO1/arvore.bmp"
+         tronco1 <- loadBMP "./bmps/ESTILO1/tronco.bmp"
+         carro1 <- loadBMP carroselect1         
+         galinha2_1 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha2_2 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha2_3 <- loadBMP "Chicken_JE2_BE2.bmp"         
+         rio2 <- loadBMP "bmps/ESTILO2/rio.bmp"
+         estrada2 <-loadBMP "./bmps/ESTILO2/estrada.bmp"
+         relva2 <- loadBMP "./bmps/ESTILO2/relva.bmp"
+         arvore2 <- loadBMP "./bmps/ESTILO2/arvore2.bmp"
+         tronco2 <- loadBMP "./bmps/ESTILO2/tronco.bmp"
+         carro2 <- loadBMP carroselect2
+         galinha3_1 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha3_2 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha3_3 <- loadBMP "Chicken_JE2_BE2.bmp" 
+         rio3 <- loadBMP "./bmps/ESTILO2/rio.bmp"
+         relva3 <- loadBMP "./bmps/ESTILO2/relva.bmp"
+         estrada3 <- loadBMP "./bmps/ESTILO2/estrada.bmp"
+         arvore3 <- loadBMP "./bmps/ESTILO3/arvore.bmp"
+         tronco3 <- loadBMP "./bmps/ESTILO3/tronco.bmp"
+         carro3 <- loadBMP carroselect3
+         
+         let imagens = [galinha1_1,galinha1_2,galinha1_3, scale 0.12 0.24 $ rio1, scale 0.12 0.24 $ relva1, scale 0.12 0.24 $ estrada1,galinha2_1,galinha2_2,galinha2_3, scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ estrada2, scale 0.12 0.24 $ relva2, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore2, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco2, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro2,galinha3_1,galinha3_2,galinha3_3, scale 0.12 0.24 $ rio3, scale 0.12 0.24 $ relva3, scale 0.12 0.24 $ estrada3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro1, Translate 0.0 90.0 $ scale 0.12 0.24 $ arvore1, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore3, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco1, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco3, banner1_1, banner1_2, banner1_3, nenhum28, Translate 0.0 25.0 galinha28, Translate 0.0 25.0 galinha2, Translate 0.0 25.0 galinha3,banner1]
          let tempo = 0.0 
          let jogada = (Parado)        
          play window cor fr (estadoInicial imagens tempo) desenhaMundo event reageTempo
