@@ -30,6 +30,3 @@ deslizaJogo :: Int -> Jogo -> Jogo
 deslizaJogo a (Jogo j m@(Mapa l ((te,obs):xs))) | (mod a 300) < 150  = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
                                                 | otherwise = (Jogo j (Mapa l ((te,obs):xs)))
 
-deslizaJogo2 :: Int -> Jogo -> Jogo 
-deslizaJogo2 a (Jogo j m@(Mapa l ((te,obs):xs))) = (Jogo (deslocajogador j (Move Baixo) m) (estendeMapa (Mapa l (init ((te,obs):xs))) a))
-                                                
