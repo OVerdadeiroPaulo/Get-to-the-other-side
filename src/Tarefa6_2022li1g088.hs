@@ -96,32 +96,60 @@ desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imag
             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
                   pagPrincipal3 = pgPrincipal3 imagens4
 desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPrincipal4])
-            where fundoAnimado1 = imagefundo4 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
                   pagPrincipal4 = pgPrincipal4 imagens4
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPerdeu1])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagPerdeu1 = pgPerdeu1 imagens4
+desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPerdeu2])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagPerdeu2 = pgPerdeu2 imagens4
+desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPerdeu2])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagPerdeu2 = pgPerdeu3 imagens4
 --PaginaPausa
-desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPausa1])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagPausa1 = pgPausa1 imagens4
+desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPausa2])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagPausa2 = pgPausa2 imagens4
 --PaginaDificuldade
-desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagDificuldade1])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagDificuldade1 = pgDificuldade1 imagens4
+desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagDificuldade2])
+              where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                    pagDificuldade2 = pgDificuldade2 imagens4
+desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagDificuldade3]) 
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagDificuldade3 = pgDificuldade3 imagens4
+desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagDificuldade4]) 
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagDificuldade4 = pgDificuldade4 imagens4
 --paginaInstrucoes 
 desenhaMundo (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
---PaginaMenuPaus
-desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+--PaginaMenuPausa
+desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagNova1])
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagNova1 = pgNova1 imagens4
+desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagNova2])
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagNova2 = pgNova2 imagens4
+desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagNova3])
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagNova3 = pgNova3 imagens4
+desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagNova4])
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagNova4 = pgNova4 imagens4
+desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagNova5])
+             where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                   pagNova5 = pgNova5 imagens4
 --PaginaJogar 
 desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | d == Facil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
-                                                                       | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
-                                                                       | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
+                                                                                           | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
+                                                                                           | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
  where 
      world28 = desenhaTerrenos1 ++ [desenhajogador1] ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] -- ^ Mundo da dificuldade Facil 
      desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
@@ -157,6 +185,50 @@ pgPrincipal3 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 49)] ++ [Tr
 
 pgPrincipal4 :: Imagens -> Picture 
 pgPrincipal4 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 49)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 58)])
+
+pgPerdeu1 :: Imagens -> Picture 
+pgPerdeu1 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 56)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 53)])
+
+pgPerdeu2 :: Imagens -> Picture 
+pgPerdeu2 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 55)] ++ [Translate 0.0 0.0 $ (imagens4 !! 44)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 53)])
+
+pgPerdeu3 :: Imagens -> Picture 
+pgPerdeu3 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 55)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 54)])
+
+pgPausa1 :: Imagens -> Picture 
+pgPausa1 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 40)] ++ [Translate 0.0 0.0 $ (imagens4 !! 53)])
+
+pgPausa2 :: Imagens -> Picture 
+pgPausa2 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Translate 0.0 0.0 $ (imagens4 !! 54)])
+
+pgDificuldade1 :: Imagens -> Picture 
+pgDificuldade1 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 46)] ++ [Translate 0.0 0.0 $ (imagens4 !! 51)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 41)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgDificuldade2 :: Imagens -> Picture 
+pgDificuldade2 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 45)] ++ [Translate 0.0 0.0 $ (imagens4 !! 52)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 41)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgDificuldade3 :: Imagens -> Picture 
+pgDificuldade3 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 45)] ++ [Translate 0.0 0.0 $ (imagens4 !! 51)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 42)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgDificuldade4 :: Imagens -> Picture 
+pgDificuldade4 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 45)] ++ [Translate 0.0 0.0 $ (imagens4 !! 51)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 41)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 58)])
+
+pgNova1 :: Imagens -> Picture 
+pgNova1 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 40)] ++ [Translate 0.0 0.0 $ (imagens4 !! 55)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 43)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-240.0) $ (imagens4 !! 57)])
+
+pgNova2 :: Imagens -> Picture 
+pgNova2 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Translate 0.0 0.0 $ (imagens4 !! 56)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 43)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-240.0) $ (imagens4 !! 57)])
+
+pgNova3 :: Imagens -> Picture 
+pgNova3 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Translate 0.0 0.0 $ (imagens4 !! 55)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 44)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-240.0) $ (imagens4 !! 57)])
+
+pgNova4 :: Imagens -> Picture 
+pgNova4 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Translate 0.0 0.0 $ (imagens4 !! 55)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 43)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 48)] ++ [Translate 0.0 (-240.0) $ (imagens4 !! 57)])
+
+pgNova5 :: Imagens -> Picture 
+pgNova5 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Translate 0.0 0.0 $ (imagens4 !! 55)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 43)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-240.0) $ (imagens4 !! 58)])
+
+
 {-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
 == Codigo:
@@ -1187,18 +1259,18 @@ event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jog
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar Facil, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar Media, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar Dificil, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-                                                                                                    | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                                                                            | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina controlos  
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-                                                                                          | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                                                                  | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-                                                                                            | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                                                                    | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-                                                                                             | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                                                                     | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina Pausa  
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
@@ -1229,7 +1301,7 @@ event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, i
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil False d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina Jogar 
@@ -1264,6 +1336,11 @@ reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, i
 reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
                                                                                  | otherwise =  (PaginaJogar Dificil, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPrincipal c, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
+reageTempo z (PaginaDificuldade d1 b d2, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaDificuldade d1 b d2, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
+reageTempo z (PaginaInstrucoes b d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaInstrucoes b d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
+reageTempo z (PaginaMenuPausa p d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaMenuPausa p d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
+reageTempo z (PaginaPerdeuJogo c d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo c d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
+reageTempo z (PaginaPausa c d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPausa c d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo _ z = z
 
 {-| Variavel 'window', contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela, para maior e melhor interaccao com o jogo
