@@ -19,7 +19,7 @@ import Tarefa5_2022li1g088
 import Graphics.Gloss
 import Graphics.Gloss.Interface.Pure.Game
 
-type Mundo = (Paginas, Jogo, Imagens, Float, Direcao)
+type Mundo = (Paginas, Jogo, Imagens, Float, Jogada, Imagens, Imagens, Imagens)
 
 type Imagens = [Picture]
 
@@ -72,8 +72,8 @@ estadoInicial imagens tempo jogada = (PaginaJogar, jogo1, imagens,tempo, jogada)
 @  
 -}
 
-estadoInicial :: Imagens -> Float -> Direcao -> Mundo 
-estadoInicial imagens tempo direccao = (PaginaJogar Facil, jogo1, imagens, tempo, direccao)
+estadoInicial :: Imagens -> Float -> Jogada -> Imagens -> Imagens -> Imagens -> Mundo 
+estadoInicial imagens tempo direccao imagens2 imagens3 imagens4 = (PaginaPrincipal Dificuldades_1, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 
 
 
@@ -86,60 +86,77 @@ estadoInicial imagens tempo direccao = (PaginaJogar Facil, jogo1, imagens, tempo
 -}
 desenhaMundo :: Mundo -> Picture
 --PaginaPrincipal 
-desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = fundoAnimado1 {--Pictures [Scale 1.0 1.0 (imagens !! 4)] --}
-            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
-desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = fundoAnimado2    {-Picture [Scale 1.0 1.0 (imagens !! 4)]-} 
-            where fundoAnimado2 = imagefundo2 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
-desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = fundoAnimado3   {-Pictures [Scale 1.0 1.0 (imagens !! 4)]-} 
-            where fundoAnimado3 = imagefundo3 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
-desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = fundoAnimado4  {--Pictures [Scale 1.0 1.0 (imagens !! 4)]--}
-            where fundoAnimado4 = imagefundo4 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)) (getImagens (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao))
+desenhaMundo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++ [pagPrincipal])
+            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                  pagPrincipal = pgPrincipal imagens4
+desenhaMundo (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++ [pagPrincipalDificuldade]) 
+            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                  pagPrincipalDificuldade = pgPrincipal2 imagens4
+desenhaMundo (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++ [pagPrincipal3]) 
+            where fundoAnimado1 = imagefundo1 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                  pagPrincipal3 = pgPrincipal3 imagens4
+desenhaMundo (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures ([fundoAnimado1] ++[pagPrincipal4])
+            where fundoAnimado1 = imagefundo4 (getTempo (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens4
+                  pagPrincipal4 = pgPrincipal4 imagens4
 --PaginaPerdeuJogo
-desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaPausa
-desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaDificuldade
-desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --paginaInstrucoes 
-desenhaMundo (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
 --PaginaMenuPaus
-desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
-desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
-desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)] 
+desenhaMundo (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
+desenhaMundo (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = Pictures [Scale 1.0 1.0 (imagens !! 4)]
 --PaginaJogar 
-desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao) | d == Facil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
-                                                   | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
-                                                   | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
+desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | d == Facil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world28 
+                                                                       | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
+                                                                       | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
  where 
-     world28 = desenhaTerrenos1 ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] ++ [desenhajogador1] -- ^ Mundo da dificuldade Facil 
-     desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) imagens
-     desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao))) imagens 
-     desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
-     tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao))
-     scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao)) 
+     world28 = desenhaTerrenos1 ++ [desenhajogador1] ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] -- ^ Mundo da dificuldade Facil 
+     desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
+     desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
+     tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
+     scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) 
     
-     world29 = desenhaTerrenos2 ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] ++ [desenhajogador2] -- ^ Mundo da dificuldade Media
-     desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) imagens
-     desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao))) imagens 
-     desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Media, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
-     tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao))
-     scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao))
+     world29 = desenhaTerrenos2 ++ [desenhajogador2] ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] -- ^ Mundo da dificuldade Media
+     desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
+     desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens2 (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
+     tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
+     scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
     
-     world30 = desenhaTerrenos3 ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] ++ [desenhajogador3] -- ^ Mundo da dificuldade Dificil
-     desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) imagens
-     desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao))) imagens 
-     desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo, direccao)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo, direccao)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao))
-     tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao))
-     scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao))
+     world30 = desenhaTerrenos3 ++ [desenhajogador3] ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] -- ^ Mundo da dificuldade Dificil
+     desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
+     desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens3 (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) 
+     tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
+     scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      placar = mostrarPlacar 
+
+
+pgPrincipal :: Imagens -> Picture 
+pgPrincipal imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 50)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgPrincipal2 :: Imagens -> Picture 
+pgPrincipal2 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 49)] ++ [Translate 0.0 0.0 $ (imagens4 !! 44)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgPrincipal3 :: Imagens -> Picture 
+pgPrincipal3 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 49)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 48)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 57)])
+
+pgPrincipal4 :: Imagens -> Picture 
+pgPrincipal4 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 49)] ++ [Translate 0.0 0.0 $ (imagens4 !! 43)] ++ [Translate 0.0 (-80.0) $ (imagens4 !! 47)] ++ [Translate 0.0 (-160.0) $ (imagens4 !! 58)])
 {-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
 
 == Codigo:
@@ -188,10 +205,45 @@ imagefundo1 t imagens | (mod (round (t*1000)) 300) < 100 = (imagens !! 4)
 -}
 
 imagefundo1 :: Float -> Imagens -> Picture 
-imagefundo1 t imagens | (mod (round (t*10)) 30) < 10 = (imagens !! 34)
-                      | (mod (round (t*10)) 30) > 20 = (imagens !! 27)
-                      | otherwise = (imagens !! 34)
-
+imagefundo1 t imagens4 |(mod (round (t*22222)) 400) < 10 = (imagens4 !! 0)
+                       | (mod (round (t*22222)) 400) < 20 = (imagens4 !! 1)
+                       | (mod (round (t*22222)) 400) < 30 = (imagens4 !! 2)
+                       | (mod (round (t*22222)) 400) < 40 = (imagens4 !! 3)
+                       | (mod (round (t*22222)) 400) < 50 = (imagens4 !! 4)
+                       | (mod (round (t*22222)) 400) < 60 = (imagens4 !! 5)
+                       | (mod (round (t*22222)) 400) < 70 = (imagens4 !! 6)
+                       | (mod (round (t*22222)) 400) < 80 = (imagens4 !! 7)
+                       | (mod (round (t*22222)) 400) < 90 = (imagens4 !! 8)
+                       | (mod (round (t*22222)) 400) < 100 = (imagens4 !! 9)
+                       | (mod (round (t*22222)) 400) < 110 = (imagens4 !! 10)
+                       | (mod (round (t*22222)) 400) < 120 = (imagens4 !! 11)
+                       | (mod (round (t*22222)) 400) < 130 = (imagens4 !! 12)
+                       | (mod (round (t*22222)) 400) < 140 = (imagens4 !! 13)
+                       | (mod (round (t*22222)) 400) < 150 = (imagens4 !! 14)
+                       | (mod (round (t*22222)) 400) < 160 = (imagens4 !! 15)
+                       | (mod (round (t*22222)) 400) < 170 = (imagens4 !! 16)
+                       | (mod (round (t*22222)) 400) < 180 = (imagens4 !! 17)
+                       | (mod (round (t*22222)) 400) < 190 = (imagens4 !! 18)
+                       | (mod (round (t*22222)) 400) < 200 = (imagens4 !! 19)
+                       | (mod (round (t*22222)) 400) < 210 = (imagens4 !! 20)
+                       | (mod (round (t*22222)) 400) < 220 = (imagens4 !! 21)
+                       | (mod (round (t*22222)) 400) < 230 = (imagens4 !! 22)
+                       | (mod (round (t*22222)) 400) < 240 = (imagens4 !! 23)
+                       | (mod (round (t*22222)) 400) < 250 = (imagens4 !! 24)
+                       | (mod (round (t*22222)) 400) < 260 = (imagens4 !! 25)
+                       | (mod (round (t*22222)) 400) < 270 = (imagens4 !! 26)
+                       | (mod (round (t*22222)) 400) < 280 = (imagens4 !! 27)
+                       | (mod (round (t*22222)) 400) < 290 = (imagens4 !! 28)
+                       | (mod (round (t*22222)) 400) < 300 = (imagens4 !! 29)
+                       | (mod (round (t*22222)) 400) < 310 = (imagens4 !! 30)
+                       | (mod (round (t*22222)) 400) < 320 = (imagens4 !! 31)
+                       | (mod (round (t*22222)) 400) < 330 = (imagens4 !! 32)
+                       | (mod (round (t*22222)) 400) < 340 = (imagens4 !! 33)
+                       | (mod (round (t*22222)) 400) < 350 = (imagens4 !! 34)
+                       | (mod (round (t*22222)) 400) < 360 = (imagens4 !! 35)
+                       | (mod (round (t*22222)) 400) < 370 = (imagens4 !! 36)
+                       | (mod (round (t*22222)) 400) < 380 = (imagens4 !! 37)
+                       | otherwise = (imagens4 !! 38)
 {-| A funcao 'imageFundo2' faz alternar as imagens do background do jogo
 
 == Codigo:
@@ -253,8 +305,9 @@ getImagens (_, _, i, _) = i
 -}
 
 getImagens :: Mundo -> Imagens
-getImagens (_, _, i, _, _) = i
-                              
+getImagens (_, _, i, _, _, _, _, _) = i
+
+
 {-| A funcao auxiliar 'getTempo' busca o tempo no 'Mundo'
 @
 getTempo :: Mundo -> Float 
@@ -263,7 +316,7 @@ getTempo (_, _, _, tempo) = tempo
 -}
 
 getTempo :: Mundo -> Float 
-getTempo (_, _, _, tempo, _) = tempo 
+getTempo (_, _, _, tempo, _, _,_, _) = tempo 
 
 {-| A funcao 'getMapa' extrai o Mapa do 'Jogo' que esta dentro do 'Mundo' 
 
@@ -275,7 +328,7 @@ getMapa (_, Jogo j m, _, _) = m
 -}
 
 getMapa :: Mundo -> Mapa 
-getMapa (_, Jogo j m, _, _, _) = m 
+getMapa (_, Jogo j m, _, _, _, _, _, _) = m 
 
 {-| A  funcao 'getLargura' busca a largura no 'Mapa'
 
@@ -312,7 +365,7 @@ getJogador (_, Jogo j m, _, _) = j
 -}
 
 getJogador :: Mundo -> Jogador
-getJogador (_, Jogo j m, _, _, _) = j
+getJogador (_, Jogo j m, _, _, _, _, _, _) = j
 
 {-| A Funcao 'getDireccao' extrai o 'Jogador' do 'Mundo'
 
@@ -323,8 +376,8 @@ getDireccao (_, _, _, _, _) = j
 @
 -}
 
-getDireccao :: Mundo -> Direcao
-getDireccao (_, _, _, _, dr) = dr
+getDireccao :: Mundo -> Jogada
+getDireccao (_, _, _, _, dr, _, _, _) = dr
 
 {-| O 'p' guarda o valor do x onde o Mapa vai comecar
 
@@ -804,58 +857,95 @@ criarJogador (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tran
                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 9)
 @ 
 -}
-                                                                     
 
-criarJogador1 :: Jogador -> Float-> Imagens -> Direcao -> Picture
-criarJogador1 (Jogador (x,y)) t imagens Cima |(mod (round (t*22222)) 40) < 1 = Translate (saltaX x) (saltaY y) (imagens !! 34)
-                                             | (mod (round (t*22222)) 40) < 2 = Translate (saltaX x) (saltaY y) (imagens !! 35)
-                                             | (mod (round (t*22222)) 40) < 3 = Translate (saltaX x) (saltaY y) (imagens !! 36)
-                                             | (mod (round (t*22222)) 40) < 4 = Translate (saltaX x) (saltaY y) (imagens !! 37)
-                                             | (mod (round (t*22222)) 40) < 5 = Translate (saltaX x) (saltaY y) (imagens !! 38)
-                                             | (mod (round (t*22222)) 40) < 6 = Translate (saltaX x) (saltaY y) (imagens !! 39)
-                                             | (mod (round (t*22222)) 40) < 7 = Translate (saltaX x) (saltaY y) (imagens !! 40)
-                                             | (mod (round (t*22222)) 40) < 8 = Translate (saltaX x) (saltaY y) (imagens !! 41)
-                                             | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens !! 42)
-                                             | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens !! 43)
-                                             | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens !! 44)
-                                             | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens !! 45)
-                                             | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens !! 46)
-                                             | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens !! 47)
-                                             | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens !! 48)
-                                             | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens !! 49)
-                                             | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens !! 50)
-                                             | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens !! 51)
-                                             | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens !! 52)
-                                             | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens !! 53)
-                                             | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens !! 54)
-                                             | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens !! 55)
-                                             | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens !! 56)
-                                             | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens !! 57)
-                                             | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens !! 58)
-                                             | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens !! 59)
-                                             | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens !! 60)
-                                             | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens !! 61)
-                                             | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens !! 62)
-                                             | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens !! 63)
-                                             | (mod (round (t*22222)) 40) < 31 = Translate (saltaX x) (saltaY y) (imagens !! 64)
-                                             | (mod (round (t*22222)) 40) < 32 = Translate (saltaX x) (saltaY y) (imagens !! 65)
-                                             | (mod (round (t*22222)) 40) < 33 = Translate (saltaX x) (saltaY y) (imagens !! 66)
-                                             | (mod (round (t*22222)) 40) < 34 = Translate (saltaX x) (saltaY y) (imagens !! 67)
-                                             | (mod (round (t*22222)) 40) < 35 = Translate (saltaX x) (saltaY y) (imagens !! 68)
-                                             | (mod (round (t*22222)) 40) < 36 = Translate (saltaX x) (saltaY y) (imagens !! 69)
-                                             | (mod (round (t*22222)) 40) < 37 = Translate (saltaX x) (saltaY y) (imagens !! 70)
-                                             | (mod (round (t*22222)) 40) < 38 = Translate (saltaX x) (saltaY y) (imagens !! 71)
-                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 34)
-criarJogador1 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
-criarJogador1 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
-criarJogador1 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33)                        
+                                                                          
+criarJogador1 :: Jogador -> Float-> Imagens -> Jogada -> Picture
+criarJogador1 (Jogador (x,y)) t imagens (Move Cima)  |(mod (round (t*22222)) 40) < 1 = Translate (saltaX x) (saltaY y) (imagens !! 34)
+                                                     | (mod (round (t*22222)) 40) < 2 = Translate (saltaX x) (saltaY y) (imagens !! 35)
+                                                     | (mod (round (t*22222)) 40) < 3 = Translate (saltaX x) (saltaY y) (imagens !! 36)
+                                                     | (mod (round (t*22222)) 40) < 4 = Translate (saltaX x) (saltaY y) (imagens !! 37)
+                                                     | (mod (round (t*22222)) 40) < 5 = Translate (saltaX x) (saltaY y) (imagens !! 38)
+                                                     | (mod (round (t*22222)) 40) < 6 = Translate (saltaX x) (saltaY y) (imagens !! 39)
+                                                     | (mod (round (t*22222)) 40) < 7 = Translate (saltaX x) (saltaY y) (imagens !! 40)
+                                                     | (mod (round (t*22222)) 40) < 8 = Translate (saltaX x) (saltaY y) (imagens !! 41)
+                                                     | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens !! 42)
+                                                     | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens !! 43)
+                                                     | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens !! 44)
+                                                     | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens !! 45)
+                                                     | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens !! 46)
+                                                     | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens !! 47)
+                                                     | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens !! 48)
+                                                     | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens !! 49)
+                                                     | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens !! 50)
+                                                     | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens !! 51)
+                                                     | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens !! 52)
+                                                     | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens !! 53)
+                                                     | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens !! 54)
+                                                     | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens !! 55)
+                                                     | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens !! 56)
+                                                     | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens !! 57)
+                                                     | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens !! 58)
+                                                     | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens !! 59)
+                                                     | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens !! 60)
+                                                     | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens !! 61)
+                                                     | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens !! 62)
+                                                     | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens !! 63)
+                                                     | (mod (round (t*22222)) 40) < 31 = Translate (saltaX x) (saltaY y) (imagens !! 64)
+                                                     | (mod (round (t*22222)) 40) < 32 = Translate (saltaX x) (saltaY y) (imagens !! 65)
+                                                     | (mod (round (t*22222)) 40) < 33 = Translate (saltaX x) (saltaY y) (imagens !! 66)
+                                                     | (mod (round (t*22222)) 40) < 34 = Translate (saltaX x) (saltaY y) (imagens !! 67)
+                                                     | (mod (round (t*22222)) 40) < 35 = Translate (saltaX x) (saltaY y) (imagens !! 68)
+                                                     | (mod (round (t*22222)) 40) < 36 = Translate (saltaX x) (saltaY y) (imagens !! 69)
+                                                     | (mod (round (t*22222)) 40) < 37 = Translate (saltaX x) (saltaY y) (imagens !! 70)
+                                                     | (mod (round (t*22222)) 40) < 38 = Translate (saltaX x) (saltaY y) (imagens !! 71)
+                                                     | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 72)
+criarJogador1 (Jogador (x,y)) t imagens (Move Esquerda) | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens !! 81)
+                                                        | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens !! 82)
+                                                        | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens !! 83)
+                                                        | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens !! 84)
+                                                        | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens !! 85)
+                                                        | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens !! 86)
+                                                        | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens !! 87)
+                                                        | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens !! 88)
+                                                        | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens !! 89)
+                                                        | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens !! 90)
+                                                        | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens !! 91)
+                                                        | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens !! 92)
+                                                        | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens !! 93)
+                                                        | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens !! 94)
+                                                        | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens !! 95)
+                                                        | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens !! 96)
+                                                        | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens !! 97)
+                                                        | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens !! 98)
+                                                        | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens !! 99)
+                                                        | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens !! 100)
+                                                        | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens !! 101)
+                                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 101)  
+criarJogador1 (Jogador (x,y)) t imagens (Move Direita)  | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens !! 118)
+                                                        | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens !! 119)
+                                                        | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens !! 120)
+                                                        | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens !! 121)
+                                                        | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens !! 122)
+                                                        | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens !! 123)
+                                                        | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens !! 124)
+                                                        | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens !! 125)
+                                                        | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens !! 126)
+                                                        | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens !! 127)
+                                                        | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens !! 128)
+                                                        | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens !! 129)
+                                                        | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens !! 130)
+                                                        | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens !! 131)
+                                                        | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens !! 132)
+                                                        | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens !! 133)
+                                                        | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens !! 134)
+                                                        | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens !! 135)
+                                                        | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens !! 136)
+                                                        | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens !! 137)
+                                                        | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens !! 140)
+                                                        | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens !! 141)
+                                                        | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 141)
 
+ 
 {-| Funcao 'criarJogador2' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Media'.
 
 ==codigo:
@@ -867,19 +957,93 @@ criarJogador2 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 @ 
 -}
                                                                      
-criarJogador2 :: Jogador -> Float-> Imagens -> Direcao -> Picture
-criarJogador2 (Jogador (x,y)) t imagens Cima |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                             | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31)
-criarJogador2 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
-criarJogador2 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
-criarJogador2 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33) 
+
+criarJogador2 :: Jogador -> Float-> Imagens -> Jogada -> Picture
+criarJogador2 (Jogador (x,y)) t imagens2 (Move Cima)  |(mod (round (t*22222)) 40) < 1 = Translate (saltaX x) (saltaY y) (imagens2 !! 0)
+                                                      | (mod (round (t*22222)) 40) < 2 = Translate (saltaX x) (saltaY y) (imagens2 !! 2)
+                                                      | (mod (round (t*22222)) 40) < 3 = Translate (saltaX x) (saltaY y) (imagens2 !! 3)
+                                                      | (mod (round (t*22222)) 40) < 4 = Translate (saltaX x) (saltaY y) (imagens2 !! 4)
+                                                      | (mod (round (t*22222)) 40) < 5 = Translate (saltaX x) (saltaY y) (imagens2 !! 5)
+                                                      | (mod (round (t*22222)) 40) < 6 = Translate (saltaX x) (saltaY y) (imagens2 !! 6)
+                                                      | (mod (round (t*22222)) 40) < 7 = Translate (saltaX x) (saltaY y) (imagens2 !! 7)
+                                                      | (mod (round (t*22222)) 40) < 8 = Translate (saltaX x) (saltaY y) (imagens2 !! 8)
+                                                      | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens2 !! 9)
+                                                      | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens2 !! 10)
+                                                      | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens2 !! 11)
+                                                      | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens2 !! 12)
+                                                      | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens2 !! 13)
+                                                      | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens2 !! 14)
+                                                      | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens2 !! 15)
+                                                      | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens2 !! 16)
+                                                      | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens2 !! 17)
+                                                      | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens2 !! 18)
+                                                      | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens2 !! 19)
+                                                      | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens2 !! 20)
+                                                      | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens2 !! 21)
+                                                      | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens2 !! 22)
+                                                      | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens2 !! 23)
+                                                      | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens2 !! 24)
+                                                      | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens2 !! 25)
+                                                      | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens2 !! 26)
+                                                      | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens2 !! 27)
+                                                      | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens2 !! 28)
+                                                      | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens2 !! 29)
+                                                      | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens2 !! 30)
+                                                      | (mod (round (t*22222)) 40) < 31 = Translate (saltaX x) (saltaY y) (imagens2 !! 31)
+                                                      | (mod (round (t*22222)) 40) < 32 = Translate (saltaX x) (saltaY y) (imagens2 !! 32)
+                                                      | (mod (round (t*22222)) 40) < 33 = Translate (saltaX x) (saltaY y) (imagens2 !! 33)
+                                                      | (mod (round (t*22222)) 40) < 34 = Translate (saltaX x) (saltaY y) (imagens2 !! 34)
+                                                      | (mod (round (t*22222)) 40) < 35 = Translate (saltaX x) (saltaY y) (imagens2 !! 35)
+                                                      | (mod (round (t*22222)) 40) < 36 = Translate (saltaX x) (saltaY y) (imagens2 !! 36)
+                                                      | (mod (round (t*22222)) 40) < 37 = Translate (saltaX x) (saltaY y) (imagens2 !! 37)
+                                                      | otherwise = Translate (saltaX x) (saltaY y) (imagens2 !! 2)
+criarJogador2 (Jogador (x,y)) t imagens2 (Move Esquerda) | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens2 !! 39)
+                                                         | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens2 !! 40)
+                                                         | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens2 !! 41)
+                                                         | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens2 !! 42)
+                                                         | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens2 !! 43)
+                                                         | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens2 !! 44)
+                                                         | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens2 !! 45)
+                                                         | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens2 !! 46)
+                                                         | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens2 !! 47)
+                                                         | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens2 !! 48)
+                                                         | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens2 !! 49)
+                                                         | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens2 !! 50)
+                                                         | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens2 !! 51)
+                                                         | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens2 !! 52)
+                                                         | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens2 !! 53)
+                                                         | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens2 !! 54)
+                                                         | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens2 !! 55)
+                                                         | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens2 !! 56)
+                                                         | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens2 !! 57)
+                                                         | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens2 !! 58)
+                                                         | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens2 !! 59)
+                                                         | otherwise = Translate (saltaX x) (saltaY y) (imagens2 !! 39)  
+criarJogador2 (Jogador (x,y)) t imagens2 (Move Direita)  | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens2 !! 60)
+                                                         | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens2 !! 61)
+                                                         | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens2 !! 62)
+                                                         | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens2 !! 63)
+                                                         | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens2 !! 64)
+                                                         | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens2 !! 65)
+                                                         | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens2 !! 66)
+                                                         | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens2 !! 67)
+                                                         | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens2 !! 68)
+                                                         | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens2 !! 69)
+                                                         | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens2 !! 70)
+                                                         | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens2 !! 71)
+                                                         | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens2 !! 72)
+                                                         | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens2 !! 73)
+                                                         | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens2 !! 74)
+                                                         | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens2 !! 75)
+                                                         | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens2 !! 76)
+                                                         | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens2 !! 77)
+                                                         | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens2 !! 78)
+                                                         | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens2 !! 79)
+                                                         | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens2 !! 80)
+                                                         | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens2 !! 81)
+                                                         | otherwise = Translate (saltaX x) (saltaY y) (imagens2 !! 60)
+ 
+ 
 {-| Funcao 'criarJogador3' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Dificil'.
 
 ==codigo:
@@ -891,19 +1055,89 @@ criarJogador3 (Jogador (x,y)) t imagens | (mod (round (t*1000)) 300) < 100 = Tra
 @ 
 -}
                                                                      
-criarJogador3 :: Jogador -> Float-> Imagens -> Direcao -> Picture
-criarJogador3 (Jogador (x,y)) t imagens Cima |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                             | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                             | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31)
-criarJogador3 (Jogador (x,y)) t imagens Baixo |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 31)
-                                              | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 31) 
-criarJogador3 (Jogador (x,y)) t imagens Esquerda |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 32)
-                                                 | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 32) 
-criarJogador3 (Jogador (x,y)) t imagens Direita |(mod (round (t*1000)) 300) < 100 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | (mod (round (t*1000)) 300) > 200 = Translate (saltaX x) (saltaY y) (imagens !! 33)
-                                                | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 33) 
+criarJogador3 (Jogador (x,y)) t imagens3 (Move Cima)  |(mod (round (t*22222)) 40) < 1 = Translate (saltaX x) (saltaY y) (imagens3 !! 0)
+                                                      | (mod (round (t*22222)) 40) < 2 = Translate (saltaX x) (saltaY y) (imagens3 !! 2)
+                                                      | (mod (round (t*22222)) 40) < 3 = Translate (saltaX x) (saltaY y) (imagens3 !! 3)
+                                                      | (mod (round (t*22222)) 40) < 4 = Translate (saltaX x) (saltaY y) (imagens3 !! 4)
+                                                      | (mod (round (t*22222)) 40) < 5 = Translate (saltaX x) (saltaY y) (imagens3 !! 5)
+                                                      | (mod (round (t*22222)) 40) < 6 = Translate (saltaX x) (saltaY y) (imagens3 !! 6)
+                                                      | (mod (round (t*22222)) 40) < 7 = Translate (saltaX x) (saltaY y) (imagens3 !! 7)
+                                                      | (mod (round (t*22222)) 40) < 8 = Translate (saltaX x) (saltaY y) (imagens3 !! 8)
+                                                      | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens3 !! 9)
+                                                      | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens3 !! 10)
+                                                      | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens3 !! 11)
+                                                      | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens3 !! 12)
+                                                      | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens3 !! 13)
+                                                      | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens3 !! 14)
+                                                      | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens3 !! 15)
+                                                      | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens3 !! 16)
+                                                      | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens3 !! 17)
+                                                      | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens3 !! 18)
+                                                      | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens3 !! 19)
+                                                      | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens3 !! 20)
+                                                      | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens3 !! 21)
+                                                      | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens3 !! 22)
+                                                      | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens3 !! 23)
+                                                      | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens3 !! 24)
+                                                      | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens3 !! 25)
+                                                      | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens3 !! 26)
+                                                      | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens3 !! 27)
+                                                      | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens3 !! 28)
+                                                      | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens3 !! 29)
+                                                      | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens3 !! 30)
+                                                      | (mod (round (t*22222)) 40) < 31 = Translate (saltaX x) (saltaY y) (imagens3 !! 31)
+                                                      | (mod (round (t*22222)) 40) < 32 = Translate (saltaX x) (saltaY y) (imagens3 !! 32)
+                                                      | (mod (round (t*22222)) 40) < 33 = Translate (saltaX x) (saltaY y) (imagens3 !! 33)
+                                                      | (mod (round (t*22222)) 40) < 34 = Translate (saltaX x) (saltaY y) (imagens3 !! 34)
+                                                      | (mod (round (t*22222)) 40) < 35 = Translate (saltaX x) (saltaY y) (imagens3 !! 35)
+                                                      | (mod (round (t*22222)) 40) < 36 = Translate (saltaX x) (saltaY y) (imagens3 !! 36)
+                                                      | (mod (round (t*22222)) 40) < 37 = Translate (saltaX x) (saltaY y) (imagens3 !! 37)
+                                                      | otherwise = Translate (saltaX x) (saltaY y) (imagens3 !! 2)
+criarJogador3 (Jogador (x,y)) t imagens3 (Move Esquerda) | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens3 !! 39)
+                                                         | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens3 !! 40)
+                                                         | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens3 !! 41)
+                                                         | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens3 !! 42)
+                                                         | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens3 !! 43)
+                                                         | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens3 !! 44)
+                                                         | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens3 !! 45)
+                                                         | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens3 !! 46)
+                                                         | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens3 !! 47)
+                                                         | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens3 !! 48)
+                                                         | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens3 !! 49)
+                                                         | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens3 !! 50)
+                                                         | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens3 !! 51)
+                                                         | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens3 !! 52)
+                                                         | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens3 !! 53)
+                                                         | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens3 !! 54)
+                                                         | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens3 !! 55)
+                                                         | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens3 !! 56)
+                                                         | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens3 !! 57)
+                                                         | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens3 !! 58)
+                                                         | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens3 !! 59)
+                                                         | otherwise = Translate (saltaX x) (saltaY y) (imagens3 !! 39)  
+criarJogador3 (Jogador (x,y)) t imagens3 (Move Direita)  | (mod (round (t*22222)) 40) < 9 = Translate (saltaX x) (saltaY y) (imagens3 !! 60)
+                                                         | (mod (round (t*22222)) 40) < 10 = Translate (saltaX x) (saltaY y) (imagens3 !! 61)
+                                                         | (mod (round (t*22222)) 40) < 11 = Translate (saltaX x) (saltaY y) (imagens3 !! 62)
+                                                         | (mod (round (t*22222)) 40) < 12 = Translate (saltaX x) (saltaY y) (imagens3 !! 63)
+                                                         | (mod (round (t*22222)) 40) < 13 = Translate (saltaX x) (saltaY y) (imagens3 !! 64)
+                                                         | (mod (round (t*22222)) 40) < 14 = Translate (saltaX x) (saltaY y) (imagens3 !! 65)
+                                                         | (mod (round (t*22222)) 40) < 15 = Translate (saltaX x) (saltaY y) (imagens3 !! 66)
+                                                         | (mod (round (t*22222)) 40) < 16 = Translate (saltaX x) (saltaY y) (imagens3 !! 67)
+                                                         | (mod (round (t*22222)) 40) < 17 = Translate (saltaX x) (saltaY y) (imagens3 !! 68)
+                                                         | (mod (round (t*22222)) 40) < 18 = Translate (saltaX x) (saltaY y) (imagens3 !! 69)
+                                                         | (mod (round (t*22222)) 40) < 19 = Translate (saltaX x) (saltaY y) (imagens3 !! 70)
+                                                         | (mod (round (t*22222)) 40) < 20 = Translate (saltaX x) (saltaY y) (imagens3 !! 71)
+                                                         | (mod (round (t*22222)) 40) < 21 = Translate (saltaX x) (saltaY y) (imagens3 !! 72)
+                                                         | (mod (round (t*22222)) 40) < 22 = Translate (saltaX x) (saltaY y) (imagens3 !! 73)
+                                                         | (mod (round (t*22222)) 40) < 23 = Translate (saltaX x) (saltaY y) (imagens3 !! 74)
+                                                         | (mod (round (t*22222)) 40) < 24 = Translate (saltaX x) (saltaY y) (imagens3 !! 75)
+                                                         | (mod (round (t*22222)) 40) < 25 = Translate (saltaX x) (saltaY y) (imagens3 !! 76)
+                                                         | (mod (round (t*22222)) 40) < 26 = Translate (saltaX x) (saltaY y) (imagens3 !! 77)
+                                                         | (mod (round (t*22222)) 40) < 27 = Translate (saltaX x) (saltaY y) (imagens3 !! 78)
+                                                         | (mod (round (t*22222)) 40) < 28 = Translate (saltaX x) (saltaY y) (imagens3 !! 79)
+                                                         | (mod (round (t*22222)) 40) < 29 = Translate (saltaX x) (saltaY y) (imagens3 !! 80)
+                                                         | (mod (round (t*22222)) 40) < 30 = Translate (saltaX x) (saltaY y) (imagens3 !! 81)
+                                                         | otherwise = Translate (saltaX x) (saltaY y) (imagens3 !! 60)
 
 
 {-| Funcoes auxiliares que controlam o movimento do jogador no mapa, feitas com as medidas perfeitas para o jogador ficar sempre no centro do Mapa
@@ -932,82 +1166,82 @@ saltaY = (+o).(*(-lado)).realToFrac
 -}
 event :: Event -> Mundo -> Mundo 
 -- Pagina Principal 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao) = (PaginaJogar Facil, jogo1, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil False Facil, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao) = (PaginaInstrucoes False Facil, jogo, imagens, tempo, direccao) 
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao) = error "Jogo Terminou"
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar Facil, jogo1, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil False Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaInstrucoes False Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) 
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPrincipal Sair_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = error "Jogo Terminou"
 -- Pagina Dificuldade
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
-                                                                                                    | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Facil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Media b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Dificil b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaDificuldade Menu1 b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                                    | otherwise = (PaginaPrincipal Dificuldades_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina controlos  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
-                                                                                          | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
-                                                                                            | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
-                                                                                             | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                          | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                            | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaInstrucoes b d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) | b == True = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+                                                                                             | otherwise = (PaginaPrincipal Instrucoes_1, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina Pausa  
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPausa Menu_2 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Continuar_1 d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPausa Menu_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina MenuPausa 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo1 , imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil True d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao) = (PaginaInstrucoes True d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao) = error "Terminou Jogo"
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Continuar_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa NovoJogo d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo1 , imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Dificuldades_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil True d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Instrucoes_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaInstrucoes True d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaMenuPausa Sair_2 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = error "Terminou Jogo"
 -- Pagina Perdeu jogo
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao) = (PaginaJogar d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao) = (PaginaDificuldade Facil False d, jogo, imagens, tempo, direccao)
-event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil False d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo, Cima)           
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo, Baixo)
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo, Esquerda)
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao) = (PaginaJogar d, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo, Direita)
-event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo, direccao) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)           
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo, (Move Esquerda), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo, (Move Direita), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event _ s = s
 
 getJogo :: Mundo -> Jogo 
-getJogo (_, j, _, _, _)= j 
+getJogo (_, j, _, _, _, _, _, _)= j 
 
 animajogo1 :: Jogo -> Int -> Jogo
 animajogo1 j a | (mod a 3000) < 1 = animaJogo j Parado
@@ -1023,11 +1257,13 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 -}
 
 reageTempo :: Float -> Mundo -> Mundo 
-reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr)
-                                                           | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
-reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr) = (PaginaJogar Media, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
-reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr) = (PaginaJogar Dificil, (deslizaJogo (round(t+z)) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), dr)
-reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr) = (PaginaPrincipal c, jogo, imagens, (t+z),dr)
+reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
+                                                                               | otherwise =  (PaginaJogar Facil, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
+                                                                               | otherwise =  (PaginaJogar Media, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
+                                                                                 | otherwise =  (PaginaJogar Dificil, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPrincipal c, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo _ z = z
 
 {-| Variavel 'window', contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela, para maior e melhor interaccao com o jogo
@@ -1046,7 +1282,7 @@ window = FullScreen
 ==codigo: 
 @
 fr :: Int
-fr = 1
+fr = 2
 @
 -}
 
@@ -1151,89 +1387,314 @@ main = do
          galinha_1Frente_37of39 <- loadBMP  "./bmps/ESTILO1/andar/0037.bmp"
          galinha_1Frente_38of39 <- loadBMP  "./bmps/ESTILO1/andar/0038.bmp"
          galinha_1Frente_39of39 <- loadBMP  "./bmps/ESTILO1/andar/0039.bmp"
-         galinha_1Esquerda_1of39 <- loadBMP  "./bmps/ESTILO1/esquerda/"
-         galinha_1Esquerda_2of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_3of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_4of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_5of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_6of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_7of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_8of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_9of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_10of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_11of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_12of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_13of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_14of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_15of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_16of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_17of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_18of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_19of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_20of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_21of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_22of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_23of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_24of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_25of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_26of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_27of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_28of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_29of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_30of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_31of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_32of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_33of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_34of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_35of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_36of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_37of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_38of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Esquerda_39of39 <- loadBMP  "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_21of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_22of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_23of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_24of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_1Direita_25of5 <-  loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Frente_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Frente_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Frente_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Frente_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Frente_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Esquerda_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Esquerda_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Esquerda_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Esquerda_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Esquerda_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Direita_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Direita_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Direita_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Direita_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_2Direita_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Frente_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Frente_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Frente_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Frente_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Frente_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Esquerda_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Esquerda_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Esquerda_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Esquerda_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Esquerda_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Direita_1of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Direita_2of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Direita_3of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Direita_4of5 <- loadBMP "Chicken_JE2_BE2.bmp"
-         galinha_3Direita_5of5 <- loadBMP "Chicken_JE2_BE2.bmp"
+         galinha_1Esquerda_1of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0001.bmp"
+         galinha_1Esquerda_2of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0002.bmp"
+         galinha_1Esquerda_3of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0003.bmp"
+         galinha_1Esquerda_4of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0004.bmp"
+         galinha_1Esquerda_5of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0005.bmp"
+         galinha_1Esquerda_6of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0006.bmp"
+         galinha_1Esquerda_7of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0007.bmp"
+         galinha_1Esquerda_8of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0008.bmp"
+         galinha_1Esquerda_9of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0009.bmp"
+         galinha_1Esquerda_10of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0010.bmp"
+         galinha_1Esquerda_11of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0011.bmp"
+         galinha_1Esquerda_12of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0012.bmp"
+         galinha_1Esquerda_14of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0014.bmp"
+         galinha_1Esquerda_15of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0015.bmp"
+         galinha_1Esquerda_16of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0016.bmp"
+         galinha_1Esquerda_17of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0017.bmp"
+         galinha_1Esquerda_18of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0018.bmp"
+         galinha_1Esquerda_19of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0019.bmp"
+         galinha_1Esquerda_20of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0020.bmp"
+         galinha_1Esquerda_21of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0021.bmp"
+         galinha_1Esquerda_22of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0022.bmp"
+         galinha_1Esquerda_23of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0023.bmp"
+         galinha_1Esquerda_24of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0024.bmp"
+         galinha_1Esquerda_25of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0025.bmp"
+         galinha_1Esquerda_26of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0026.bmp"
+         galinha_1Esquerda_27of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0027.bmp"
+         galinha_1Esquerda_28of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0028.bmp"
+         galinha_1Esquerda_29of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0029.bmp"
+         galinha_1Esquerda_30of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0030.bmp"
+         galinha_1Esquerda_31of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0031.bmp"
+         galinha_1Esquerda_32of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0032.bmp"
+         galinha_1Esquerda_33of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0033.bmp"
+         galinha_1Esquerda_34of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0034.bmp"
+         galinha_1Esquerda_35of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0035.bmp"
+         galinha_1Esquerda_36of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0036.bmp"
+         galinha_1Esquerda_37of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0037.bmp"
+         galinha_1Esquerda_38of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0038.bmp"
+         galinha_1Esquerda_39of39 <- loadBMP  "./bmps/ESTILO1/esquerda/0039.bmp"
+         galinha_1Direita_1of39 <- loadBMP  "./bmps/ESTILO1/direita/0001.bmp"
+         galinha_1Direita_2of39 <- loadBMP  "./bmps/ESTILO1/direita/0002.bmp"
+         galinha_1Direita_3of39 <- loadBMP  "./bmps/ESTILO1/direita/0003.bmp"
+         galinha_1Direita_4of39 <- loadBMP  "./bmps/ESTILO1/direita/0004.bmp"
+         galinha_1Direita_5of39 <- loadBMP  "./bmps/ESTILO1/direita/0005.bmp"
+         galinha_1Direita_6of39 <- loadBMP  "./bmps/ESTILO1/direita/0006.bmp"
+         galinha_1Direita_7of39 <- loadBMP  "./bmps/ESTILO1/direita/0007.bmp"
+         galinha_1Direita_8of39 <- loadBMP  "./bmps/ESTILO1/direita/0008.bmp"
+         galinha_1Direita_9of39 <- loadBMP  "./bmps/ESTILO1/direita/0009.bmp"
+         galinha_1Direita_10of39 <- loadBMP  "./bmps/ESTILO1/direita/0010.bmp"
+         galinha_1Direita_11of39 <- loadBMP  "./bmps/ESTILO1/direita/0011.bmp"
+         galinha_1Direita_12of39 <- loadBMP  "./bmps/ESTILO1/direita/0012.bmp"
+         galinha_1Direita_14of39 <- loadBMP  "./bmps/ESTILO1/direita/0014.bmp"
+         galinha_1Direita_15of39 <- loadBMP  "./bmps/ESTILO1/direita/0015.bmp"
+         galinha_1Direita_16of39 <- loadBMP  "./bmps/ESTILO1/direita/0016.bmp"
+         galinha_1Direita_17of39 <- loadBMP  "./bmps/ESTILO1/direita/0017.bmp"
+         galinha_1Direita_18of39 <- loadBMP  "./bmps/ESTILO1/direita/0018.bmp"
+         galinha_1Direita_19of39 <- loadBMP  "./bmps/ESTILO1/direita/0019.bmp"
+         galinha_1Direita_20of39 <- loadBMP  "./bmps/ESTILO1/direita/0020.bmp"
+         galinha_1Direita_21of39 <- loadBMP  "./bmps/ESTILO1/direita/0021.bmp"
+         galinha_1Direita_22of39 <- loadBMP  "./bmps/ESTILO1/direita/0022.bmp"
+         galinha_1Direita_23of39 <- loadBMP  "./bmps/ESTILO1/direita/0023.bmp"
+         galinha_1Direita_24of39 <- loadBMP  "./bmps/ESTILO1/direita/0024.bmp"
+         galinha_1Direita_25of39 <- loadBMP  "./bmps/ESTILO1/direita/0025.bmp"
+         galinha_1Direita_26of39 <- loadBMP  "./bmps/ESTILO1/direita/0026.bmp"
+         galinha_1Direita_27of39 <- loadBMP  "./bmps/ESTILO1/direita/0027.bmp"
+         galinha_1Direita_28of39 <- loadBMP  "./bmps/ESTILO1/direita/0028.bmp"
+         galinha_1Direita_29of39 <- loadBMP  "./bmps/ESTILO1/direita/0029.bmp"
+         galinha_1Direita_30of39 <- loadBMP  "./bmps/ESTILO1/direita/0030.bmp"
+         galinha_1Direita_31of39 <- loadBMP  "./bmps/ESTILO1/direita/0031.bmp"
+         galinha_1Direita_32of39 <- loadBMP  "./bmps/ESTILO1/direita/0032.bmp"
+         galinha_1Direita_33of39 <- loadBMP  "./bmps/ESTILO1/direita/0033.bmp"
+         galinha_1Direita_34of39 <- loadBMP  "./bmps/ESTILO1/direita/0034.bmp"
+         galinha_1Direita_35of39 <- loadBMP  "./bmps/ESTILO1/direita/0035.bmp"
+         galinha_1Direita_36of39 <- loadBMP  "./bmps/ESTILO1/direita/0036.bmp"
+         galinha_1Direita_37of39 <- loadBMP  "./bmps/ESTILO1/direita/0037.bmp"
+         galinha_1Direita_38of39 <- loadBMP  "./bmps/ESTILO1/direita/0038.bmp"
+         galinha_1Direita_39of39 <- loadBMP  "./bmps/ESTILO1/direita/0039.bmp"
+         galinha_2Frente_1of39 <-  loadBMP "./bmps/ESTILO2/andar/0001.bmp"
+         galinha_2Frente_2of39 <-  loadBMP "./bmps/ESTILO2/andar/0002.bmp"
+         galinha_2Frente_3of39 <-  loadBMP "./bmps/ESTILO2/andar/0003.bmp"
+         galinha_2Frente_4of39 <-  loadBMP "./bmps/ESTILO2/andar/0004.bmp"
+         galinha_2Frente_5of39 <-  loadBMP "./bmps/ESTILO2/andar/0005.bmp"
+         galinha_2Frente_6of39 <-  loadBMP "./bmps/ESTILO2/andar/0006.bmp"
+         galinha_2Frente_7of39 <-  loadBMP "./bmps/ESTILO2/andar/0007.bmp"
+         galinha_2Frente_8of39 <-  loadBMP "./bmps/ESTILO2/andar/0008.bmp"
+         galinha_2Frente_9of39 <-  loadBMP "./bmps/ESTILO2/andar/0009.bmp"
+         galinha_2Frente_10of39 <- loadBMP  "./bmps/ESTILO2/andar/0010.bmp"
+         galinha_2Frente_11of39 <- loadBMP  "./bmps/ESTILO2/andar/0011.bmp"
+         galinha_2Frente_12of39 <- loadBMP  "./bmps/ESTILO2/andar/0012.bmp"
+         galinha_2Frente_13of39 <- loadBMP  "./bmps/ESTILO2/andar/0013.bmp"
+         galinha_2Frente_14of39 <- loadBMP  "./bmps/ESTILO2/andar/0014.bmp"
+         galinha_2Frente_15of39 <- loadBMP  "./bmps/ESTILO2/andar/0015.bmp"
+         galinha_2Frente_16of39 <- loadBMP  "./bmps/ESTILO2/andar/0016.bmp"
+         galinha_2Frente_17of39 <- loadBMP  "./bmps/ESTILO2/andar/0017.bmp"
+         galinha_2Frente_18of39 <- loadBMP  "./bmps/ESTILO2/andar/0018.bmp"
+         galinha_2Frente_19of39 <- loadBMP  "./bmps/ESTILO2/andar/0019.bmp"
+         galinha_2Frente_20of39 <- loadBMP  "./bmps/ESTILO2/andar/0020.bmp"
+         galinha_2Frente_21of39 <- loadBMP  "./bmps/ESTILO2/andar/0021.bmp"
+         galinha_2Frente_22of39 <- loadBMP  "./bmps/ESTILO2/andar/0022.bmp"
+         galinha_2Frente_23of39 <- loadBMP  "./bmps/ESTILO2/andar/0023.bmp"
+         galinha_2Frente_24of39 <- loadBMP  "./bmps/ESTILO2/andar/0024.bmp"
+         galinha_2Frente_25of39 <- loadBMP  "./bmps/ESTILO2/andar/0025.bmp"
+         galinha_2Frente_26of39 <- loadBMP  "./bmps/ESTILO2/andar/0026.bmp"
+         galinha_2Frente_27of39 <- loadBMP  "./bmps/ESTILO2/andar/0027.bmp"
+         galinha_2Frente_28of39 <- loadBMP  "./bmps/ESTILO2/andar/0028.bmp"
+         galinha_2Frente_29of39 <- loadBMP  "./bmps/ESTILO2/andar/0029.bmp"
+         galinha_2Frente_30of39 <- loadBMP  "./bmps/ESTILO2/andar/0030.bmp"
+         galinha_2Frente_31of39 <- loadBMP  "./bmps/ESTILO2/andar/0031.bmp"
+         galinha_2Frente_32of39 <- loadBMP  "./bmps/ESTILO2/andar/0032.bmp"
+         galinha_2Frente_33of39 <- loadBMP  "./bmps/ESTILO2/andar/0033.bmp"
+         galinha_2Frente_34of39 <- loadBMP  "./bmps/ESTILO2/andar/0034.bmp"
+         galinha_2Frente_35of39 <- loadBMP  "./bmps/ESTILO2/andar/0035.bmp"
+         galinha_2Frente_36of39 <- loadBMP  "./bmps/ESTILO2/andar/0036.bmp"
+         galinha_2Frente_37of39 <- loadBMP  "./bmps/ESTILO2/andar/0037.bmp"
+         galinha_2Frente_38of39 <- loadBMP  "./bmps/ESTILO2/andar/0038.bmp"
+         galinha_2Frente_39of39 <- loadBMP  "./bmps/ESTILO2/andar/0039.bmp"
+         galinha_2Esquerda_10of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0010.bmp"
+         galinha_2Esquerda_11of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0011.bmp"
+         galinha_2Esquerda_12of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0012.bmp"
+         galinha_2Esquerda_14of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0014.bmp"
+         galinha_2Esquerda_15of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0015.bmp"
+         galinha_2Esquerda_16of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0016.bmp"
+         galinha_2Esquerda_17of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0017.bmp"
+         galinha_2Esquerda_18of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0018.bmp"
+         galinha_2Esquerda_19of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0019.bmp"
+         galinha_2Esquerda_20of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0020.bmp"
+         galinha_2Esquerda_21of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0021.bmp"
+         galinha_2Esquerda_22of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0022.bmp"
+         galinha_2Esquerda_23of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0023.bmp"
+         galinha_2Esquerda_24of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0024.bmp"
+         galinha_2Esquerda_25of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0025.bmp"
+         galinha_2Esquerda_26of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0026.bmp"
+         galinha_2Esquerda_27of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0027.bmp"
+         galinha_2Esquerda_28of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0028.bmp"
+         galinha_2Esquerda_29of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0029.bmp"
+         galinha_2Esquerda_30of39 <- loadBMP  "./bmps/ESTILO2/ESQUERDA/0030.bmp"
+         galinha_1Direita_10of39 <- loadBMP  "./bmps/ESTILO2/direita/0010.bmp"
+         galinha_1Direita_11of39 <- loadBMP  "./bmps/ESTILO2/direita/0011.bmp"
+         galinha_1Direita_12of39 <- loadBMP  "./bmps/ESTILO2/direita/0012.bmp"
+         galinha_1Direita_14of39 <- loadBMP  "./bmps/ESTILO2/direita/0014.bmp"
+         galinha_1Direita_15of39 <- loadBMP  "./bmps/ESTILO2/direita/0015.bmp"
+         galinha_1Direita_16of39 <- loadBMP  "./bmps/ESTILO2/direita/0016.bmp"
+         galinha_1Direita_17of39 <- loadBMP  "./bmps/ESTILO2/direita/0017.bmp"
+         galinha_1Direita_18of39 <- loadBMP  "./bmps/ESTILO2/direita/0018.bmp"
+         galinha_1Direita_19of39 <- loadBMP  "./bmps/ESTILO2/direita/0019.bmp"
+         galinha_1Direita_20of39 <- loadBMP  "./bmps/ESTILO2/direita/0020.bmp"
+         galinha_1Direita_21of39 <- loadBMP  "./bmps/ESTILO2/direita/0021.bmp"
+         galinha_1Direita_22of39 <- loadBMP  "./bmps/ESTILO2/direita/0022.bmp"
+         galinha_1Direita_23of39 <- loadBMP  "./bmps/ESTILO2/direita/0023.bmp"
+         galinha_1Direita_24of39 <- loadBMP  "./bmps/ESTILO2/direita/0024.bmp"
+         galinha_1Direita_25of39 <- loadBMP  "./bmps/ESTILO2/direita/0025.bmp"
+         galinha_1Direita_26of39 <- loadBMP  "./bmps/ESTILO2/direita/0026.bmp"
+         galinha_1Direita_27of39 <- loadBMP  "./bmps/ESTILO2/direita/0027.bmp"
+         galinha_1Direita_28of39 <- loadBMP  "./bmps/ESTILO2/direita/0028.bmp"
+         galinha_1Direita_29of39 <- loadBMP  "./bmps/ESTILO2/direita/0029.bmp"
+         galinha_1Direita_30of39 <- loadBMP  "./bmps/ESTILO2/direita/0030.bmp"
+         galinha_3Frente_1of39 <-  loadBMP "./bmps/ESTILO3/andar/0001.bmp"
+         galinha_3Frente_2of39 <-  loadBMP "./bmps/ESTILO3/andar/0002.bmp"
+         galinha_3Frente_3of39 <-  loadBMP "./bmps/ESTILO3/andar/0003.bmp"
+         galinha_3Frente_4of39 <-  loadBMP "./bmps/ESTILO3/andar/0004.bmp"
+         galinha_3Frente_5of39 <-  loadBMP "./bmps/ESTILO3/andar/0005.bmp"
+         galinha_3Frente_6of39 <-  loadBMP "./bmps/ESTILO3/andar/0006.bmp"
+         galinha_3Frente_7of39 <-  loadBMP "./bmps/ESTILO3/andar/0007.bmp"
+         galinha_3Frente_8of39 <-  loadBMP "./bmps/ESTILO3/andar/0008.bmp"
+         galinha_3Frente_9of39 <-  loadBMP "./bmps/ESTILO3/andar/0009.bmp"
+         galinha_3Frente_10of39 <- loadBMP  "./bmps/ESTILO3/andar/0010.bmp"
+         galinha_3Frente_11of39 <- loadBMP  "./bmps/ESTILO3/andar/0011.bmp"
+         galinha_3Frente_12of39 <- loadBMP  "./bmps/ESTILO3/andar/0012.bmp"
+         galinha_3Frente_13of39 <- loadBMP  "./bmps/ESTILO3/andar/0013.bmp"
+         galinha_3Frente_14of39 <- loadBMP  "./bmps/ESTILO3/andar/0014.bmp"
+         galinha_3Frente_15of39 <- loadBMP  "./bmps/ESTILO3/andar/0015.bmp"
+         galinha_3Frente_16of39 <- loadBMP  "./bmps/ESTILO3/andar/0016.bmp"
+         galinha_3Frente_17of39 <- loadBMP  "./bmps/ESTILO3/andar/0017.bmp"
+         galinha_3Frente_18of39 <- loadBMP  "./bmps/ESTILO3/andar/0018.bmp"
+         galinha_3Frente_19of39 <- loadBMP  "./bmps/ESTILO3/andar/0019.bmp"
+         galinha_3Frente_20of39 <- loadBMP  "./bmps/ESTILO3/andar/0020.bmp"
+         galinha_3Frente_21of39 <- loadBMP  "./bmps/ESTILO3/andar/0021.bmp"
+         galinha_3Frente_22of39 <- loadBMP  "./bmps/ESTILO3/andar/0022.bmp"
+         galinha_3Frente_23of39 <- loadBMP  "./bmps/ESTILO3/andar/0023.bmp"
+         galinha_3Frente_24of39 <- loadBMP  "./bmps/ESTILO3/andar/0024.bmp"
+         galinha_3Frente_25of39 <- loadBMP  "./bmps/ESTILO3/andar/0025.bmp"
+         galinha_3Frente_26of39 <- loadBMP  "./bmps/ESTILO3/andar/0026.bmp"
+         galinha_3Frente_27of39 <- loadBMP  "./bmps/ESTILO3/andar/0027.bmp"
+         galinha_3Frente_28of39 <- loadBMP  "./bmps/ESTILO3/andar/0028.bmp"
+         galinha_3Frente_29of39 <- loadBMP  "./bmps/ESTILO3/andar/0029.bmp"
+         galinha_3Frente_30of39 <- loadBMP  "./bmps/ESTILO3/andar/0030.bmp"
+         galinha_3Frente_31of39 <- loadBMP  "./bmps/ESTILO3/andar/0031.bmp"
+         galinha_3Frente_32of39 <- loadBMP  "./bmps/ESTILO3/andar/0032.bmp"
+         galinha_3Frente_33of39 <- loadBMP  "./bmps/ESTILO3/andar/0033.bmp"
+         galinha_3Frente_34of39 <- loadBMP  "./bmps/ESTILO3/andar/0034.bmp"
+         galinha_3Frente_35of39 <- loadBMP  "./bmps/ESTILO3/andar/0035.bmp"
+         galinha_3Frente_36of39 <- loadBMP  "./bmps/ESTILO3/andar/0036.bmp"
+         galinha_3Frente_37of39 <- loadBMP  "./bmps/ESTILO3/andar/0037.bmp"
+         galinha_3Frente_38of39 <- loadBMP  "./bmps/ESTILO3/andar/0038.bmp"
+         galinha_3Frente_39of39 <- loadBMP  "./bmps/ESTILO3/andar/0039.bmp"
+         galinha_3Esquerda_10of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0010.bmp"
+         galinha_3Esquerda_11of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0011.bmp"
+         galinha_3Esquerda_12of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0012.bmp"
+         galinha_3Esquerda_14of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0014.bmp"
+         galinha_3Esquerda_15of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0015.bmp"
+         galinha_3Esquerda_16of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0016.bmp"
+         galinha_3Esquerda_17of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0017.bmp"
+         galinha_3Esquerda_18of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0018.bmp"
+         galinha_3Esquerda_19of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0019.bmp"
+         galinha_3Esquerda_20of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0020.bmp"
+         galinha_3Esquerda_21of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0021.bmp"
+         galinha_3Esquerda_22of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0022.bmp"
+         galinha_3Esquerda_23of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0023.bmp"
+         galinha_3Esquerda_24of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0024.bmp"
+         galinha_3Esquerda_25of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0025.bmp"
+         galinha_3Esquerda_26of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0026.bmp"
+         galinha_3Esquerda_27of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0027.bmp"
+         galinha_3Esquerda_28of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0028.bmp"
+         galinha_3Esquerda_29of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0029.bmp"
+         galinha_3Esquerda_30of39 <- loadBMP  "./bmps/ESTILO3/esquerda/0030.bmp"
+         galinha_3Direita_10of39 <- loadBMP  "./bmps/ESTILO3/direita/0010.bmp"
+         galinha_3Direita_11of39 <- loadBMP  "./bmps/ESTILO3/direita/0011.bmp"
+         galinha_3Direita_12of39 <- loadBMP  "./bmps/ESTILO3/direita/0012.bmp"
+         galinha_3Direita_14of39 <- loadBMP  "./bmps/ESTILO3/direita/0014.bmp"
+         galinha_3Direita_15of39 <- loadBMP  "./bmps/ESTILO3/direita/0015.bmp"
+         galinha_3Direita_16of39 <- loadBMP  "./bmps/ESTILO3/direita/0016.bmp"
+         galinha_3Direita_17of39 <- loadBMP  "./bmps/ESTILO3/direita/0017.bmp"
+         galinha_3Direita_18of39 <- loadBMP  "./bmps/ESTILO3/direita/0018.bmp"
+         galinha_3Direita_19of39 <- loadBMP  "./bmps/ESTILO3/direita/0019.bmp"
+         galinha_3Direita_20of39 <- loadBMP  "./bmps/ESTILO3/direita/0020.bmp"
+         galinha_3Direita_21of39 <- loadBMP  "./bmps/ESTILO3/direita/0021.bmp"
+         galinha_3Direita_22of39 <- loadBMP  "./bmps/ESTILO3/direita/0022.bmp"
+         galinha_3Direita_23of39 <- loadBMP  "./bmps/ESTILO3/direita/0023.bmp"
+         galinha_3Direita_24of39 <- loadBMP  "./bmps/ESTILO3/direita/0024.bmp"
+         galinha_3Direita_25of39 <- loadBMP  "./bmps/ESTILO3/direita/0025.bmp"
+         galinha_3Direita_26of39 <- loadBMP  "./bmps/ESTILO3/direita/0026.bmp"
+         galinha_3Direita_27of39 <- loadBMP  "./bmps/ESTILO3/direita/0027.bmp"
+         galinha_3Direita_28of39 <- loadBMP  "./bmps/ESTILO3/direita/0028.bmp"
+         galinha_3Direita_29of39 <- loadBMP  "./bmps/ESTILO3/direita/0029.bmp"
+         galinha_3Direita_30of39 <- loadBMP  "./bmps/ESTILO3/direita/0030.bmp"
+         banner1of20 <- loadBMP "./bmps/banner/0001.bmp"
+         banner2of20 <- loadBMP "./bmps/banner/0002.bmp"
+         banner3of20 <- loadBMP "./bmps/banner/0003.bmp"
+         banner4of20 <- loadBMP "./bmps/banner/0004.bmp"
+         banner5of20 <- loadBMP "./bmps/banner/0005.bmp"
+         banner6of20 <- loadBMP "./bmps/banner/0006.bmp"
+         banner7of20 <- loadBMP "./bmps/banner/0007.bmp"
+         banner8of20 <- loadBMP "./bmps/banner/0008.bmp"
+         banner9of20 <- loadBMP "./bmps/banner/0009.bmp"
+         banner10of20 <- loadBMP "./bmps/banner/0010.bmp"
+         banner11of20 <- loadBMP "./bmps/banner/0011.bmp"
+         banner12of20 <- loadBMP "./bmps/banner/0012.bmp"
+         banner13of20 <- loadBMP "./bmps/banner/0013.bmp"
+         banner14of20 <- loadBMP "./bmps/banner/0014.bmp"
+         banner15of20 <- loadBMP "./bmps/banner/0015.bmp"
+         banner16of20 <- loadBMP "./bmps/banner/0016.bmp"
+         banner17of20 <- loadBMP "./bmps/banner/0017.bmp"
+         banner18of20 <- loadBMP "./bmps/banner/0018.bmp"
+         banner19of20 <- loadBMP "./bmps/banner/0019.bmp"
+         banner20of20 <- loadBMP "./bmps/banner/0020.bmp"
+         banner21of20 <- loadBMP "./bmps/banner/0021.bmp"
+         banner22of20 <- loadBMP "./bmps/banner/0022.bmp"
+         banner23of20 <- loadBMP "./bmps/banner/0023.bmp"
+         banner24of20 <- loadBMP "./bmps/banner/0024.bmp"
+         banner25of20 <- loadBMP "./bmps/banner/0025.bmp"
+         banner26of20 <- loadBMP "./bmps/banner/0026.bmp"
+         banner27of20 <- loadBMP "./bmps/banner/0027.bmp"
+         banner28of20 <- loadBMP "./bmps/banner/0028.bmp"
+         banner29of20 <- loadBMP "./bmps/banner/0029.bmp"
+         banner30of20 <- loadBMP "./bmps/banner/0030.bmp"
+         banner31of20 <- loadBMP "./bmps/banner/0031.bmp"
+         banner32of20 <- loadBMP "./bmps/banner/0032.bmp"
+         banner33of20 <- loadBMP "./bmps/banner/0033.bmp"
+         banner34of20 <- loadBMP "./bmps/banner/0034.bmp"
+         banner35of20 <- loadBMP "./bmps/banner/0035.bmp"
+         banner36of20 <- loadBMP "./bmps/banner/0036.bmp"
+         banner37of20 <- loadBMP "./bmps/banner/0037.bmp"
+         banner38of20 <- loadBMP "./bmps/banner/0038.bmp"
+         banner39of20 <- loadBMP "./bmps/banner/0039.bmp"
+         botao1 <- loadBMP "./bmps/botoes/cantinuarnao.bmp"
+         botao2 <- loadBMP "./bmps/botoes/continuarsim.bmp"
+         botao3 <- loadBMP "./bmps/botoes/dificilnao.bmp"
+         botao4 <- loadBMP "./bmps/botoes/dificilsim.bmp"
+         botao5 <- loadBMP "./bmps/botoes/difinao.bmp"
+         botao6 <- loadBMP "./bmps/botoes/difisim.bmp"
+         botao7 <- loadBMP "./bmps/botoes/facilnao.bmp"
+         botao8 <- loadBMP "./bmps/botoes/facilsim.bmp"
+         botao9 <- loadBMP "./bmps/botoes/Instruçõesnao.bmp"
+         botao10 <- loadBMP "./bmps/botoes/Instruçõessim.bmp"
+         botao11 <- loadBMP "./bmps/botoes/jogarnao.bmp"
+         botao12 <- loadBMP "./bmps/botoes/jogarsim.bmp"
+         botao13 <- loadBMP "./bmps/botoes/medianao.bmp"
+         botao14 <- loadBMP "./bmps/botoes/mediasim.bmp"
+         botao15 <- loadBMP "./bmps/botoes/menunao.bmp"
+         botao16 <- loadBMP "./bmps/botoes/menusim.bmp"
+         botao17 <- loadBMP "./bmps/botoes/novojogonao.bmp"
+         botao18 <- loadBMP "./bmps/botoes/novojogosim.bmp"
+         botao19 <- loadBMP "./bmps/botoes/sairnao.bmp"
+         botao20 <- loadBMP "./bmps/botoes/sairsim.bmp"
 
 
 
+         let imagens = [galinha1_1,galinha1_2,galinha1_3, scale 0.12 0.24 $ rio1, scale 0.12 0.24 $ relva1, scale 0.12 0.24 $ estrada1,galinha2_1,galinha2_2,galinha2_3, scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ estrada2, scale 0.12 0.24 $ relva2, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore2, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco2, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro2,galinha3_1,galinha3_2,galinha3_3, scale 0.12 0.24 $ rio3, scale 0.12 0.24 $ relva3, scale 0.12 0.24 $ estrada3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro1, Translate 0.0 90.0 $ scale 0.12 0.24 $ arvore1, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore3, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco1, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco3, banner1_1, banner1_2, banner1_3, nenhum28, Translate 0.0 25.0 galinha28, Translate 0.0 25.0 galinha2, Translate 0.0 25.0 galinha3, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_2of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_12of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_13of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_17of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_22of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_27of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_37of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_39of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_2of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $  galinha_1Esquerda_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_37of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_38of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Esquerda_39of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_2of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_10of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_37of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_39of39, botao1, botao2, botao3, botao4, botao5, botao6, botao7, botao8, botao9, botao10, botao11, botao12, botao13, botao14, botao15, botao16, botao17, botao18, botao19, botao20]
+        
+         let imagens2 = [ Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_2of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_13of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_37of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Frente_39of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_2Esquerda_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Direita_30of39]
+
+         let imagens3 = [ Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_2of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_13of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_37of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Frente_39of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_10of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_11of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_12of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_14of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_15of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_16of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_17of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_18of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_19of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_20of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_21of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_22of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_23of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_24of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_25of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_26of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_27of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_28of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_29of39, Translate 0.0 40.0 $ scale (-0.08) 0.16 $ galinha_3Esquerda_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_12of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_17of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_22of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_27of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_3Direita_30of39] 
          
-         let imagens = [galinha1_1,galinha1_2,galinha1_3, scale 0.12 0.24 $ rio1, scale 0.12 0.24 $ relva1, scale 0.12 0.24 $ estrada1,galinha2_1,galinha2_2,galinha2_3, scale 0.12 0.24 $ rio2, scale 0.12 0.24 $ estrada2, scale 0.12 0.24 $ relva2, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore2, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco2, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro2,galinha3_1,galinha3_2,galinha3_3, scale 0.12 0.24 $ rio3, scale 0.12 0.24 $ relva3, scale 0.12 0.24 $ estrada3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro3, Translate 0.0 30.0 $ scale 0.12 0.24 $ carro1, Translate 0.0 90.0 $ scale 0.12 0.24 $ arvore1, Translate 0.0 80.0 $ scale 0.12 0.24 $ arvore3, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco1, Translate 0.0 30.0 $ scale 0.12 0.24 $ tronco3, banner1_1, banner1_2, banner1_3, nenhum28, Translate 0.0 25.0 galinha28, Translate 0.0 25.0 galinha2, Translate 0.0 25.0 galinha3, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_1of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_2of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_3of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_4of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_5of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_6of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_7of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_8of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_9of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_10of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_11of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_12of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_13of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_14of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_15of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_16of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_17of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_18of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_19of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_20of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_21of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_22of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_23of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_24of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_25of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_26of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_27of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_28of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_29of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_30of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_31of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_32of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_33of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_34of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_35of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_36of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_37of39,Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_38of39, Translate 0.0 40.0 $ scale 0.08 0.16 $ galinha_1Frente_39of39]
+         let imagens4 = [scale 1.0 0.8 banner1of20,scale 1.0 0.8 banner2of20, scale 1.0 0.8 banner3of20,scale 1.0 0.8 banner4of20,scale 1.0 0.8 banner5of20,scale 1.0 0.8 banner6of20,scale 1.0 0.8 banner7of20, scale 1.0 0.8 banner8of20, scale 1.0 0.8 banner9of20, scale 1.0 0.8 banner10of20, scale 1.0 0.8 banner11of20, scale 1.0 0.8 banner12of20, scale 1.0 0.8 banner13of20, scale 1.0 0.8 banner14of20, scale 1.0 0.8 banner15of20, scale 1.0 0.8 banner16of20, scale 1.0 0.8 banner17of20, scale 1.0 0.8 banner18of20, scale 1.0 0.8 banner19of20, scale 1.0 0.8 banner20of20, scale 1.0 0.8 banner21of20, scale 1.0 0.8 banner22of20, scale 1.0 0.8 banner23of20, scale 1.0 0.8 banner24of20, scale 1.0 0.8 banner25of20, scale 1.0 0.8 banner26of20, scale 1.0 0.8 banner27of20, scale 1.0 0.8 banner28of20, scale 1.0 0.8 banner29of20, scale 1.0 0.8 banner30of20, scale 1.0 0.8 banner31of20, scale 1.0 0.8 banner32of20, scale 1.0 0.8 banner33of20, scale 1.0 0.8 banner34of20, scale 1.0 0.8 banner35of20, scale 1.0 0.8 banner36of20, scale 1.0 0.8 banner37of20, scale 1.0 0.8 banner38of20, scale 1.0 0.8 banner39of20, scale 0.3 0.2 $ botao1, scale 0.3 0.2 $ botao2, scale 0.3 0.2 $ botao3, scale 0.3 0.2 $ botao4, scale 0.3 0.2 $ botao5, scale 0.3 0.2 $ botao6, scale 0.3 0.2 $ botao7, scale 0.3 0.2 $ botao8, scale 0.3 0.2 $ botao9, scale 0.3 0.2 $ botao10, scale 0.3 0.2 $ botao11, scale 0.3 0.2 $ botao12, scale 0.3 0.2 $ botao13, scale 0.3 0.2 $ botao14, scale 0.3 0.2 $ botao15, scale 0.3 0.2 $ botao16, scale 0.3 0.2 $ botao17, scale 0.3 0.2 $ botao18, scale 0.3 0.2 $ botao19, scale 0.3 0.2 $ botao20]
+
          let tempo = 0.0 
-         let jogada = (Parado)  
-         let direccao = Cima      
-         play window cor fr (estadoInicial imagens tempo direccao) desenhaMundo event reageTempo
+         
+         let direccao = (Move Cima)       
+         play window cor fr (estadoInicial imagens tempo direccao imagens2 imagens3 imagens4) desenhaMundo event reageTempo
 
 rio28 :: Picture 
 rio28 = Color blue $ rectangleSolid lado lado  
