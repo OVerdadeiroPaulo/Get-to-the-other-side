@@ -51,6 +51,7 @@ deslocajogador (Jogador coords) jogada mapa@(Mapa l (((terr, obs):xs)))
   | jogada == Move Direita = (Jogador  (fst coords +1, snd coords))
   | otherwise = (Jogador coords)
       where  ordena = posicaoapos (Jogador coords) jogada mapa
+{-juntadeslocajogadro e casotronco-}
 deslocafinal jog jogada mapa =  ( casotronco (deslocajogador jog jogada mapa)  mapa) 
 {-|funcao  auxiliar que ve o tipo de obstaculo numa dita coordenada de um terreno-}
 
@@ -159,6 +160,7 @@ batenova par@(Estrada vel, (x:xs)) jog@(Jogador (a,b))
 velocidade (Rio vel) = vel
 velocidade (Estrada vel) = vel
 velocidade (Relva) = 0
+{-auxiliar que da o sinal de um int-}
 sinal x 
   | x < 0 = -1
   | x == 0 = 0

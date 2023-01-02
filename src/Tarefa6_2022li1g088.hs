@@ -972,7 +972,7 @@ criarObstaculos2T _ _ _ _ = []
 criarObstaculos3 :: Float -> Float -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture]
 criarObstaculos3 x y ((z,w):zs) imagens = line ++ linhaseguinte
                                  where line = desenhaLinhaObs3 x y w imagens
-                                       linhaseguinte = criarObstaculos3 x (y - lado) (zs) imagens 
+                                       linhaseguinte = criarObstaculos3 x (y - lado) (zs) imagens
 criarObstaculos3 _ _ _ _ = []
 @
 -}
