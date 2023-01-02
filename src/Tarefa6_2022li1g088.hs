@@ -18,6 +18,7 @@ import Tarefa4_2022li1g088
 import Tarefa5_2022li1g088
 import Graphics.Gloss
 import Graphics.Gloss.Interface.Pure.Game
+import Tarefa3_2022li1g088 (deslocajogador)
 
 type Mundo = (Paginas, Jogo, Imagens, Float, Jogada, Imagens, Imagens, Imagens)
 
@@ -1309,10 +1310,10 @@ event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Reniciar d, jo
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo MudarDificuldade d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaDificuldade Facil False d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeyEnter) Down _ _) (PaginaPerdeuJogo Menu_3 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPrincipal Jogar, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 -- Pagina Jogar 
-event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Cima) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)           
-event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Baixo) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Esquerda) m) m, imagens, tempo, (Move Esquerda), imagens2, imagens3, imagens4)
-event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocafinal j (Move Direita) m) m, imagens, tempo, (Move Direita), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyUp) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocajogador j (Move Cima) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)           
+event (EventKey (SpecialKey KeyDown) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocajogador j (Move Baixo) m) m, imagens, tempo, (Move Cima), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyLeft) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocajogador j (Move Esquerda) m) m, imagens, tempo, (Move Esquerda), imagens2, imagens3, imagens4)
+event (EventKey (SpecialKey KeyRight) Down _ _) (PaginaJogar d, Jogo j m, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaJogar d, Jogo (deslocajogador j (Move Direita) m) m, imagens, tempo, (Move Direita), imagens2, imagens3, imagens4)
 event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4) = (PaginaPausa Continuar_1 d, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)
 event _ s = s
 
@@ -1334,7 +1335,7 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 
 reageTempo :: Float -> Mundo -> Mundo 
 reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                               | otherwise =  (PaginaJogar Facil, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                               | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
                                                                                | otherwise =  (PaginaJogar Media, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)

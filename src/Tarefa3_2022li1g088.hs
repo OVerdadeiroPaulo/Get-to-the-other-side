@@ -15,7 +15,7 @@ import GHC.Real (underflowError)
 import Data.ByteString (elemIndex)
 import Data.Maybe (fromMaybe)
 import Tarefa1_2022li1g088 (inicionovo)
-import LI12223 (Direcao(Esquerda, Cima, Baixo))
+import LI12223 (Direcao(Esquerda, Cima, Baixo), Obstaculo (Nenhum))
 {-|Funcao principal que anima o jogo usando todas as outras como auxiliare-}
 animaJogo :: Jogo -> Jogada -> Jogo
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
@@ -70,8 +70,8 @@ veobstaculonacoordenada (Mapa l (((terr, obs):xs))) (a,b)
   | b < 0 = Nenhum
 {-|funcao que determina o comportamento de um jogador em cima de um tronco -}
 casotronco :: Jogador -> Mapa -> Jogador
-casotronco (Jogador cords) mapa@(Mapa l (((terr, obs):xs)))
-  | veobstaculonacoordenada mapa cords == Tronco =  (Jogador (fst cords  + velocidade terr2, snd cords )) 
+casotronco (Jogador cords) mapa@(Mapa l (lis@((terr, obs):xs)))
+  | veobstaculonacoordenada mapa cords == Tronco =  (Jogador (fst cords  + velocidade (fst (lis!!snd cords)), snd cords )) 
    where (Mapa l ((terr2,(o:bs)):outs)) = velinha (Jogador cords) mapa
 casotronco jog mape = jog
 --auxiliar para casotronco 
@@ -99,20 +99,23 @@ daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ([])) = (Mapa l ([]))
 
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) = 
   case terr of 
-        Rio vel ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1)) gada (emmapa ys)))))
+        Rio vel 
+           | a < 0 || a > l ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (0,0)) gada (emmapa ys)))))
+           | otherwise -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b)) gada (emmapa ys)))))
            where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
 
-        Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b-1))  gada (emmapa ys)))))
+        Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys)))))
            where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
 
         Estrada vel 
+            | a < 0 || a > l ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (0,0)) gada (emmapa ys)))))
             | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | vaicontra (terr, x:xs) (Jogador (a,b)) && b == 0  -> (Mapa l (((terr ,gira (sinal vel * vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
 
            -- | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
-            | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
+            | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
                    limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
 
@@ -125,11 +128,10 @@ indice x (li:sta)
 
 {-| ve o obastaculo numa so linha numa certa coordenada -}
 veobslinhaCoord ::  (Terreno, [Obstaculo]) -> Coordenadas -> Obstaculo
-veobslinhaCoord (_ ,[]) _ = Nenhum
 veobslinhaCoord par@(terr,o:bs) (x,y) 
   |x== 0 = o
   | otherwise = veobslinhaCoord (terr, bs) (x-1,y)
-
+veobslinhaCoord _ _ = Nenhum 
 
 
 
