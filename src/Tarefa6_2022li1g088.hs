@@ -64,7 +64,7 @@ data Paginas = PaginaPrincipal MenuPrincipal -- ^ A pagina principal mostranos o
              | PaginaJogar Dificuldade  -- ^ A pagina jogar mostra que o jogador esta a jogar 
 
 
-{-| A funcao 'estdoInicial' guarda o estado inicial de jogo, a primeira coisa que sera apresentada ao user, quando abrir o programa.
+{-| A funcao estdoInicial guarda o estado inicial de jogo, a primeira coisa que sera apresentada ao user, quando abrir o programa.
 
 == Codigo:
 @
@@ -78,7 +78,7 @@ estadoInicial imagens tempo direccao imagens2 imagens3 imagens4 = (PaginaPrincip
 
 
 
-{-| A funcao 'desenhaMundo' devolve a picture do 'Mundo' no ecra e nos permite ver o resultado das nossas interacoes com o programa
+{-| A funcao desenhaMundo devolve a picture do Mundo no ecra e nos permite ver o resultado das nossas interacoes com o programa
 
 ==codigo:
 @
@@ -271,7 +271,7 @@ desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3,
      scoore3 = mostrarScoore tempo
      placar = mostrarPlacar 
 
-{-| Estas funcoes representam todos os botoes do jogo, desde 'paginaPrincipal' ate 'paginaPerdeuJogo' 
+{-| Estas funcoes representam todos os botoes do jogo, desde paginaPrincipal ate paginaPerdeuJogo 
 
 ==codigo:
 @
@@ -390,7 +390,7 @@ pgNova5 imagens4 = Pictures ([Translate 0.0 80.0 $ (imagens4 !! 39)] ++ [Transla
 pgInstrucoes :: Imagens -> Picture 
 pgInstrucoes imagens4 = Pictures ([Translate 0.0 (-80.0) $ (imagens4 !! 59)]) 
 
-{-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
+{-| A funcao mostraTempo mostra o tempo a ser registrado no jogo a passar
 
 == Codigo:
 @
@@ -402,7 +402,7 @@ mostrarTempo t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 mostrarTempo :: Float -> Picture
 mostrarTempo t =  Translate 620 (-80) $ scale 0.2 0.2 $ color red $ Text (show $ round t)
 
-{-| A funcao 'mostraTempo' mostra o tempo a ser registrado no jogo a passar
+{-| A funcao mostraTempo mostra o tempo a ser registrado no jogo a passar
 
 == Codigo:
 @
@@ -414,7 +414,7 @@ mostrarScoore t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 mostrarScoore :: Float -> Picture
 mostrarScoore t =  Translate 620 (-160) $ scale 0.2 0.2 $ color white $ Text (show $ round (t*124))
 
-{-| A funcao 'mostraPlacar' mostra o tempo no jogo
+{-| A funcao mostraPlacar mostra o tempo no jogo
 
 == Codigo:
 @
@@ -426,7 +426,7 @@ mostrarPlacar t =  Translate 630 (-80) $ scale 0.2 0.2 $ Text (show $ round t)
 mostrarPlacar :: Picture
 mostrarPlacar =  Translate 650 (-110) $ color black $ rectangleSolid 100.0 150.0
 
-{-| A funcao 'imageFundo1' faz alternar as imagens do background do jogo
+{-| A funcao imageFundo1 faz alternar as imagens do background do jogo
 
 == Codigo:
 @
@@ -515,7 +515,7 @@ imagefundo1 t imagens4 | (mod (round (t*22222)) 400) < 10 = (imagens4 !! 0)
                        | otherwise = (imagens4 !! 38)
 
 
-{-| A funcao 'getMapa' extrai o Mapa do 'Jogo' que esta dentro do 'Mundo' 
+{-| A funcao getMapa extrai o Mapa do Jogo que esta dentro do Mundo 
 
 == Codigo:
 @
@@ -527,7 +527,7 @@ getMapa (_, Jogo j m, _, _) = m
 getMapa :: Mundo -> Mapa 
 getMapa (_, Jogo j m, _, _, _, _, _, _) = m 
 
-{-| A  funcao 'getLargura' busca a largura no 'Mapa'
+{-| A  funcao getLargura busca a largura no Mapa
 
 == Codigo:
 @
@@ -539,7 +539,7 @@ getLargura (Mapa l ((te,obs):xs)) = l
 getLargura :: Mapa -> Int 
 getLargura (Mapa l ((te,obs):xs)) = l
 
-{-| A funcao 'getTerreno' busca o '[(Terreno,[Obstaculo])]' no 'Mapa'
+{-| A funcao getTerreno busca o [(Terreno,[Obstaculo])] no Mapa
 
 == Codigo:
 @
@@ -552,7 +552,7 @@ getTerreno :: Mapa -> [(Terreno,[Obstaculo])]
 getTerreno (Mapa l ((te,obs):xs)) = ((te,obs):xs)
 
 
-{-| A Funcao 'getJogador' extrai o 'Jogador' do 'Mundo'
+{-| A Funcao getJogador extrai o Jogador do Mundo
 
 == Codigo:
 @
@@ -564,7 +564,7 @@ getJogador (_, Jogo j m, _, _) = j
 getJogador :: Mundo -> Jogador
 getJogador (_, Jogo j m, _, _, _, _, _, _) = j
 
-{-| O 'p' guarda o valor do x onde o Mapa vai comecar
+{-| O p guarda o valor do x onde o Mapa vai comecar
 
 == Codigo:
 @
@@ -576,7 +576,7 @@ p = 0.0
 p :: Float 
 p = 0.0
 
-{-|O 'o' guarda o Valor do y onde o Mapa vai comecar
+{-|O o guarda o Valor do y onde o Mapa vai comecar
 
 == Codigo:
 @
@@ -588,7 +588,7 @@ o = 0.0
 o :: Float 
 o = 0.0
 
-{-| O 'lado' guarda o valor do lado da imagem, usado para contruir as figuras seguintes uma apos a outra e usado para controir as linhas uma assima da outra sem se sobreporem.
+{-| O lado guarda o valor do lado da imagem, usado para contruir as figuras seguintes uma apos a outra e usado para controir as linhas uma assima da outra sem se sobreporem.
 
 == Codigo:
 @
@@ -601,7 +601,7 @@ lado :: Float
 lado = 60.0 
 
 
-{-| Funcao 'desenhaLinha' e a Funcao auxiliar da 'criarTerreno' que desenha uma linha do mapa da dificuldade 'Facil'
+{-| Funcao desenhaLinha e a Funcao auxiliar da criarTerreno que desenha uma linha do mapa da dificuldade Facil
 
 == Codigo: 
 @
@@ -621,7 +621,7 @@ desenhaLinhaTer1 x y la te imagens = terreno : linha
                                   linha = desenhaLinhaTer1 (x + lado) y (la-1) te imagens
 desenhaLinhaTer1 _ _ _ _ _ = []
 
-{-| Funcao 'desenhaLinha' e a Funcao auxiliar da 'criarTerreno' que desenha uma linha do mapa da dificuldade 'Media'
+{-| Funcao desenhaLinha e a Funcao auxiliar da criarTerreno que desenha uma linha do mapa da dificuldade Media
 
 == Codigo: 
 @
@@ -641,7 +641,7 @@ desenhaLinhaTer2 x y la te imagens = terreno : linha
                                   linha = desenhaLinhaTer2 (x + lado) y (la-1) te imagens
 desenhaLinhaTer2 _ _ _ _ _ = []
 
-{-| Funcao 'desenhaLinha' e a Funcao auxiliar da 'criarTerreno' que desenha uma linha do mapa da dificuldade 'Dificil' 
+{-| Funcao desenhaLinha e a Funcao auxiliar da criarTerreno que desenha uma linha do mapa da dificuldade Dificil 
 
 == Codigo: 
 @
@@ -662,7 +662,7 @@ desenhaLinhaTer3 x y la te imagens = terreno : linha
 desenhaLinhaTer3 _ _ _ _ _ = []
 
 
-{-| Funcao 'desenhaLinhaObs' e a funcao auxiliar da 'criarObstaculos' que desenha a linha de obstaculos no mapa da dificuldade  'Facil'
+{-| Funcao desenhaLinhaObs e a funcao auxiliar da criarObstaculos que desenha a linha de obstaculos no mapa da dificuldade  Facil
 
 ==codigo"
 @
@@ -696,7 +696,7 @@ desenhaLinhaObs1T x y (z:zs) imagens = obstaculos : linha
                                        linha = desenhaLinhaObs1T (x + lado) y zs imagens
 desenhaLinhaObs1T _ _ _ _ = []
 
-{-| Funcao 'desenhaLinhaObs' e a funcao auxiliar da 'criarObstaculos' que desenha a linha de obstaculos no mapa da dificuldade  'Media'
+{-| Funcao desenhaLinhaObs e a funcao auxiliar da criarObstaculos que desenha a linha de obstaculos no mapa da dificuldade  Media
 
 ==codigo"
 @
@@ -730,7 +730,7 @@ desenhaLinhaObs2T x y (z:zs) imagens = obstaculos : linha
                                        linha = desenhaLinhaObs2T (x + lado) y zs imagens
 desenhaLinhaObs2T _ _ _ _ = []
 
-{-| Funcao 'desenhaLinhaObs' e a funcao auxiliar da 'criarObstaculos' que desenha a linha de obstaculos no mapa da dificuldade  'Dificil'
+{-| Funcao desenhaLinhaObs e a funcao auxiliar da criarObstaculos que desenha a linha de obstaculos no mapa da dificuldade  Dificil
 
 ==codigo"
 @
@@ -765,7 +765,7 @@ desenhaLinhaObs3T x y (z:zs) imagens = obstaculos : linha
 desenhaLinhaObs3T _ _ _ _ = []
 
 
-{-| Funcao 'desenhaTer1' e a auxiliar da 'desenhaLinhaTer1' que com o valor x e y esta funcao cria uma picture com a imagem 'Terreno' correspondente da dificuldade 'Facil' 
+{-| Funcao desenhaTer1 e a auxiliar da desenhaLinhaTer1 que com o valor x e y esta funcao cria uma picture com a imagem Terreno correspondente da dificuldade Facil 
 
 == Codigo:
 @
@@ -779,7 +779,7 @@ desenhaTer1 :: Float -> Float -> Terreno -> Imagens -> Picture
 desenhaTer1 x y terreno imagens = Translate x y image 
                        where image = renderTer1 terreno imagens
 
-{-| Funcao 'desenhaTer2' e a auxiliar da 'desenhaLinhaTer2' que com o valor x e y esta funcao cria uma picture com a imagem 'Terreno' correspondente da dificuldade 'Media' 
+{-| Funcao desenhaTer2 e a auxiliar da desenhaLinhaTer2 que com o valor x e y esta funcao cria uma picture com a imagem Terreno correspondente da dificuldade Media 
 
 == Codigo:
 @
@@ -793,7 +793,7 @@ desenhaTer2 :: Float -> Float -> Terreno -> Imagens -> Picture
 desenhaTer2 x y terreno imagens = Translate x y image 
                        where image = renderTer2 terreno imagens 
 
-{-| Funcao 'desenhaTer3' e a auxiliar da 'desenhaLinhaTer3' que com o valor x e y esta funcao cria uma picture com a imagem 'Terreno' correspondente da dificuldade 'Dificil' 
+{-| Funcao desenhaTer3 e a auxiliar da desenhaLinhaTer3 que com o valor x e y esta funcao cria uma picture com a imagem Terreno correspondente da dificuldade Dificil 
 
 == Codigo:
 @
@@ -808,7 +808,7 @@ desenhaTer3 x y terreno imagens = Translate x y image
                        where image = renderTer3 terreno imagens
 
 
-{-| Funcao 'desenhaObs1' e 'desenhaObs1T' sao as auxiliares da 'desenhaLinhaObs1' e 'desenhaLinhaObs1T' que com o valor x e y ela cria uma picture com a imagem do 'Obstaculo' correspondente da dificuldade 'Facil'
+{-| Funcao desenhaObs1 e desenhaObs1T sao as auxiliares da desenhaLinhaObs1 e desenhaLinhaObs1T que com o valor x e y ela cria uma picture com a imagem do Obstaculo correspondente da dificuldade Facil
 
 == Codigo:
 @
@@ -832,7 +832,7 @@ desenhaObs1T :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs1T x y obstaculo imagens = Translate x y image
                          where image = renderObs1T obstaculo imagens
 
-{-| Funcao 'desenhaObs2' e 'desenhaObs2T' sao as auxiliares da 'desenhaLinhaObs2' e 'desenhaLinhaObs2T' que com o valor x e y ela cria uma picture com a imagem do 'Obstaculo' correspondente da dificuldade 'Media'
+{-| Funcao desenhaObs2 e desenhaObs2T sao as auxiliares da desenhaLinhaObs2 e desenhaLinhaObs2T que com o valor x e y ela cria uma picture com a imagem do Obstaculo correspondente da dificuldade Media
 
 == Codigo:
 @
@@ -854,7 +854,7 @@ desenhaObs2T :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs2T x y obstaculo imagens = Translate x y image
                          where image = renderObs2T obstaculo imagens
 
-{-| Funcao 'desenhaObs3' e 'desenhaObs3T' sao as auxiliares da 'desenhaLinhaObs3' e 'desenhaLinhaObs3T' que com o valor x e y ela cria uma picture com a imagem do 'Obstaculo' correspondente da dificuldade 'Dificil'
+{-| Funcao desenhaObs3 e desenhaObs3T sao as auxiliares da desenhaLinhaObs3 e desenhaLinhaObs3T que com o valor x e y ela cria uma picture com a imagem do Obstaculo correspondente da dificuldade Dificil
 
 == Codigo:
 @
@@ -876,7 +876,7 @@ desenhaObs3T :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs3T x y obstaculo imagens = Translate x y image
                          where image = renderObs3T obstaculo imagens
 
-{-| Funcao 'renderTer1' e a funcao auxiliar da funcao 'desenhaTer1' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Facil' 
+{-| Funcao renderTer1 e a funcao auxiliar da funcao desenhaTer1 funcao junta cada Terreno a uma Imagem ja definida para a dificuldade Facil 
 
 == Codigo: 
 @
@@ -894,7 +894,7 @@ renderTer1 terreno imagens
  | inicionovo terreno == "Rio" = (imagens !! 3)
  | inicionovo terreno == "Est" = (imagens !! 5)
  
-{-| Funcao 'renderTer2' e a funcao auxiliar da funcao 'desenhaTer2' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Media' 
+{-| Funcao renderTer2 e a funcao auxiliar da funcao desenhaTer2 funcao junta cada Terreno a uma Imagem ja definida para a dificuldade Media 
 
 == Codigo: 
 @
@@ -912,7 +912,7 @@ renderTer2 terreno imagens
  | inicionovo terreno == "Rio" = (imagens !! 9)
  | inicionovo terreno == "Est" = (imagens !! 10)
 
-{-| Funcao 'renderTer3' e a funcao auxiliar da funcao 'desenhaTer3' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Dificil' 
+{-| Funcao renderTer3 e a funcao auxiliar da funcao desenhaTer3 funcao junta cada Terreno a uma Imagem ja definida para a dificuldade Dificil 
 
 == Codigo: 
 @
@@ -930,7 +930,7 @@ renderTer3 terreno imagens
  | inicionovo terreno == "Rio" = (imagens !! 18)
  | inicionovo terreno == "Est" = (imagens !! 20)
 
-{-| Funcao 'renderObs1' e 'renderObs1T' sao as funcoes auxiliares da funcao 'desenhaObs1', estas funcoes juntam cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Facil'
+{-| Funcao renderObs1 e renderObs1T sao as funcoes auxiliares da funcao desenhaObs1, estas funcoes juntam cada Obstaculo a uma Imagem ja definida para a dificuldade Facil
 
 == Codigo:
 @
@@ -960,7 +960,7 @@ renderObs1T obstaculo imagens
  | obstaculo == Tronco = (imagens !! 25)
  | otherwise = (imagens !! 30)
 
-{-| Funcao 'renderObs2' e 'renderObs2T' sao as funcoes auxiliar da funcao 'desenhaObs2', estas funcoes juntam cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Media'
+{-| Funcao renderObs2 e renderObs2T sao as funcoes auxiliar da funcao desenhaObs2, estas funcoes juntam cada Obstaculo a uma Imagem ja definida para a dificuldade Media
 
 == Codigo:
 @
@@ -990,7 +990,7 @@ renderObs2T obstaculo imagens
  | obstaculo == Tronco = (imagens !! 13)
  | otherwise = (imagens !! 30)
 
-{-| Funcao 'renderObs3' e 'renderObs3T' sao as funcoe auxiliar da funcao 'desenhaObs3', esta funcoes juntam cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Dificil'
+{-| Funcao renderObs3 e renderObs3T sao as funcoe auxiliar da funcao desenhaObs3, esta funcoes juntam cada Obstaculo a uma Imagem ja definida para a dificuldade Dificil
 
 == Codigo:
 @
@@ -1020,7 +1020,7 @@ renderObs3T obstaculo imagens
  | obstaculo == Tronco = (imagens !! 26)
  | otherwise = (imagens !! 30)
 
-{-| Funcao 'criarTerreno1' esta funcao cria o Mapa usando o 'desenhalinhaTer1' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Terrenos' desejados para a dificuldade 'Facil'
+{-| Funcao criarTerreno1 esta funcao cria o Mapa usando o desenhalinhaTer1 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Terrenos desejados para a dificuldade Facil
 
 == Codigo:  
 @
@@ -1038,7 +1038,7 @@ criarTerreno1 x y la ((te,obs):xs) imagens = line ++ linhaseguinte
                                     linhaseguinte = criarTerreno1 x (y - lado) la (xs) imagens 
 criarTerreno1 _ _ _ _ _ = []
 
-{-| Funcao 'criarTerreno2' esta funcao cria o Mapa usando o 'desenhalinhaTer2' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Terrenos' desejados para a dificuldade 'Media'
+{-| Funcao criarTerreno2 esta funcao cria o Mapa usando o desenhalinhaTer2 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Terrenos desejados para a dificuldade Media
 
 == Codigo:  
 @
@@ -1056,7 +1056,7 @@ criarTerreno2 x y la ((te,obs):xs) imagens = line ++ linhaseguinte
                                     linhaseguinte = criarTerreno2 x (y - lado) la (xs) imagens 
 criarTerreno2 _ _ _ _ _ = []
 
-{-| Funcao 'criarTerreno3' esta funcao cria o Mapa usando o 'desenhalinhaTer3' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Terrenos' desejados para a dificuldade 'Media'
+{-| Funcao criarTerreno3 esta funcao cria o Mapa usando o desenhalinhaTer3 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Terrenos desejados para a dificuldade Media
 
 == Codigo:  
 @
@@ -1074,7 +1074,7 @@ criarTerreno3 x y la ((te,obs):xs) imagens = line ++ linhaseguinte
                                     linhaseguinte = criarTerreno3 x (y - lado) la (xs) imagens 
 criarTerreno3 _ _ _ _ _ = []
 
-{-| Funcao 'criarObstaculos1' e 'criarObstaculos1T' cria o Mapa usando o 'desenhalinhaObs1' e 'desenhalinhaObs1' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Obstaculos' desejados para a dificuldade 'Facil' e importante mencionar que a 'criarObstaculos1T' existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
+{-| Funcao criarObstaculos1 e criarObstaculos1T cria o Mapa usando o desenhalinhaObs1 e desenhalinhaObs1 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Obstaculos desejados para a dificuldade Facil e importante mencionar que a criarObstaculos1T existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
 
 == Codigo:  
 @
@@ -1104,7 +1104,7 @@ criarObstaculos1T x y ((z,w):zs) imagens = line ++ linhaseguinte
                                        linhaseguinte = criarObstaculos1T x (y - lado) (zs) imagens 
 criarObstaculos1T _ _ _ _ = [] 
 
-{-| Funcao 'criarObstaculos2' e 'criarObstaculos2T' cria o Mapa usando o 'desenhalinhaObs2' e 'desenhalinhaObs2' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Obstaculos' desejados para a dificuldade 'Media' e importante mencionar que a 'criarObstaculos2T' existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
+{-| Funcao criarObstaculos2 e criarObstaculos2T cria o Mapa usando o desenhalinhaObs2 e desenhalinhaObs2 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Obstaculos desejados para a dificuldade Media e importante mencionar que a criarObstaculos2T existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
 
 == Codigo:  
 @
@@ -1134,7 +1134,7 @@ criarObstaculos2T x y ((z,w):zs) imagens = line ++ linhaseguinte
                                        linhaseguinte = criarObstaculos2T x (y - lado) (zs) imagens 
 criarObstaculos2T _ _ _ _ = [] 
 
-{-| Funcao 'criarObstaculos3' e 'criarObstaculos3T' cria o Mapa usando o 'desenhalinhaObs3' e 'desenhalinhaObs3' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Obstaculos' desejados para a dificuldade 'Dificil' e importante mencionar que a 'criarObstaculos3T' existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
+{-| Funcao criarObstaculos3 e criarObstaculos3T cria o Mapa usando o desenhalinhaObs3 e desenhalinhaObs3 como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os Obstaculos desejados para a dificuldade Dificil e importante mencionar que a criarObstaculos3T existe para podermos colocar o resto dos obstaculos acima da galinha e os troncos a baixo
 
 == Codigo:  
 @
@@ -1164,7 +1164,7 @@ criarObstaculos3T x y ((z,w):zs) imagens = line ++ linhaseguinte
                                        linhaseguinte = criarObstaculos3T x (y - lado) (zs) imagens 
 criarObstaculos3T _ _ _ _ = [] 
 
-{-| Funcao 'criarJogador1' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador a cada 100 ms criando um jogador em movimento perpetuo, na dificuldade 'Facil'.
+{-| Funcao criarJogador1 pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares saltaX e saltaY ela tranlada o jogador sempre para o centro do novo bloco de Terreno e por causa das guardas e do (mod (round (t*1000)) 300) < 100 conseguimos alternar entre as imagens do jogador a cada 100 ms criando um jogador em movimento perpetuo, na dificuldade Facil.
 
 ==codigo:
 @
@@ -1345,7 +1345,7 @@ criarJogador1 (Jogador (x,y)) t imagens (Move Direita)  | (mod (round (t*22222))
                                                         | otherwise = Translate (saltaX x) (saltaY y) (imagens !! 140)
 
  
-{-| Funcao 'criarJogador2' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Media'.
+{-| Funcao criarJogador2 pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares saltaX e saltaY ela tranlada o jogador sempre para o centro do novo bloco de Terreno e por causa das guardas e do (mod (round (t*1000)) 300) < 100 conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade Media.
 
 ==codigo:
 @
@@ -1524,7 +1524,7 @@ criarJogador2 (Jogador (x,y)) t imagens2 (Move Direita)  | (mod (round (t*22222)
                                                          | otherwise = Translate (saltaX x) (saltaY y) (imagens2 !! 60)
  
  
-{-| Funcao 'criarJogador3' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade 'Dificil'.
+{-| Funcao criarJogador3 pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares saltaX e saltaY ela tranlada o jogador sempre para o centro do novo bloco de Terreno e por causa das guardas e do (mod (round (t*1000)) 300) < 100 conseguimos alternar entre as imagens do jogador criando um jogador em movimento perpetuo, na dificuldade Dificil.
 
 ==codigo:
 @
@@ -1704,21 +1704,21 @@ criarJogador3 (Jogador (x,y)) t imagens3 (Move Direita)  | (mod (round (t*22222)
 
 ==codigo:
 @
-saltaX :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do 'x'
+saltaX :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do x
 saltaX = (+p).(*lado).realToFrac
                               
-saltaY :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do 'Y'
+saltaY :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do Y
 saltaY = (+o).(*(-lado)).realToFrac
 @
 -}
 
-saltaX :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do 'x'
+saltaX :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do x
 saltaX = (+p).(*lado).realToFrac
                               
-saltaY :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do 'Y'
+saltaY :: Int -> Float -- ^ Funcao auxiliar que controla o movimento no eixo do Y
 saltaY = (+o).(*(-lado)).realToFrac 
 
-{-|A funcao 'event' da accao as teclas para que o user possa navegar pelo jogo e pelos diferentes 'Menus' interagindo com o teclado
+{-|A funcao event da accao as teclas para que o user possa navegar pelo jogo e pelos diferentes Menus interagindo com o teclado
 
 ==cogigo:
 @
@@ -1876,7 +1876,7 @@ event (EventKey (SpecialKey KeySpace) Down _ _) (PaginaJogar d, jogo, imagens, t
 event _ s = s
 
 
-{-| A funcao 'animajogo1' e a funcao 'animaJogo' adaptada para melhor servir a 'reagetempo' e com as guardas e o '(mod a 300) < 150' conseguimos regular o 'tempo' em que os 'Obstaculos' sao animados
+{-| A funcao animajogo1 e a funcao animaJogo adaptada para melhor servir a reagetempo e com as guardas e o (mod a 300) < 150 conseguimos regular o tempo em que os Obstaculos sao animados
 
 codigo: 
 @
@@ -1889,7 +1889,7 @@ animajogo1 :: Jogo -> Int -> Jogo
 animajogo1 j a | (mod a 300) < 150 = animaJogo j Parado
                | otherwise = j
 
-{-| A funcao 'reageTempo' registra a passagem do tempo e atualiza o mapa com a ajuda das auxiliares 'deslizaJogo' para deslizar o jogo e a 'animaJogo' para mover os 'Obstaculos' como 'Troncos' e 'Carros'
+{-| A funcao reageTempo registra a passagem do tempo e atualiza o mapa com a ajuda das auxiliares deslizaJogo para deslizar o jogo e a animaJogo para mover os Obstaculos como Troncos e Carros
 
 ==codigo: 
 @
@@ -1925,7 +1925,7 @@ reageTempo z (PaginaPerdeuJogo c d, jogo, imagens, t, dr, imagens2, imagens3, im
 reageTempo z (PaginaPausa c d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPausa c d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo _ z = z
 
-{-| Variavel 'window', contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela, para maior e melhor interaccao com o jogo
+{-| Variavel window, contem as definicoes do tamanho da tela, e neste caso vamos optar pelo Fullscreen que aproveita toda tela, para maior e melhor interaccao com o jogo
 
 ==codigo:
 @
@@ -1936,7 +1936,7 @@ window = FullScreen
 window :: Display
 window = FullScreen
 
-{-| Variaver 'fr' contem o numero de frames por segundo em que o nosso programa vai funcionar 
+{-| Variaver fr contem o numero de frames por segundo em que o nosso programa vai funcionar 
 
 ==codigo: 
 @
@@ -1948,7 +1948,7 @@ fr = 2
 fr :: Int
 fr = 2
 
-{-| Variavel 'cor' contem a cor do background do nosso programa
+{-| Variavel cor contem a cor do background do nosso programa
 
 ==codigo:
 @
@@ -2013,7 +2013,7 @@ banner2 = Color green $ rectangleSolid 300.0 300.0
 
 jogo1= Jogo (Jogador (5,8)) (Mapa 12 [(Estrada (1),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Estrada (-2),[Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum]),(Estrada 1,[Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Carro,Nenhum,Nenhum]),(Estrada (-2),[Carro,Carro,Nenhum,Nenhum,Nenhum,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Arvore]),(Relva,[Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Arvore]),(Relva,[Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Relva,[Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Arvore]),(Rio (-1),[Nenhum,Tronco,Tronco,Tronco,Nenhum,Nenhum,Tronco,Tronco,Nenhum,Nenhum,Nenhum,Tronco]),(Rio 4,[Tronco,Tronco,Nenhum,Nenhum,Tronco,Nenhum,Nenhum,Nenhum,Tronco,Nenhum,Tronco,Tronco]),(Relva,[Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Arvore,Nenhum,Arvore,Nenhum,Nenhum,Nenhum,Nenhum]),(Estrada 2,[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Nenhum]),(Estrada (-2),[Carro,Nenhum,Carro,Nenhum,Nenhum,Carro,Nenhum,Nenhum,Carro,Carro,Nenhum,Nenhum]),(Estrada 1,[Carro,Nenhum,Carro,Nenhum,Carro,Carro,Nenhum,Nenhum,Nenhum,Carro,Carro,Carro,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Nenhum,Arvore,Nenhum]),(Relva,[Arvore,Arvore,Arvore,Nenhum,Nenhum,Nenhum,Nenhum,Arvore,Arvore,Arvore,Nenhum,Nenhum])])
 
-{-| Funcao 'main' e a funcao que contem todos os 'bmps' do jogo, e executa a funcao play, que vai carregar para o ecra todos os menus, e jogos, para que o user possa interagir com o programa
+{-| Funcao main e a funcao que contem todos os bmps do jogo, e executa a funcao play, que vai carregar para o ecra todos os menus, e jogos, para que o user possa interagir com o programa
 
 ==codigo:
 @
