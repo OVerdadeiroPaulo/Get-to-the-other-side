@@ -1400,11 +1400,11 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 
 reageTempo :: Float -> Mundo -> Mundo 
 reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                               | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*222) (animajogo1(Jogo j m) (round((t+z)*222)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                                         | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*22) (animajogo1(Jogo j m) (round((t+z)*222)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                               | otherwise =  (PaginaJogar Media,(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                                         | otherwise =  (PaginaJogar Media,(deslizaJogo ((round(t+z))*222) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                                 | otherwise =  (PaginaJogar Dificil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                                           | otherwise =  (PaginaJogar Dificil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPrincipal c, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo z (PaginaDificuldade d1 b d2, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaDificuldade d1 b d2, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo z (PaginaInstrucoes b d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaInstrucoes b d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
