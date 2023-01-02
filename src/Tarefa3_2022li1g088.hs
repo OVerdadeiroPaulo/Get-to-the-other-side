@@ -15,6 +15,7 @@ import GHC.Real (underflowError)
 import Data.ByteString (elemIndex)
 import Data.Maybe (fromMaybe)
 import Tarefa1_2022li1g088 (inicionovo)
+import LI12223 (Direcao(Esquerda, Cima, Baixo))
 {-|Funcao principal que anima o jogo usando todas as outras como auxiliare-}
 animaJogo :: Jogo -> Jogada -> Jogo
 --animaJogo (Jogo (Jogador (a,b)) mapa@(Mapa l (((terr, x:xs):ys)))) jogada = Jogo (casotronco (deslocajogador(Jogador (a,b)) jogada mapa) mapa)  (daavolta (Jogador (a,b)) jogada (Mapa l ((terr, x:xs):ys)))
@@ -87,37 +88,42 @@ gira n l@(x:xs)
   |n > 0 = drop (length l - n) l ++ take (length l -n) l
   | n < 0 = drop (abs n) l ++ take (abs n ) l
   | n == 0 = l
-{-funao que converte um mapa nas linhas que o compoem-}
+{-|funao que converte um mapa nas linhas que o compoem-}
 desmapa  (Mapa l (filling)) =  filling
-{-funcao que faz o oposto da anterio para facilitar o uso de funcoes-}
+{-|funcao que faz o oposto da anterio para facilitar o uso de funcoes-}
 emmapa filling =  (Mapa 12 (filling))
 
-{-funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
+{-|funcao que delimita o comportamento de carros e faz rodar toto o mapa-}
 daavolta ::Jogador  -> Jogada-> (Mapa)->  Mapa
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l ([])) = (Mapa l ([]))
+
 daavolta jog@(Jogador (a,b)) gada mapa@(Mapa l lista@((par@(terr, x:xs):ys))) = 
   case terr of 
         Rio vel ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b-1)) gada (emmapa ys)))))
-           where k= 0 
+           where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
         Relva -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b-1))  gada (emmapa ys)))))
-           where k = 0
+           where limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
         Estrada vel 
-            | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | gada == (Move Direita) && (veobslinhaCoord par (a+1,b) == Carro) && vel <0 -> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | gada == (Move Esquerda) && ( veobslinhaCoord par  (a-1,b) == Carro) && vel>=0-> (Mapa l (((terr ,(x:xs)) :desmapa ( daavolta (Jogador (a,b))  gada (emmapa ys))))) 
             | vaicontra (terr, x:xs) (Jogador (a,b)) && b == 0  -> (Mapa l (((terr ,gira (sinal vel * vaicontraint (terr, x:xs)  jog ) (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
-            | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
+            | (x:xs) !! a /= Carro || b /= 0 -> (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
+
+           -- | gada == Parado  ->  (Mapa l (((terr ,gira vel (x:xs)): desmapa ( daavolta  (Jogador (a,b))  gada (emmapa ys)))))
             | otherwise -> (Mapa l (((terr ,(x:xs)) :(desmapa ( daavolta  (Jogador (a,b-1))  gada (emmapa ((ys)))))))) 
              where ori:ginal = lista
-                   k=0 
-{-auxiliar que devolve o indice de um elemento da lista-}
+                   limites = (a==0 && gada == (Move Esquerda)) || (a==l && gada == (Move Direita)) || (b==0 && gada == (Move Cima))||(b==length lista && gada == (Move Baixo))
+
+{-|auxiliar que devolve o indice de um elemento da lista-}
 indice _ [] = -1
 indice x (li:sta) 
   | x== li = 1
   | otherwise = 1+ indice x sta
 
 
--- toma em atenchao a velocidade e usa a para animajogo com vel 1 se a vel+y> y2>y 
+{-| ve o obastaculo numa so linha numa certa coordenada -}
 veobslinhaCoord ::  (Terreno, [Obstaculo]) -> Coordenadas -> Obstaculo
 veobslinhaCoord (_ ,[]) _ = Nenhum
 veobslinhaCoord par@(terr,o:bs) (x,y) 
@@ -127,9 +133,9 @@ veobslinhaCoord par@(terr,o:bs) (x,y)
 
 
 
-{-aucxiliar para daavolta que detecta colisoes-}
+{-|auxiliar para daavolta que detecta colisoes-}
 vaicontra par@(Estrada vel,_) jog = abs (vaicontraint par jog ) <= abs vel
-{-aucxiliar para daavolta que detecta a distancia para o proxima carro -}
+{-|auxiliar para daavolta que detecta a distancia para o proxima carro -}
 
 vaicontraint :: (Terreno, [Obstaculo]) -> Jogador -> Int
 vaicontraint (Estrada vel,[]) (Jogador (x,y)) = vel
@@ -137,7 +143,7 @@ vaicontraint par@(Estrada vel, (x:xs)) jog@(Jogador (a,b)) = batenova (Estrada v
  where (no:va )= drop (length (x:xs) -abs vel)(x:xs) ++x:xs ++ (take (abs vel) (x:xs))
        ou:tra = x:xs++x:xs++x:xs
 
-{-funcoa auxiliar para vaicontraint-}       
+{-|funcoa auxiliar para vaicontraint-}       
 batenova :: (Terreno, [Obstaculo]) -> Jogador -> Int
 batenova (Estrada vel,[]) (Jogador (x,y))= vel
 batenova par@(Estrada vel, (x:xs)) jog@(Jogador (a,b))
@@ -154,7 +160,7 @@ sinal x
   | x > 0 = 1
 mapaRioTronco = Mapa 3 [(Rio  (-1), [Nenhum,Tronco,Nenhum])]
 mapaarvore = Mapa 3 ([(Relva, [Nenhum,Arvore,Nenhum]),(Relva, [Arvore,Nenhum,Arvore]),(Relva, [Nenhum,Arvore,Nenhum])])
-mapaunitario = Mapa 1 [(Estrada  2, [Nenhum])]
+mapaunitario = Mapa 1 [(Rio  2, [Nenhum])]
 mapanormal = Mapa 2 [(Relva, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro]),(Estrada  2, [Nenhum,Nenhum,Carro])]
 jogoImpossivelMoverArvore = (Jogo (Jogador (1,1)) mapaarvore) 
 jogoImpossivelLimitesMapa  = (Jogo (Jogador (0,0)) mapaunitario) 
