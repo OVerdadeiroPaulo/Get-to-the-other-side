@@ -154,23 +154,26 @@ desenhaMundo (PaginaJogar d, jogo, imagens, tempo, direccao, imagens2, imagens3,
                                                                                            | d == Media = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world29
                                                                                            | d == Dificil = Translate (-630) (370) $ scale 1.91 0.68 $ Pictures world30
  where 
-     world28 = desenhaTerrenos1 ++ [desenhajogador1] ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] -- ^ Mundo da dificuldade Facil 
+     world28 = desenhaTerrenos1 ++ desenhaObstaculos1T ++ [desenhajogador1] ++ desenhaObstaculos1 ++ [mostrarPlacar] ++ [tempoDeJogo1] ++[scoore1] -- ^ Mundo da dificuldade Facil 
      desenhaTerrenos1 = criarTerreno1 p o (getLargura(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
      desenhaObstaculos1 = criarObstaculos1 p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhaObstaculos1T = criarObstaculos1T p o (getTerreno(getMapa (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
      desenhajogador1 = criarJogador1 (getJogador (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      tempoDeJogo1 = mostrarTempo (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      scoore1 = mostrarScoore (getTempo(PaginaJogar Facil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) 
     
-     world29 = desenhaTerrenos2 ++ [desenhajogador2] ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] -- ^ Mundo da dificuldade Media
+     world29 = desenhaTerrenos2 ++ desenhaObstaculos2T ++ [desenhajogador2] ++ desenhaObstaculos2 ++ [mostrarPlacar] ++[tempoDeJogo2] ++ [scoore2] -- ^ Mundo da dificuldade Media
      desenhaTerrenos2 = criarTerreno2 p o (getLargura(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
      desenhaObstaculos2 = criarObstaculos2 p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhaObstaculos2T = criarObstaculos2T p o (getTerreno(getMapa (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
      desenhajogador2 = criarJogador2 (getJogador (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens2 (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      tempoDeJogo2 = mostrarTempo (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      scoore2 = mostrarScoore (getTempo(PaginaJogar Media, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
     
-     world30 = desenhaTerrenos3 ++ [desenhajogador3] ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] -- ^ Mundo da dificuldade Dificil
+     world30 = desenhaTerrenos3 ++ desenhaObstaculos3T ++ [desenhajogador3] ++ desenhaObstaculos3 ++ [placar] ++ [tempoDeJogo3] ++ [scoore3] -- ^ Mundo da dificuldade Dificil
      desenhaTerrenos3 = criarTerreno3 p o (getLargura(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens
      desenhaObstaculos3 = criarObstaculos3 p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
+     desenhaObstaculos3T = criarObstaculos3T p o (getTerreno(getMapa (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))) imagens 
      desenhajogador3 = criarJogador3 (getJogador (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) (getTempo (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) imagens3 (getDireccao (PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4)) 
      tempoDeJogo3 = mostrarTempo (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
      scoore3 = mostrarScoore (getTempo(PaginaJogar Dificil, jogo, imagens, tempo, direccao, imagens2, imagens3, imagens4))
@@ -574,6 +577,13 @@ desenhaLinhaObs1 x y (z:zs) imagens = obstaculos : linha
                                        linha = desenhaLinhaObs1 (x + lado) y zs imagens
 desenhaLinhaObs1 _ _ _ _ = []
 
+desenhaLinhaObs1T :: Float -> Float -> [Obstaculo] -> Imagens -> [Picture]
+desenhaLinhaObs1T x y [] imagens = []
+desenhaLinhaObs1T x y (z:zs) imagens = obstaculos : linha
+                                 where obstaculos = desenhaObs1T x y z imagens 
+                                       linha = desenhaLinhaObs1T (x + lado) y zs imagens
+desenhaLinhaObs1T _ _ _ _ = []
+
 {-| Funcao 'desenhaLinhaObs' e a funcao auxiliar da 'criarObstaculos' que desenha a linha de obstaculos no mapa da dificuldade  'Media'
 
 ==codigo"
@@ -594,6 +604,13 @@ desenhaLinhaObs2 x y (z:zs) imagens = obstaculos : linha
                                        linha = desenhaLinhaObs2 (x + lado) y zs imagens
 desenhaLinhaObs2 _ _ _ _ = []
 
+desenhaLinhaObs2T :: Float -> Float -> [Obstaculo] -> Imagens -> [Picture]
+desenhaLinhaObs2T x y [] imagens = []
+desenhaLinhaObs2T x y (z:zs) imagens = obstaculos : linha
+                                 where obstaculos = desenhaObs2T x y z imagens 
+                                       linha = desenhaLinhaObs2T (x + lado) y zs imagens
+desenhaLinhaObs2T _ _ _ _ = []
+
 {-| Funcao 'desenhaLinhaObs' e a funcao auxiliar da 'criarObstaculos' que desenha a linha de obstaculos no mapa da dificuldade  'Dificil'
 
 ==codigo"
@@ -613,6 +630,13 @@ desenhaLinhaObs3 x y (z:zs) imagens = obstaculos : linha
                                  where obstaculos = desenhaObs3 x y z imagens 
                                        linha = desenhaLinhaObs3 (x + lado) y zs imagens
 desenhaLinhaObs3 _ _ _ _ = []
+
+desenhaLinhaObs3T :: Float -> Float -> [Obstaculo] -> Imagens -> [Picture]
+desenhaLinhaObs3T x y [] imagens = []
+desenhaLinhaObs3T x y (z:zs) imagens = obstaculos : linha
+                                 where obstaculos = desenhaObs3T x y z imagens 
+                                       linha = desenhaLinhaObs3T (x + lado) y zs imagens
+desenhaLinhaObs3T _ _ _ _ = []
 
 
 {-| Funcao 'desenhaTer1' e a auxiliar da 'desenhaLinhaTer1' que com o valor x e y esta funcao cria uma picture com a imagem 'Terreno' correspondente da dificuldade 'Facil' 
@@ -672,6 +696,11 @@ desenhaObs1 :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs1 x y obstaculo imagens = Translate x y image
                          where image = renderObs1 obstaculo imagens
 
+
+desenhaObs1T :: Float -> Float -> Obstaculo -> Imagens -> Picture
+desenhaObs1T x y obstaculo imagens = Translate x y image
+                         where image = renderObs1T obstaculo imagens
+
 {-| Funcao 'desenhaObs2' e a auxiliar da 'desenhaLinhaObs2' que com o valor x e y ela cria uma picture com a imagem do 'Obstaculo' correspondente da dificuldade 'Media'
 
 == Codigo:
@@ -686,6 +715,9 @@ desenhaObs2 :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs2 x y obstaculo imagens = Translate x y image
                          where image = renderObs2 obstaculo imagens
 
+desenhaObs2T :: Float -> Float -> Obstaculo -> Imagens -> Picture
+desenhaObs2T x y obstaculo imagens = Translate x y image
+                         where image = renderObs2T obstaculo imagens
 {-| Funcao 'desenhaObs3' e a auxiliar da 'desenhaLinhaObs2' que com o valor x e y ela cria uma picture com a imagem do 'Obstaculo' correspondente da dificuldade 'Dificil'
 
 == Codigo:
@@ -700,6 +732,9 @@ desenhaObs3 :: Float -> Float -> Obstaculo -> Imagens -> Picture
 desenhaObs3 x y obstaculo imagens = Translate x y image
                          where image = renderObs3 obstaculo imagens
 
+desenhaObs3T :: Float -> Float -> Obstaculo -> Imagens -> Picture
+desenhaObs3T x y obstaculo imagens = Translate x y image
+                         where image = renderObs3T obstaculo imagens
 
 {-| Funcao 'renderTer1' e a funcao auxiliar da funcao 'desenhaTer1' funcao junta cada 'Terreno' a uma 'Imagem' ja definida para a dificuldade 'Facil' 
 
@@ -771,9 +806,14 @@ renderObs1 obstaculo imagens
 renderObs1 :: Obstaculo -> Imagens -> Picture 
 renderObs1 obstaculo imagens 
  | obstaculo == Nenhum = (imagens !! 30)
- | obstaculo == Tronco = (imagens !! 25)
+ | obstaculo == Tronco = (imagens !! 30)
  | obstaculo == Arvore = (imagens !! 23)
  | obstaculo == Carro = (imagens !! 22)
+
+renderObs1T :: Obstaculo -> Imagens -> Picture 
+renderObs1T obstaculo imagens 
+ | obstaculo == Tronco = (imagens !! 25)
+ | otherwise = (imagens !! 30)
 
 {-| Funcao 'renderObs2' e a funcao auxiliar da funcao 'desenhaObs2', esta funcao junta cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Media'
 
@@ -791,10 +831,14 @@ renderObs2 obstaculo imagens
 renderObs2 :: Obstaculo -> Imagens -> Picture 
 renderObs2 obstaculo imagens 
  | obstaculo == Nenhum = (imagens !! 30)
- | obstaculo == Tronco = (imagens !! 13)
+ | obstaculo == Tronco = (imagens !! 30)
  | obstaculo == Arvore = (imagens !! 12)
  | obstaculo == Carro = (imagens !! 14)
 
+renderObs2T :: Obstaculo -> Imagens -> Picture 
+renderObs2T obstaculo imagens 
+ | obstaculo == Tronco = (imagens !! 13)
+ | otherwise = (imagens !! 30)
 {-| Funcao 'renderObs3' e a funcao auxiliar da funcao 'desenhaObs3', esta funcao junta cada 'Obstaculo' a uma 'Imagem' ja definida para a dificuldade 'Media'
 
 == Codigo:
@@ -811,10 +855,14 @@ renderObs3 obstaculo imagens
 renderObs3 :: Obstaculo -> Imagens -> Picture 
 renderObs3 obstaculo imagens 
  | obstaculo == Nenhum = (imagens !! 30)
- | obstaculo == Tronco = (imagens !! 26)
+ | obstaculo == Tronco = (imagens !! 30)
  | obstaculo == Arvore = (imagens !! 24)
  | obstaculo == Carro = (imagens !! 21)
 
+renderObs3T :: Obstaculo -> Imagens -> Picture 
+renderObs3T obstaculo imagens 
+ | obstaculo == Tronco = (imagens !! 26)
+ | otherwise = (imagens !! 30)
 {-| Funcao 'criarTerreno1' esta funcao cria o Mapa usando o 'desenhalinhaTer1' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Terrenos' desejados para a dificuldade 'Facil'
 
 == Codigo:  
@@ -887,6 +935,12 @@ criarObstaculos1 x y ((z,w):zs) imagens = line ++ linhaseguinte
                                        linhaseguinte = criarObstaculos1 x (y - lado) (zs) imagens 
 criarObstaculos1 _ _ _ _ = [] 
 
+criarObstaculos1T :: Float -> Float -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture]
+criarObstaculos1T x y ((z,w):zs) imagens = line ++ linhaseguinte
+                                 where line = desenhaLinhaObs1T x y w imagens
+                                       linhaseguinte = criarObstaculos1T x (y - lado) (zs) imagens 
+criarObstaculos1T _ _ _ _ = [] 
+
 {-| Funcao 'criarObstaculos2' esta funcao cria o Mapa usando o 'desenhalinhaObs2' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Obstaculos' desejados para a dificuldade 'Media'
 
 == Codigo:  
@@ -904,6 +958,12 @@ criarObstaculos2 x y ((z,w):zs) imagens = line ++ linhaseguinte
                                  where line = desenhaLinhaObs2 x y w imagens
                                        linhaseguinte = criarObstaculos2 x (y - lado) (zs) imagens 
 criarObstaculos2 _ _ _ _ = [] 
+
+criarObstaculos2T :: Float -> Float -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture]
+criarObstaculos2T x y ((z,w):zs) imagens = line ++ linhaseguinte
+                                 where line = desenhaLinhaObs2T x y w imagens
+                                       linhaseguinte = criarObstaculos2T x (y - lado) (zs) imagens 
+criarObstaculos2T _ _ _ _ = [] 
 
 {-| Funcao 'criarObstaculos3' esta funcao cria o Mapa usando o 'desenhalinhaObs3' como auxiliar, ela adicina as linhas criadas umas abaixo das outras, completando a tela com os 'Obstaculos' desejados para a dificuldade 'Dificil'
 
@@ -923,6 +983,11 @@ criarObstaculos3 x y ((z,w):zs) imagens = line ++ linhaseguinte
                                        linhaseguinte = criarObstaculos3 x (y - lado) (zs) imagens 
 criarObstaculos3 _ _ _ _ = [] 
 
+criarObstaculos3T :: Float -> Float -> [(Terreno,[Obstaculo])] -> Imagens -> [Picture]
+criarObstaculos3T x y ((z,w):zs) imagens = line ++ linhaseguinte
+                                 where line = desenhaLinhaObs3T x y w imagens
+                                       linhaseguinte = criarObstaculos3T x (y - lado) (zs) imagens 
+criarObstaculos3T _ _ _ _ = [] 
 
 {-| Funcao 'criarJogador1' pega no jogador, num float e numa imagem e devolve a picture do jogador, e com a ajuda das auxiliares 'saltaX' e 'saltaY' ela tranlada o jogador sempre para o centro do novo bloco de 'Terreno' e por causa das guardas e do '(mod (round (t*1000)) 300) < 100' conseguimos alternar entre as imagens do jogador a cada 100 ms criando um jogador em movimento perpetuo, na dificuldade 'Facil'.
 
@@ -1321,7 +1386,7 @@ getJogo :: Mundo -> Jogo
 getJogo (_, j, _, _, _, _, _, _)= j 
 
 animajogo1 :: Jogo -> Int -> Jogo
-animajogo1 j a | (mod a 3000) < 1 = animaJogo j Parado
+animajogo1 j a | (mod a 300) < 150 = animaJogo j Parado
                | otherwise = j
 
 {-| A funcao 'reageTempo' registra a passagem do tempo e atualiza o mapa com a ajuda das auxiliares 'deslizaJogo' para deslizar o jogo e a 'animaJogo' para mover os 'Obstaculos' como 'Troncos' e 'Carros'
@@ -1335,11 +1400,11 @@ novoMundoReageTempo z (PaginaJogar, Jogo j m, imagens, t,e) = (PaginaJogar, (des
 
 reageTempo :: Float -> Mundo -> Mundo 
 reageTempo z (PaginaJogar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Facil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                               | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                               | otherwise =  (PaginaJogar Facil, (deslizaJogo ((round(t+z))*222) (animajogo1(Jogo j m) (round((t+z)*222)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Media, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                               | otherwise =  (PaginaJogar Media, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                               | otherwise =  (PaginaJogar Media,(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaJogar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4) | jogoTerminou (Jogo j m) == True = (PaginaPerdeuJogo Reniciar Dificil, Jogo j m, imagens, t, dr, imagens2, imagens3, imagens4)
-                                                                                 | otherwise =  (PaginaJogar Dificil, Jogo j m{-(deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000))))-}, imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
+                                                                                 | otherwise =  (PaginaJogar Dificil, (deslizaJogo ((round(t+z))*300) (animajogo1(Jogo j m) (round((t+z)*1000)))), imagens, (t+z), (Move Cima), imagens2, imagens3, imagens4)
 reageTempo z (PaginaPrincipal c, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaPrincipal c, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo z (PaginaDificuldade d1 b d2, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaDificuldade d1 b d2, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
 reageTempo z (PaginaInstrucoes b d, jogo, imagens, t, dr, imagens2, imagens3, imagens4) = (PaginaInstrucoes b d, jogo, imagens, (t+z),dr, imagens2, imagens3, imagens4)
