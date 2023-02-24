@@ -1,5 +1,5 @@
 # Get-to-the-other-side
-
+![oops](https://github.com/OVerdadeiroPaulo/Get-to-the-other-side/blob/main/src/bmps/banner/0030.bmp)
 ## Description
 "Get to the other side" is a game developed in Haskell as part of the first-year coursework for the LEI course at Uminho. The game is designed to mimic the popular game Crossy Road, in which the player must navigate a character across a busy road to reach the other side.
 
