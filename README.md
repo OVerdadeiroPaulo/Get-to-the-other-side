@@ -21,5 +21,7 @@ Open a terminal window and navigate to the folder containing the game files.
 
 
 The game should start running in the terminal window. Use the arrow keys to move the character and try to reach the other side without getting hit.
-Contributors
+
+##Contributors
+![oops](https://github.com/OVerdadeiroPaulo/Get-to-the-other-side/blob/main/src/bmps/ESTILO3/Morte/0018.png)
 The game was developed by Paulo Moreira and Silvério Samuel as part of their first-year coursework for the LEI course at Uminho. If you have any feedback or suggestions, please feel free to contact us.
