@@ -5,6 +5,7 @@ import Tarefa1_2022li1g088
 import Tarefa2_2022li1g088
 import Tarefa3_2022li1g088
 import Tarefa4_2022li1g088
-
+import Tarefa5_2022li1g088
+import Tarefa6_2022li1g088
 main :: IO ()
-main = putStrLn "Hello, Haskell!"
+main = principal

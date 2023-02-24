@@ -8,7 +8,7 @@ Módulo para a realização da Tarefa 6 do projeto de LI1 em 2022/23.
 -}
 
 
-module Main where
+module Tarefa6_2022li1g088 where
 
 import LI12223
 import Tarefa1_2022li1g088
